@@ -1,0 +1,233 @@
+/* ============================================
+   Custom overrides for full-screen scaling
+   and animations
+   ============================================ */
+
+/* --- Global resets --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Desktop: scale fixed canvas to fill viewport --- */
+@media (min-width: 769px) {
+  html, body {
+    overflow: hidden;
+  }
+  .ZRRuDw {
+    overflow: hidden !important;
+  }
+  ._8jGYJw {
+    contain: layout style !important;
+    transform-origin: top left;
+  }
+}
+
+/* ============================================
+   Mobile layout: reposition elements to match
+   original Canva mobile rendering (390x1127)
+   ============================================ */
+@media (max-width: 768px) {
+  html, body, #root {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+
+  /* Allow ALL parent containers to expand for scrolling */
+  .yIDCqA,
+  ._8OlyIw,
+  ._4KoDHA,
+  .KYQZFA,
+  .ZRRuDw {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Resize the canvas container from 1903x928 to viewport-width x taller */
+  ._8jGYJw {
+    width: 100vw !important;
+    height: calc(100vw * 2.89) !important; /* 1127/390 aspect ratio */
+    contain: layout style !important;
+  }
+
+  .onhyOQ {
+    width: 100vw !important;
+    height: calc(100vw * 2.89) !important;
+  }
+
+  .GDnEHQ {
+    width: 100vw !important;
+    height: calc(100vw * 2.89) !important;
+  }
+
+  ._mXnjA {
+    width: 100vw !important;
+    height: calc(100vw * 2.89) !important;
+  }
+
+  .QhExXw.pKfnlA {
+    width: 100vw !important;
+    height: calc(100vw * 2.89) !important;
+  }
+
+  .ZRRuDw {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  /* Scale factor: 390/1903 = 0.2049 for width mapping
+     But Canva recalculates positions, not just scales.
+     We use vw units to map the mobile coordinates.
+     Original mobile canvas: 390px wide, positions in px.
+     We convert: x_vw = (x_mobile / 390) * 100vw
+                 y is trickier - we use the ratio to canvas height */
+
+  /* --- Portrait image (clip-path container) --- */
+  /* Original mobile: 358.8x637.6 at (15.6, 0), clip to 614.274px height */
+  div[style*="clip-path"] {
+    clip-path: polygon(4vw 0px, 96vw 0px, 96vw calc(100vw * 1.575), 4vw calc(100vw * 1.575)) !important;
+  }
+
+  #LBDCd1JmbqkJhPRP {
+    width: 92vw !important;
+    height: calc(92vw * 1.777) !important;
+    transform: translate(4vw, 0px) !important;
+  }
+  /* Inner image: 425.1/358.8 = 1.1847x wider, offset left by 33.1/358.8 = 9.22% */
+  #LBDCd1JmbqkJhPRP .DF_utQ {
+    width: 92vw !important;
+    height: calc(92vw * 1.777) !important;
+  }
+  #LBDCd1JmbqkJhPRP .Izwocg {
+    width: calc(92vw * 1.1847) !important;
+    height: calc(92vw * 1.777) !important;
+    transform: translate(calc(-92vw * 0.0922), 0px) rotate(0deg) !important;
+  }
+  #LBDCd1JmbqkJhPRP img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* --- "YIWEN WEI" name --- */
+  /* Mobile: 331x64 at (51, 73) */
+  #LBzm9W79wkmqfjVS {
+    transform: translate(13.2vw, calc(100vw * 0.187)) !important;
+  }
+
+  /* --- "Who am I?" heading --- */
+  /* Mobile: 279x54 at (24, 630) */
+  #LBBsfTgmzmw24h5m {
+    transform: translate(6.05vw, calc(100vw * 1.615)) !important;
+  }
+
+  /* --- Body text (Product and Entrepreneurship...) --- */
+  /* Mobile: 364x55 at (24, 696) */
+  #LBWkLWRYQkZjxbTL {
+    transform: translate(6.05vw, calc(100vw * 1.785)) !important;
+  }
+
+  /* --- Divider line 1 --- */
+  /* Mobile: 335x1 at (24, 769) */
+  #LBgT3dm0HZMHySR0 {
+    width: 85.9vw !important;
+    height: 1px !important;
+    transform: translate(6.05vw, calc(100vw * 1.971)) !important;
+  }
+
+  /* --- "I think" --- */
+  /* Mobile: 221x54 at (24, 773) */
+  #LB4sSj5DxgVQFvYp {
+    transform: translate(6.05vw, calc(100vw * 1.981)) !important;
+  }
+
+  /* --- "01" label --- */
+  /* Mobile: 18x13 at (284, 793) */
+  #LBNFnN3BBrtQ3sWG {
+    transform: translate(72.9vw, calc(100vw * 2.034)) !important;
+  }
+
+  /* --- "I teach" --- */
+  /* Mobile: 221x54 at (24, 843) */
+  #LB9Mk4jffcm2QdtQ {
+    transform: translate(6.05vw, calc(100vw * 2.16)) !important;
+  }
+
+  /* --- "02" label --- */
+  /* Mobile: 18x13 at (284, 863) */
+  #LBnsrLPZQhnNL6q7 {
+    transform: translate(72.9vw, calc(100vw * 2.213)) !important;
+  }
+
+  /* --- "I talk" --- */
+  /* Mobile: 221x54 at (24, 912) */
+  #LBVKchzfdp9MpRN0 {
+    transform: translate(6.05vw, calc(100vw * 2.338)) !important;
+  }
+
+  /* --- "03" label --- */
+  /* Mobile: 18x13 at (284, 933) */
+  #LBpzCD4WwzL7XCmt {
+    transform: translate(72.9vw, calc(100vw * 2.391)) !important;
+  }
+
+  /* --- Divider line 2 --- */
+  /* Mobile: 335x1 at (24, 979) */
+  #LBjX0YtvYQlp1MyD {
+    width: 85.9vw !important;
+    height: 1px !important;
+    transform: translate(6.05vw, calc(100vw * 2.511)) !important;
+  }
+
+  /* --- Quote text --- */
+  /* Mobile: 391x61 at (24, 996), opacity 0.65 */
+  #LBrtFtQf2kZDQLHR {
+    transform: translate(6.05vw, calc(100vw * 2.553)) !important;
+    opacity: 0.65 !important;
+  }
+
+  /* --- LinkedIn icon --- */
+  /* Mobile: 41x41 at (24, 1070) */
+  #__id8 {
+    width: 10.56vw !important;
+    height: 10.56vw !important;
+    transform: translate(6.05vw, calc(100vw * 2.744)) !important;
+  }
+
+  /* --- Email icon --- */
+  /* Mobile: 33x33 at (83, 1075) */
+  #__id12 {
+    width: 8.44vw !important;
+    height: 8.44vw !important;
+    transform: translate(21.3vw, calc(100vw * 2.756)) !important;
+  }
+
+  /* --- X/Twitter icon --- */
+  /* Mobile: 23x24 at (141, 1079) */
+  #__id16 {
+    width: 6.01vw !important;
+    height: 6.15vw !important;
+    transform: translate(36.1vw, calc(100vw * 2.767)) !important;
+  }
+
+  /* Fix icon sizing within containers */
+  #__id8 .Izwocg,
+  #__id12 .Izwocg,
+  #__id16 .Izwocg {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  #__id8 img,
+  #__id12 img,
+  #__id16 img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Text containers: let JS set explicit widths for proper scale rendering */
+}
