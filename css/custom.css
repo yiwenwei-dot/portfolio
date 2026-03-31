@@ -12,6 +12,43 @@ html, body {
   height: 100%;
 }
 
+/* --- Gradient text for underlined words (CMU, smile, technology, humane) --- */
+.gradient-word .a_GcMg {
+  background: linear-gradient(90deg, #a6a6a6, #ffffff) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-decoration-line: none !important;
+  transition: text-decoration-color 0.3s ease;
+}
+
+.gradient-word {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.gradient-word:hover .a_GcMg {
+  text-decoration-line: underline !important;
+  text-decoration-color: #a6a6a6 !important;
+  text-underline-offset: 3px;
+}
+
+/* --- Heartbeat pulse animation for the quote --- */
+@keyframes heartbeat {
+  0%   { opacity: 0.65; }
+  7%   { opacity: 1; }
+  14%  { opacity: 0.65; }
+  21%  { opacity: 1; }
+  28%  { opacity: 0.65; }
+  100% { opacity: 0.65; }
+}
+
+/* heartbeat-active class is added by JS after fade-in completes */
+.heartbeat-quote.heartbeat-active {
+  animation: heartbeat 2.4s ease-in-out infinite !important;
+}
+
 /* --- Desktop: scale fixed canvas to fill viewport --- */
 @media (min-width: 769px) {
   html, body {
@@ -185,10 +222,9 @@ html, body {
   }
 
   /* --- Quote text --- */
-  /* Mobile: 391x61 at (24, 996), opacity 0.65 */
+  /* Mobile: 391x61 at (24, 996) */
   #LBrtFtQf2kZDQLHR {
     transform: translate(6.05vw, calc(100vw * 2.553)) !important;
-    opacity: 0.65 !important;
   }
 
   /* --- LinkedIn icon --- */

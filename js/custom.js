@@ -162,6 +162,12 @@
   window.addEventListener('load', function () {
     setTimeout(function () {
       animateElements();
+      // Start heartbeat after fade-in completes (stagger + duration)
+      var fadeTotal = 0.705 + 0.795; // stagger + duration in seconds
+      setTimeout(function () {
+        var quote = document.querySelector('.heartbeat-quote');
+        if (quote) quote.classList.add('heartbeat-active');
+      }, fadeTotal * 1000 + 200);
     }, 100);
   });
 
