@@ -158,9 +158,56 @@
     init();
   }
 
+  // --- Apply gradient styling to underlined words and heartbeat to quote ---
+  function applyEffects() {
+    // Find all xtSH_A spans that contain underlined letters
+    var allWordSpans = document.querySelectorAll('.xtSH_A');
+    var gradientWords = ['CMU', 'smile', 'technology', 'humane'];
+
+    allWordSpans.forEach(function (span) {
+      var text = span.textContent.trim();
+      var hasUnderline = false;
+      var letters = span.querySelectorAll('.a_GcMg');
+      letters.forEach(function (l) {
+        if (l.style.textDecorationLine === 'underline') hasUnderline = true;
+      });
+
+      if (hasUnderline && gradientWords.indexOf(text) !== -1) {
+        // Mark as gradient word
+        span.classList.add('gradient-word');
+        // Remove inline underline, let CSS handle hover
+        letters.forEach(function (l) {
+          l.style.textDecorationLine = 'none';
+        });
+      }
+
+      // Remove underline from @ symbol (before CMU)
+      if (text === 'Entrepreneurship' || text.indexOf('@') !== -1) {
+        letters.forEach(function (l) {
+          if (l.textContent === '@' && l.style.textDecorationLine === 'underline') {
+            l.style.textDecorationLine = 'none';
+          }
+        });
+      }
+    });
+
+    // Also check for loose @ spans with underline (not inside xtSH_A)
+    var allLetterSpans = document.querySelectorAll('.a_GcMg');
+    allLetterSpans.forEach(function (l) {
+      if (l.textContent === '@' && l.style.textDecorationLine === 'underline') {
+        l.style.textDecorationLine = 'none';
+      }
+    });
+
+    // Add heartbeat class to the quote element
+    var quote = document.getElementById('LBrtFtQf2kZDQLHR');
+    if (quote) quote.classList.add('heartbeat-quote');
+  }
+
   // Trigger animations after everything is loaded and painted
   window.addEventListener('load', function () {
     setTimeout(function () {
+      applyEffects();
       animateElements();
       // Start heartbeat after fade-in completes (stagger + duration)
       var fadeTotal = 0.705 + 0.795; // stagger + duration in seconds
