@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Talk</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .page-footer {
+    text-align: center;
+    padding: 36px 24px 24px;
+  }
+  .page-footer a {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    text-decoration: none;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+  }
+  .gallery img {
+    width: 100%;
+    max-height: 42vh;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+  @media (max-width: 768px) {
+    .gallery {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .gallery img {
+      max-height: none;
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="gallery">
+    <img src="_assets/images/I%20talk/1.JPG" alt="talk">
+    <img src="_assets/images/I%20talk/2.jpg" alt="talk">
+    <img src="_assets/images/I%20talk/3.jpg" alt="talk">
+    <img src="_assets/images/I%20talk/4.jpg" alt="talk">
+  </div>
+  <div class="page-footer">
+    <a href="/">&larr; Back to portfolio</a>
+  </div>
+</body>
+</html>

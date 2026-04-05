@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Teach — Yiwen Wei</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #f0f0f0;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 100px 24px 60px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 1.35;
+    margin-bottom: 20px;
+  }
+  .hero p {
+    font-size: 18px;
+    color: #b8b8b8;
+    max-width: 600px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+  }
+  .hero .cta {
+    display: inline-block;
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #f5f5f5;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 12px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero .cta:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  /* ---- Section shared ---- */
+  .section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+  .section-label {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-bottom: 8px;
+  }
+  .section h2 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #f5f5f5;
+    margin-bottom: 36px;
+    line-height: 1.35;
+  }
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: #282828;
+    margin: 0 auto;
+  }
+
+  /* ---- Project cards ---- */
+  .project-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .project-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
+  .project-card:hover {
+    border-color: rgba(255,255,255,0.18);
+  }
+  .project-card .age {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+  }
+  .project-card .qr {
+    width: 160px;
+    height: 160px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 8px;
+  }
+  .project-card .qr img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .project-card .desc {
+    font-size: 16px;
+    color: #d4d4d4;
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+  .project-card .award-tag {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #a4a4a4;
+    margin-bottom: 10px;
+  }
+  .project-card .scan-hint {
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+  }
+
+  /* ---- Video cards ---- */
+  .video-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .video-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+  .video-card:hover {
+    border-color: rgba(255,255,255,0.18);
+  }
+  .video-card video {
+    width: 100%;
+    display: block;
+    background: #000;
+  }
+  .video-card .video-info {
+    padding: 24px;
+  }
+  .video-card h3 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #f5f5f5;
+    margin-bottom: 8px;
+  }
+  .video-card .video-sub {
+    font-size: 15px;
+    color: #a4a4a4;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+  .video-card .video-hook {
+    font-size: 14px;
+    color: #ccc;
+    font-style: italic;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  /* ---- Course cards ---- */
+  .course-card {
+    display: grid;
+    grid-template-columns: 276px 1fr;
+    gap: 28px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 32px 28px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+    align-items: start;
+  }
+  .course-card:hover {
+    border-color: rgba(255,255,255,0.18);
+  }
+  .course-card .course-img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    opacity: 0.9;
+  }
+  .course-card .course-content h3 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #f5f5f5;
+    margin-bottom: 20px;
+  }
+  .course-detail {
+    margin-bottom: 14px;
+  }
+  .course-detail .label {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4px;
+  }
+  .course-detail p {
+    color: #cacaca;
+    font-size: 16px;
+  }
+
+  /* ---- Awards ---- */
+  .awards-section {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 48px 28px;
+    min-height: 220px;
+  }
+  .awards-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+  }
+  .awards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 22px;
+    position: relative;
+    z-index: 1;
+  }
+  .stat-card {
+    position: relative;
+    background: rgba(12, 12, 16, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 110, 0.85), transparent);
+  }
+  .stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 175, 110, 0.45);
+    background: rgba(18, 18, 22, 0.88);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
+  }
+  .stat-card .stat-title {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+  }
+
+  /* ---- Beliefs ---- */
+  .beliefs {
+    list-style: none;
+    padding: 0;
+  }
+  .beliefs li {
+    font-size: 18px;
+    color: #dddddd;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    line-height: 1.7;
+  }
+  .beliefs li:last-child {
+    border-bottom: none;
+  }
+
+  /* ---- Footer ---- */
+  .page-footer {
+    text-align: center;
+    padding: 48px 24px 60px;
+  }
+  .page-footer a {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .page-footer a:hover {
+    color: #b8b8b8;
+  }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 60px 20px 40px;
+    }
+    .hero h1 {
+      font-size: 26px;
+    }
+    .hero p {
+      font-size: 16px;
+    }
+    .section {
+      padding: 40px 20px;
+    }
+    .section h2 {
+      font-size: 22px;
+    }
+    .project-cards,
+    .video-cards {
+      grid-template-columns: 1fr;
+    }
+    .course-card {
+      grid-template-columns: 1fr;
+    }
+    .course-card .course-img {
+      max-width: 276px;
+    }
+    .awards-grid {
+      grid-template-columns: 1fr;
+    }
+    .beliefs li {
+      font-size: 16px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 1. Hero -->
+  <section class="hero">
+    <h1>I help children become technology creators before most adults expect them to.</h1>
+    <p>From code to robotics to maker projects, I design learning experiences that turn curiosity into real work.</p>
+    <a href="#student-work" class="cta">Explore student projects</a>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 2. Student Work -->
+  <section class="section" id="student-work">
+    <div class="section-label">Student Work</div>
+    <h2>Can you understand what this child built?</h2>
+    <div class="project-cards">
+
+      <div class="project-card">
+        <div class="age">Age 12</div>
+        <div class="qr">
+          <img src="_assets/images/I%20teach/selected%20student%20works/CYZ.png" alt="QR code — space exploration system">
+        </div>
+        <p class="desc">Built an interactive system about space exploration</p>
+        <p class="award-tag">National award-winning</p>
+        <p class="scan-hint">Scan to try the student's original work</p>
+      </div>
+
+      <div class="project-card">
+        <div class="age">Age 9</div>
+        <div class="qr">
+          <img src="_assets/images/I%20teach/selected%20student%20works/%E6%98%93%E6%80%9D%E5%AE%B8.jpg" alt="QR code — interactive game">
+        </div>
+        <p class="desc">Can you imagine what a 9-year-old can build?</p>
+        <p class="scan-hint">Scan to try the student's original work</p>
+      </div>
+
+      <div class="project-card">
+        <div class="age">Age 11</div>
+        <div class="qr">
+          <img src="_assets/images/I%20teach/selected%20student%20works/ZHY.png" alt="QR code — interactive math game">
+        </div>
+        <p class="desc">Built an interactive math game using a complex algorithm</p>
+        <p class="award-tag">National award-winning</p>
+        <p class="scan-hint">Scan to try the student's original work</p>
+      </div>
+
+      <div class="project-card">
+        <div class="age">Age 11</div>
+        <div class="qr">
+          <img src="_assets/images/I%20teach/selected%20student%20works/LYH.png" alt="QR code — nine planets system">
+        </div>
+        <p class="desc">Built a knowledge system about the nine planets</p>
+        <p class="award-tag">National award-winning</p>
+        <p class="scan-hint">Scan to try the student's original work</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 3. Video -->
+  <section class="section">
+    <div class="section-label">In Action</div>
+    <h2>What it looks like in practice</h2>
+    <div class="video-cards">
+
+      <div class="video-card">
+        <video controls preload="metadata">
+          <source src="_assets/images/I%20teach/robotics/182_1736962173.mp4" type="video/mp4">
+        </video>
+        <div class="video-info">
+          <h3>Programming in the physical world</h3>
+          <p class="video-sub">Students applied logic through hands-on robotics challenges in live settings.</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <video controls preload="metadata">
+          <source src="_assets/images/I%20teach/robotics/%E6%99%BA%E8%83%BD%E7%82%AB%E5%BD%A9%E6%97%B6%E9%92%9F%E5%8F%B0%E7%81%AF%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D.mp4" type="video/mp4">
+        </video>
+        <div class="video-info">
+          <h3>From idea to working object</h3>
+          <p class="video-hook">Can you understand what this 12-year-old built — without speaking their language?</p>
+          <p class="video-sub">Students built a smart colorful clock lamp across five sessions.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 4. Course Design -->
+  <section class="section">
+    <div class="section-label">Methodology</div>
+    <h2>How I turn learning into creation</h2>
+
+    <div class="course-card">
+      <img class="course-img" src="_assets/images/I%20teach/course%20design/%E6%80%9D%E8%BE%A8%E5%BC%8F%20(3).png" alt="Phonics and Salad course poster">
+      <div class="course-content">
+        <h3>Phonics and Salad</h3>
+        <div class="course-detail">
+          <div class="label">Challenge</div>
+          <p>Young learners lacked both language environment and motivation (but they love food!).</p>
+        </div>
+        <div class="course-detail">
+          <div class="label">Design</div>
+          <p>I used a multisensory experience to engage students with different interests, created a food-based project to combine interest with learning, and repeated vocabulary across playful scenarios.</p>
+        </div>
+        <div class="course-detail">
+          <div class="label">Outcome</div>
+          <p>Students retained vocabulary 2&times; faster and participated more actively in speaking tasks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 5. Awards -->
+  <section class="section">
+    <div class="section-label">Recognition</div>
+    <h2>Selected achievements</h2>
+    <div class="awards-section">
+      <div class="awards-bg" style="background-image: url('_assets/images/I%20teach/award%20winning/3121735025426_.pic.jpg');"></div>
+      <div class="awards-grid">
+        <div class="stat-card">
+          <div class="stat-title">National-level student innovation recognition</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Provincial first prize in course design</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Invited local competition judge</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 6. Beliefs -->
+  <section class="section">
+    <div class="section-label">Point of View</div>
+    <h2>What I believe</h2>
+    <ul class="beliefs">
+      <li>Children are capable of learning more than adults expect.</li>
+      <li>Technology is a medium for thinking, just like language.</li>
+      <li>The best learning experiences end in something real: a project, a system, a prototype, a story.</li>
+    </ul>
+  </section>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <a href="/">&larr; Back to portfolio</a>
+  </div>
+
+</body>
+</html>

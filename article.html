@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Are You Truly Open-Minded? If You Never Look Up, the Well Becomes Your World — ThinkAct MindHouse</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #ffffff;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .article-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  /* Header */
+  .article-header {
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  .article-source {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 24px;
+  }
+
+  .article-title {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #f5f5f5;
+    margin-bottom: 16px;
+  }
+
+  .article-meta {
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+  }
+
+  /* Hero image */
+  .hero-img {
+    width: 100%;
+    border-radius: 8px;
+    margin: 32px 0 48px;
+    opacity: 0.9;
+  }
+
+  /* Sections */
+  .section-number {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #f5f5f5;
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+
+  p {
+    margin-bottom: 20px;
+    color: #d4d4d4;
+  }
+
+  /* Blockquote for classical text */
+  blockquote {
+    border-left: 2px solid #333;
+    margin: 28px 0;
+    padding: 16px 24px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 0 6px 6px 0;
+  }
+
+  blockquote p {
+    color: #b8b8b8;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  .quote-label {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  /* Key phrase highlight */
+  .highlight {
+    color: #f5f5f5;
+    font-weight: 600;
+  }
+
+  /* Inline emphasis */
+  em {
+    color: #f0f0f0;
+    font-style: italic;
+  }
+
+  /* Bullet list */
+  ul {
+    margin: 16px 0 24px 20px;
+    color: #d4d4d4;
+  }
+
+  ul li {
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
+
+  /* Images */
+  .article-img {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 36px auto;
+    border-radius: 8px;
+    opacity: 0.85;
+  }
+
+  /* Divider */
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: #333;
+    margin: 48px auto;
+  }
+
+  /* Subsection headers */
+  h3 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #f5f5f5;
+    margin: 36px 0 16px;
+  }
+
+  .sub-number {
+    font-size: 13px;
+    color: #666;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  /* Carl Sagan quote */
+  .pull-quote {
+    text-align: center;
+    margin: 36px 0;
+    padding: 24px 16px;
+  }
+
+  .pull-quote p {
+    font-size: 18px;
+    color: #f0f0f0;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .pull-quote .attribution {
+    font-size: 13px;
+    color: #666;
+    margin-top: 8px;
+    font-style: normal;
+  }
+
+  /* Footer */
+  .article-footer {
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  .article-footer p {
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+  }
+
+  .end-mark {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #555;
+    margin-top: 32px;
+  }
+
+  /* Author note */
+  .author-note {
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    margin-top: 24px;
+    font-style: italic;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .article-wrapper {
+      padding: 40px 20px 60px;
+    }
+    .article-title {
+      font-size: 22px;
+    }
+    body {
+      font-size: 16px;
+    }
+    h2 {
+      font-size: 19px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="article-wrapper">
+
+    <header class="article-header">
+      <div class="article-source">ThinkAct MindHouse</div>
+      <h1 class="article-title">Are You Truly Open-Minded?<br>Zhuangzi Told You Long Ago:<br>If You Never Look Up, the Well Becomes Your World.</h1>
+      <p class="article-meta">By Aya &middot; Modified May 12, 2025</p>
+      <p style="margin-top:20px; font-size:14px; color:#777; font-style:italic; line-height:1.7;">I write and share more on my WeChat Official Account — scan the QR code at the end of the passage to view the original content.</p>
+    </header>
+
+    <img class="hero-img" src="_assets/images/article/header.jpg" alt="The Frog and the Turtle — a Chinese ink illustration">
+
+    <!-- Intro -->
+    <p style="text-align:center; color:#888; font-size:19px; line-height:1.6; margin-bottom:36px;">
+      <em>What you perceive as openness<br>might just be a bigger well.</em>
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- Section 01 -->
+    <div class="section-number">01</div>
+    <h2>Have You Ever Seen the East Ocean?</h2>
+
+    <p>The frog in Zhuangzi's story never jumped out of the well, yet firmly believed that it owned the whole world.</p>
+
+    <p>Today we'll talk about what true <span class="highlight">"open-mindedness"</span> really means.</p>
+
+    <blockquote>
+      <span class="quote-label">Zhuangzi &middot; Autumn Floods &mdash; Excerpt</span>
+      <p>"How delightful I am! I leap and bound on the well's edge, and rest on the broken brick cliff. When I plunge into the water, it reaches my armpits and chin; when I wade in the mud, it submerges my feet. Even tadpoles and crabs cannot match me! Moreover, to have the joy of possessing the water of a ravine and the pleasure of sitting on a broken well — this is the ultimate joy. Why don't you come and see for yourself from time to time, Master?"</p>
+      <p>The sea turtle's left foot hadn't even entered the water when its right knee was already trapped. So it hesitated and retreated, then told the frog:</p>
+      <p>"A distance of a thousand miles is not enough to describe its vastness; a height of a thousand fathoms is not enough to fathom its depth. In the time of Yu, there were nine floods in ten years, yet the water did not increase; in the time of Tang, there were seven droughts in eight years, yet the cliffs did not diminish. That which does not change with the passage of time, nor advance or retreat with quantity — this is the great joy of the East Ocean."</p>
+      <p>Upon hearing this, the frog in the well was startled and felt utterly bewildered.</p>
+    </blockquote>
+
+    <p><span class="highlight">What is the fundamental difference between the frog and the turtle?</span></p>
+
+    <p>The frog lives in its own illusion and is content with its well. The turtle lives in the vast ocean, yet is still willing to try entering a completely new space — even if it doesn't suit him in the end.</p>
+
+    <img class="article-img" src="_assets/images/article/illustration.webp" alt="A traveler on a mountain path — Chinese ink painting">
+
+    <div class="divider"></div>
+
+    <!-- Section 02 -->
+    <div class="section-number">02</div>
+    <h2>What Does "Open-Mindedness" Really Mean?</h2>
+
+    <p>We all think we're open-minded, but have you ever considered:</p>
+
+    <ul>
+      <li>Would you actively listen to voices that differ from your own?</li>
+      <li>Can you admit that someone else is right and that you were wrong?</li>
+      <li>Are you brave enough to step outside your familiar social or knowledge circles?</li>
+    </ul>
+
+    <p>More than two thousand years ago, Zhuangzi used the story of the Frog in the Well to tell us: <em>we should not be complacent, but maintain an open attitude, and be brave enough to explore and try new things.</em></p>
+
+    <p>Without an open mind, one may live their entire life in a <span class="highlight">"well of cognition,"</span> indulging in self-deception.</p>
+
+    <p>So, what is the right way to be open-minded?</p>
+
+    <div class="divider"></div>
+
+    <!-- Section 03 -->
+    <div class="section-number">03</div>
+    <h2>The Four Keys</h2>
+
+    <!-- Key 1 -->
+    <span class="sub-number">&langle; 1 &rangle;</span>
+    <h3>Maintain Curiosity About New Things</h3>
+
+    <p><em>"The turtle of the East Ocean is willing to try a shallow well. The frog, however, had never been to the sea."</em></p>
+
+    <p>Having curiosity about new things can sometimes lead to unpleasant experiences, but if the risks are managed well, the benefits outweigh the drawbacks.</p>
+
+    <p>Before the turtle could step into the well, its knee got stuck — forcing it to hesitate and retreat. But was this attempt fruitful? Of course: it learned that a shallow well wasn't as suitable as the East Ocean. If the frog had been willing to keep trying, perhaps it could have found an environment more suitable than the well.</p>
+
+    <p>Humanity continues to explore the stars. Although there are no immediate benefits, perhaps one day our descendants will face a crisis we've never faced before — and will have new choices.</p>
+
+    <p>Similarly, in the AI era, we cannot change the enormous transformations AI will bring, but we can at least try to embrace the changes we cannot control.</p>
+
+    <!-- Key 2 -->
+    <span class="sub-number">&langle; 2 &rangle;</span>
+    <h3>Cultivate Critical Thinking</h3>
+
+    <p><em>Is what you heard really the truth? Or will you choose the more comfortable version that you trust?</em></p>
+
+    <p>Everyone has their own unique perspective. It's easy to feel comfortable looking at things from your own point of view, but it's not easy to be objective. Critical thinking helps us transcend our own perspectives and look at problems from a higher level, bringing us closer to objective truth.</p>
+
+    <p>The frog's idea that shallow wells are comfortable is clearly not applicable to the turtle, yet it still extends an invitation. The frog is unable to reflect on the rationality of its own statement or consider the situation from another's perspective.</p>
+
+    <p>Typical manifestations of a lack of critical thinking:</p>
+
+    <ul>
+      <li>Becoming addicted to short-form video and completely believing everything a celebrity or influencer says.</li>
+      <li>Blindly believing a conclusion based on a single data point without examining the source or statistical methods.</li>
+      <li>Rushing to spread or apply a theory without delving into its details.</li>
+    </ul>
+
+    <div class="pull-quote">
+      <p>"True thinking is not about accumulating information, but about knowing what to doubt and what questions to ask."</p>
+      <p class="attribution">— Carl Sagan</p>
+    </div>
+
+    <p>Critical thinking is a skill that combines rationality and openness. It prevents us from being blinded by appearances and gives us the courage to question and the wisdom to judge.</p>
+
+    <!-- Key 3 -->
+    <span class="sub-number">&langle; 3 &rangle;</span>
+    <h3>Learn to Listen</h3>
+
+    <p><em>"Only those who truly understand others are qualified to express themselves."</em></p>
+
+    <p>Listening and expressing are inseparable; without listening there is no understanding, and therefore no effective dialogue.</p>
+
+    <p>After listening to the frog, the turtle tried the shallow well before making its comments about the East Ocean — at which point its words became far more convincing.</p>
+
+    <p>However, many adults haven't developed this habit. Expression often becomes a power struggle, and listening is seen as a waste of time. We prefer the other party to directly accept our ideas. We selectively shut down our minds during conversations, refusing to accept the other person's viewpoint and only responding to meet our own needs.</p>
+
+    <p><span class="highlight">True dialogue only occurs when you listen.</span> The listener is able to set aside preconceived notions and understand the other person's situation, enabling them to make a reasonable response — whether expressing sympathy, offering help, or distancing themselves.</p>
+
+    <p>The amount of responsibility you can shoulder determines the amount of freedom you can enjoy. This rule also applies to dialogue.</p>
+
+    <!-- Key 4 -->
+    <span class="sub-number">&langle; 4 &rangle;</span>
+    <h3>Bravely Step Out of Your Comfort Zone</h3>
+
+    <p><em>"Only by going out can you realize how shallow your well really is."</em></p>
+
+    <p>The standard for judging whether you are a frog in a well is whether you have stepped out of your comfort zone.</p>
+
+    <p>The turtle is willing to visit the bottom of the well, but the frog only wants the turtle to come to it. Perhaps the turtle never quite reached the bottom — the frog thought: "You simply cannot understand my environment!" But how could the frog know the turtle's difficulties?</p>
+
+    <p>Many people have a misconception about successful people: they are all opportunists, morally corrupt, their success built on the exploitation of others. But for ordinary people who haven't stepped out of their comfort zones — who haven't grasped the full picture or understood the underlying logic — is it not too arbitrary to make such judgments?</p>
+
+    <img class="article-img" src="_assets/images/article/footer.png" alt="A frog leaping from a well — Chinese ink illustration">
+
+    <div class="divider"></div>
+
+    <!-- Postscript -->
+    <h2>Postscript</h2>
+
+    <p>Zhuangzi used the dialogue between the frog and the turtle to reveal a simple yet profound truth: <em>the limitations of our cognition are often not because the world is too small, but because we are too accustomed to the comfort of being at the bottom of a well.</em></p>
+
+    <p style="text-align:center; margin-top:28px; color:#c8c8c8; font-size:18px; line-height:1.7;">
+      May we all possess awe and curiosity for the unknown world,<br>
+      and continue to expand the boundaries of our thinking<br>
+      in an era of information overload and the rise of AI.
+    </p>
+
+    <div class="article-footer">
+      <p class="end-mark">END</p>
+      <div style="display:flex; justify-content:center; gap:40px; margin:28px auto 12px; flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <img src="_assets/images/OriginalArticle.png" alt="Original Article QR Code" style="width:140px; height:140px; border-radius:8px; opacity:0.85;">
+          <p style="font-size:12px; color:#555; margin-top:8px;">Scan to view original article</p>
+        </div>
+        <div style="text-align:center;">
+          <img src="_assets/images/OfficialAccount.JPG" alt="WeChat Official Account QR Code" style="width:140px; height:140px; border-radius:8px; opacity:0.85;">
+          <p style="font-size:12px; color:#555; margin-top:8px;">Scan to follow for more</p>
+        </div>
+      </div>
+      <p class="author-note">Author's note: These are personal opinions and for reference only.</p>
+    </div>
+
+  </div>
+  <div style="text-align:center; padding:36px 24px 48px;">
+    <a href="/" style="font-family:'Tenor Sans',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#555; text-decoration:none;">&larr; Back to portfolio</a>
+  </div>
+</body>
+</html>

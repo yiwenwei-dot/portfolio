@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smile</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Tenor Sans', system-ui, sans-serif;
+  }
+  .gallery {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    max-width: 95vw;
+  }
+  .gallery img {
+    max-height: 85vh;
+    max-width: 46vw;
+    border-radius: 10px;
+    object-fit: contain;
+  }
+  @media (max-width: 768px) {
+    .gallery {
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
+    }
+    .gallery img {
+      max-width: 92vw;
+      max-height: 44vh;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="gallery">
+    <img src="_assets/images/smile1.jpg" alt="smile">
+    <img src="_assets/images/smile2.jpg" alt="smile">
+  </div>
+  <div style="text-align:center; padding:36px 24px 48px;">
+    <a href="/" style="font-family:'Tenor Sans',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#555; text-decoration:none;">&larr; Back to portfolio</a>
+  </div>
+</body>
+</html>

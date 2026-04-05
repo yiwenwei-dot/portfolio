@@ -14,39 +14,63 @@ html, body {
 
 /* --- Gradient text for underlined words (CMU, smile, technology, humane) --- */
 .gradient-word .a_GcMg {
+  display: inline !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: static !important;
   background: linear-gradient(90deg, #a6a6a6, #ffffff) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   color: transparent !important;
   text-decoration-line: none !important;
-  transition: text-decoration-color 0.3s ease;
+  transition: background 0.4s ease, font-size 0.3s ease;
 }
 
 .gradient-word {
   text-decoration: none !important;
   cursor: pointer;
+  animation: word-glow-breath 0.5s ease-in-out infinite;
+}
+
+@keyframes word-glow-breath {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+  }
+  70% {
+    filter:
+      drop-shadow(0 0 10px rgba(255, 255, 255, 1))
+      drop-shadow(0 0 25px rgba(255, 255, 255, 0.6))
+      drop-shadow(0 0 50px rgba(255, 255, 255, 0.25));
+  }
+}
+
+.gradient-word:hover {
+  animation: none;
+  filter: none;
 }
 
 .gradient-word:hover .a_GcMg {
-  text-decoration-line: underline !important;
-  text-decoration-color: #a6a6a6 !important;
-  text-underline-offset: 3px;
+  background: #ffffff !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: 22px !important;
+  text-decoration-line: none !important;
 }
 
-/* --- Heartbeat pulse animation for the quote --- */
-@keyframes heartbeat {
-  0%   { opacity: 0.65; }
-  7%   { opacity: 1; }
-  14%  { opacity: 0.65; }
-  21%  { opacity: 1; }
-  28%  { opacity: 0.65; }
-  100% { opacity: 0.65; }
+/* --- Quote breath animation: bright -> fade -> bright --- */
+@keyframes quote-breath {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 
 /* heartbeat-active class is added by JS after fade-in completes */
 .heartbeat-quote.heartbeat-active {
-  animation: heartbeat 2.4s ease-in-out infinite !important;
+  animation: quote-breath 5s ease-in-out infinite !important;
 }
 
 /* --- Desktop: scale fixed canvas to fill viewport --- */
@@ -267,3 +291,166 @@ html, body {
 
   /* Text containers: let JS set explicit widths for proper scale rendering */
 }
+
+/* ============================================
+   Glass tooltip for interactive labels
+   ============================================ */
+.glass-tooltip {
+  position: fixed;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Tenor Sans', system-ui, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 99998;
+  white-space: nowrap;
+}
+.glass-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Essence hover effect */
+.essence-interactive {
+  cursor: pointer;
+  transition: font-size 0.3s ease !important;
+  animation: essence-glow-breath 0.5s ease-in-out infinite;
+}
+
+@keyframes essence-glow-breath {
+  0%, 100% {
+    text-shadow:
+      0 0 0px rgba(255, 255, 255, 0);
+  }
+  70% {
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 1),
+      0 0 25px rgba(255, 255, 255, 0.6),
+      0 0 50px rgba(255, 255, 255, 0.25);
+  }
+}
+
+.essence-interactive:hover {
+  animation: none;
+  text-shadow: none;
+}
+
+/* Touch-active states (mirror hover for touch devices) */
+.gradient-word.touch-active {
+  animation: none;
+  filter: none;
+}
+.gradient-word.touch-active .a_GcMg {
+  background: #ffffff !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: 22px !important;
+  text-decoration-line: none !important;
+}
+.essence-interactive.touch-active {
+  animation: none;
+  text-shadow: none;
+}
+
+/* ============================================
+   Video modal
+   ============================================ */
+.video-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: videoModalFadeIn 0.25s ease;
+}
+@keyframes videoModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.video-modal-container {
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+  max-width: 80vw;
+  max-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.video-modal-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.video-modal-close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.video-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+@media (max-width: 768px) {
+  .video-modal-container {
+    width: 95vw;
+    height: auto;
+    max-height: 80vh;
+  }
+  .video-modal-close {
+    top: -44px;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+  }
+}
+
+/* ============================================
+   Mobile optimizations
+   ============================================ */
+@media (max-width: 768px) {
+  .glass-tooltip {
+    white-space: normal;
+    max-width: calc(100vw - 32px);
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  /* Increase touch targets for small labels */
+  #LBNFnN3BBrtQ3sWG,
+  #LBnsrLPZQhnNL6q7,
+  #LBpzCD4WwzL7XCmt {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
