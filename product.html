@@ -425,7 +425,7 @@
       <h2>TurtleTalk &mdash; Shipping the Prototype</h2>
 
       <p class="card-summary">
-        Shipped a working prototype during a 4-week sprint at Founders, Inc. Built on Next.js + TypeScript with a swappable voice pipeline — kids speak to Shelly the sea turtle (rendered in 3D with React Three Fiber), the audio is transcribed and routed through an LLM, and the reply is voiced back in real time.
+        Shipped a working prototype during a 4-week sprint at Founders, Inc. Built on Next.js + TypeScript with a swappable voice pipeline — kids speak to Shelly the sea turtle (plan to render in 3D powered by Koyal.ai), the audio is transcribed and routed through an LLM, and the reply is voiced back in real time.
       </p>
       <div class="card-insight">
         <div class="insight-label">Stack &amp; Decisions</div>
@@ -475,8 +475,9 @@
     observer.observe(card);
   });
 
-  // Smooth scroll on flow label click
-  document.querySelectorAll('.flow-label').forEach(function(label) {
+  // Flow label click: highlight only the clicked label and scroll to its section
+  var flowLabels = document.querySelectorAll('.flow-label');
+  flowLabels.forEach(function(label) {
     label.addEventListener('click', function(e) {
       var targetId = label.dataset.target;
       var target = document.getElementById(targetId);
@@ -485,30 +486,10 @@
         var top = target.getBoundingClientRect().top + window.pageYOffset - 60;
         window.scrollTo({ top: top, behavior: 'smooth' });
       }
+      flowLabels.forEach(function(l) { l.classList.remove('active'); });
+      label.classList.add('active');
     });
   });
-
-  // Highlight active flow label on scroll
-  var flowLabels = document.querySelectorAll('.flow-label');
-  var phaseMap = ['listen', 'synthesize', 'define', 'build'];
-
-  function updateFlow() {
-    var cards = document.querySelectorAll('.card');
-    var activePhases = [];
-    cards.forEach(function(card) {
-      var rect = card.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.6 && rect.bottom > 0) {
-        var phases = card.dataset.phase.split(' ');
-        phases.forEach(function(p) { if (activePhases.indexOf(p) === -1) activePhases.push(p); });
-      }
-    });
-    flowLabels.forEach(function(label, i) {
-      label.classList.toggle('active', activePhases.indexOf(phaseMap[i]) !== -1);
-    });
-  }
-
-  window.addEventListener('scroll', updateFlow);
-  updateFlow();
 </script>
 
 </body>
