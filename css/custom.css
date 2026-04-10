@@ -95,6 +95,7 @@ html, body {
   html, body, #root {
     overflow-x: hidden !important;
     overflow-y: auto !important;
+    width:100%
     height: auto !important;
     min-height: 100vh !important;
     min-height: 100dvh !important;
@@ -264,27 +265,35 @@ html, body {
   #__id12 {
     width: 8.44vw !important;
     height: 8.44vw !important;
-    transform: translate(21.3vw, calc(100vw * 2.756)) !important;
+    transform: translate(21.59vw, calc(100vw * 2.756)) !important;
   }
 
   /* --- X/Twitter icon --- */
-  /* Mobile: 23x24 at (141, 1079) */
   #__id16 {
     width: 6.01vw !important;
     height: 6.15vw !important;
-    transform: translate(36.1vw, calc(100vw * 2.767)) !important;
+    transform: translate(35.01vw, calc(100vw * 2.767)) !important;
+  }
+
+  /* --- Cal.com icon --- */
+  #__id_cal {
+    width: 7.6vw !important;
+    height: 7.6vw !important;
+    transform: translate(46.77vw, calc(100vw * 2.760)) !important;
   }
 
   /* Fix icon sizing within containers */
   #__id8 .Izwocg,
   #__id12 .Izwocg,
-  #__id16 .Izwocg {
+  #__id16 .Izwocg,
+  #__id_cal .Izwocg {
     width: 100% !important;
     height: 100% !important;
   }
   #__id8 img,
   #__id12 img,
-  #__id16 img {
+  #__id16 img,
+  #__id_cal img {
     width: 100% !important;
     height: 100% !important;
   }

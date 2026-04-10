@@ -1,0 +1,172 @@
+%------------------------
+% Resume - Yiwen Wei
+%------------------------
+
+\documentclass[a4paper,20pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[pdftex]{hyperref}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.530in}
+\addtolength{\evensidemargin}{-0.375in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.45in}
+\addtolength{\textheight}{1in}
+
+\urlstyle{rm}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-10pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-6pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item\small{
+    \textbf{#1}{: #2 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{#3} & \textit{#4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-3pt}}
+
+\renewcommand{\labelitemii}{$\circ$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-----------------------------
+\begin{document}
+
+%----------HEADING-----------------
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{{\LARGE Yiwen Wei}} & Email: \href{mailto:yiwenwei@andrew.cmu.edu}{yiwenwei@andrew.cmu.edu}\\
+  \href{https://yiwen.bio}{Portfolio: yiwen.bio} & Mobile:~~~+1-626-649-1408 \\
+  \href{https://www.linkedin.com/in/yiwenwei}{LinkedIn: linkedin.com/in/yiwenwei} \\
+  \href{https://github.com/yiwenwei-dot}{Github: ~~github.com/yiwenwei-dot} \\
+\end{tabular*}
+
+%-----------EDUCATION-----------------
+\section{~~Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Carnegie Mellon University, Silicon Valley}{Mountain View, CA}
+      {Master of Science in Software Management}{Aug 2025 -- Dec 2026}
+      {\scriptsize \textit{ \footnotesize{\newline{}\textbf{Courses:} Architecture \& Programming Principles, Venture Governance, Product Management, Problem Framing, Product \& Business Modeling, Solution Strategy \& Marketing, Process \& Project Management}}}
+    \resumeSubheading
+      {City Institute, Dalian University of Technology}{Liaoning, China}
+      {Bachelor of Information Management and Information Systems; ~GPA: 3.94/4.0}{}
+      {\scriptsize \textit{ \footnotesize{\newline{}\textbf{Honors:} Major Rank Top 1 (Accelerated: 4-year program in 3 years); National Scholarship (Top 1\%); Merit Student of Liaoning Province (Top 0.3\%)}}}
+  \resumeSubHeadingListEnd
+
+\vspace{-5pt}
+\section{Skills Summary}
+	\resumeSubHeadingListStart
+	\resumeSubItem{Product}{~~~~~~~~~~Product Strategy, User/SME Interview, Strategy Consulting \& Analysis, Stakeholder Analysis, Journey Mapping, JTBD Framework, Value Proposition Design}
+	\resumeSubItem{Technical}{~~~~~~~\textit{SWE:} Full-Stack Web Development (Claude-Assisted), Python, IoT ~\textbar~ \textit{AI \& CV:} YOLO, OpenCV, AI Model Deployment, Data Labeling \& Training ~\textbar~ \textit{Simulation \& 3D:} CARLA, Unreal Engine, Blender, RoadRunner ~\textbar~ \textit{Design:} UI/UX Design}
+	\resumeSubItem{Tools}{~~~~~~~~~~~~~~Claude Code, Notion, Miro, VS Code, LucidSpark, Canva, Gamma, Figma Make, Git, etc.}
+\resumeSubHeadingListEnd
+
+\vspace{-5pt}
+\section{Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading{Computer Science Teacher}{Yichang, China}
+    {Yichang Experimental Primary School (Top Public Primary School in Yichang City)}{}
+    \resumeItemListStart
+        \resumeItem{AI Educator Excellence}
+          {Achieved Outstanding Rating (top 10\%) in a nationwide AI educator training program with 1,500+ participants.}
+        \resumeItem{EdTech Innovation}
+          {Implemented a Dual-Teacher Instruction Platform integrated with IoT devices, improving student engagement by 30\%; showcased via a nationwide teacher livestream.}
+        \resumeItem{Teacher Training}
+          {Conducted live training for 2,000+ teachers in a city-level IT Training Program on technology integration strategies.}
+        \resumeItem{Competition Coaching}
+          {Recognized as provincial-level Outstanding Competition Coach; in 2022, guided two students to national awards in creative coding (two out of merely four primary school nominations in Hubei Province).}
+      \resumeItemListEnd
+
+\vspace{-5pt}
+    \resumeSubheading
+		{English Teacher}{Beijing, China}
+		{Rise Subject English, Beijing Flagship School (Listed Company)}{}
+		\resumeItemListStart
+        \resumeItem{Teaching Excellence}
+          {Awarded 3rd place out of 90+ instructors in the Flagship School Annual Teaching Competition.}
+        \resumeItem{Mentorship}
+          {Mentored new teachers on lesson preparation and classroom management techniques.}
+		\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------------
+\vspace{-5pt}
+\section{Selected Projects}
+\resumeSubHeadingListStart
+
+\resumeSubItem{Stakeholder \& Macro Environment Analysis for EdTech (CMU)}{Conducted stakeholder mapping, macro environment analysis, and journey mapping for an EdTech company as part of the Integrated Thinking for Innovation course.}
+\vspace{2pt}
+
+\resumeSubItem{SME Interviews: EdTech in U.S. vs. China (CMU)}{Interviewed subject matter experts to compare AI education product needs across U.S. and Chinese markets; synthesized insights into product recommendations.}
+\vspace{2pt}
+
+\resumeSubItem{SME Interview: Special Education in the U.S.}{Conducted expert interviews on building durable products for education by understanding extreme situations like special education; distilled findings on user needs and product longevity.}
+\vspace{2pt}
+
+\resumeSubItem{TurtleTalk -- End-to-End Product Development}{Led product discovery through JTBD research and value proposition design, defined system architecture and data flows, and shipped a functional prototype website during 4 weeks at accelerator Founders, Inc.}
+\vspace{2pt}
+
+\resumeSubItem{Autonomous Driving Simulation Workshop (CMU)}{Co-led a workshop on CARLA-based autonomous driving simulation, introducing perception systems, sensors and path planning, and 3D environment modeling integrated with Unreal Engine.}
+\vspace{2pt}
+
+\resumeSubItem{AI Head-Down Detection (Computer Vision)}{Built a real-time object detection application using YOLO, PyTorch, and OpenCV to monitor student attention in classroom settings.}
+
+\resumeSubHeadingListEnd
+
+\vspace{-5pt}
+%-----------Awards-----------------
+\section{Honors and Awards}
+\begin{description}[font=$\bullet$]
+\item {HackStorm AIoT Hackathon -- 3rd Place}
+\vspace{-5pt}
+\item {Lablab.ai Hackathon Google DeepMind Challenge -- 2nd Place}
+\vspace{-5pt}
+\item {First Prize (x2), Hubei Provincial Teacher Education and Information Exchange Activity}
+\vspace{-5pt}
+\item {First Place, Yichang Gamified Teaching Resource Development Competition}
+\vspace{-5pt}
+\item {Shanghai AI Laboratory Educator Training -- Outstanding Certificate}
+\end{description}
+
+\vspace{-5pt}
+\section{Test Scores}
+\begin{description}[font=$\bullet$]
+\item {GRE: 330 (V162/Q168/AW3.5), 2024 ~~~~\textbar~~~~ TOEFL: 105 (R30/L27/S23/W25), 2025}
+\end{description}
+
+\end{document}

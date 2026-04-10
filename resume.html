@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yiwen Wei — Resume</title>
+<link rel="icon" href="_assets/images/e53c4bd8da5e491d9ab09e7cf0daf874.png">
+<style>
+  /* Mirror LaTeX article class with Computer Modern-like serif */
+  @import url('https://fonts.googleapis.com/css2?family=Latin+Modern+Roman:wght@400;700&display=swap');
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d8d8d8;
+    font-family: 'Latin Modern Roman', 'Computer Modern Serif', 'Times New Roman', Times, serif;
+    color: #000;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* A4-ish page */
+  .page {
+    width: 8.27in;
+    min-height: 11.69in;
+    margin: 28px auto;
+    padding: 0.45in 0.6in 0.5in 0.6in;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    font-size: 10.5pt;
+    line-height: 1.32;
+  }
+
+  a { color: #000; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4pt;
+  }
+  .header-left .name {
+    font-size: 22pt;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .header-left .links {
+    margin-top: 4pt;
+    font-size: 10pt;
+    line-height: 1.45;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 10pt;
+    line-height: 1.45;
+    padding-top: 8pt;
+  }
+
+  /* Section heading - small caps + rule */
+  h2 {
+    font-variant: small-caps;
+    font-size: 12pt;
+    font-weight: 400;
+    letter-spacing: 0.4pt;
+    margin: 10pt 0 1pt 0;
+    padding-bottom: 1pt;
+    border-bottom: 0.6pt solid #000;
+  }
+
+  /* Entry */
+  .entry { margin: 4pt 0 2pt 0; }
+  .entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .entry-row .left { font-weight: 700; }
+  .entry-row .right { font-weight: 400; }
+  .entry-sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-style: italic;
+  }
+  .entry-detail {
+    font-size: 9pt;
+    margin-top: 1pt;
+  }
+  .entry-detail strong { font-weight: 700; }
+
+  /* Bullet lists (LaTeX itemize) */
+  ul {
+    margin: 2pt 0 4pt 0;
+    padding-left: 14pt;
+    list-style: none;
+  }
+  ul li {
+    position: relative;
+    padding-left: 12pt;
+    margin-bottom: 1.5pt;
+    font-size: 10pt;
+  }
+  ul li::before {
+    content: '\25E6';  /* small circle for nested list look */
+    position: absolute;
+    left: 0;
+    top: -1pt;
+  }
+  ul.dot li::before { content: '\2022'; }
+  ul li strong { font-weight: 700; }
+
+  /* Inline labeled item like \resumeSubItem */
+  .item {
+    margin-left: 14pt;
+    padding-left: 12pt;
+    position: relative;
+    font-size: 10pt;
+    margin-bottom: 2pt;
+  }
+  .item::before {
+    content: '\2022';
+    position: absolute;
+    left: 0;
+  }
+  .item strong { font-weight: 700; }
+  .item em { font-style: italic; }
+
+  /* Print styles - actual page print */
+  @media print {
+    html, body { background: #fff; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      width: 100%;
+      min-height: auto;
+      padding: 0.45in 0.6in;
+    }
+    .toolbar { display: none !important; }
+  }
+
+  /* Floating toolbar */
+  .toolbar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+  .toolbar a, .toolbar button {
+    background: #fff;
+    border: 1px solid #888;
+    color: #222;
+    padding: 6px 12px;
+    font-family: -apple-system, sans-serif;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  }
+  .toolbar a:hover, .toolbar button:hover {
+    background: #f0f0f0;
+  }
+
+  @media (max-width: 900px) {
+    .page {
+      width: 100%;
+      margin: 0;
+      padding: 24px 20px;
+      box-shadow: none;
+      font-size: 12pt;
+    }
+    .toolbar { top: 8px; right: 8px; }
+    .header { flex-direction: column; gap: 4pt; }
+    .header-right { text-align: left; padding-top: 0; }
+    .entry-row, .entry-sub { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="/resume.tex" download>Download .tex</a>
+  <button onclick="window.print()">Print / PDF</button>
+  <a href="/">Back</a>
+</div>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="name">Yiwen Wei</div>
+      <div class="links">
+        <a href="https://yiwen.bio">Portfolio: yiwen.bio</a><br>
+        <a href="https://www.linkedin.com/in/yiwenwei">LinkedIn: linkedin.com/in/yiwenwei</a><br>
+        <a href="https://github.com/yiwenwei-dot">Github: &nbsp;github.com/yiwenwei-dot</a>
+      </div>
+    </div>
+    <div class="header-right">
+      Email: <a href="mailto:yiwenwei@andrew.cmu.edu">yiwenwei@andrew.cmu.edu</a><br>
+      Mobile: &nbsp;+1-626-649-1408
+    </div>
+  </div>
+
+  <!-- Education -->
+  <h2>Education</h2>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">Carnegie Mellon University, Silicon Valley</span>
+      <span class="right">Mountain View, CA</span>
+    </div>
+    <div class="entry-sub">
+      <span>Master of Science in Software Management</span>
+      <span>Aug 2025 &ndash; Dec 2026</span>
+    </div>
+    <div class="entry-detail">
+      <strong>Courses:</strong> Architecture &amp; Programming Principles, Venture Governance, Product Management, Problem Framing, Product &amp; Business Modeling, Solution Strategy &amp; Marketing, Process &amp; Project Management
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">City Institute, Dalian University of Technology</span>
+      <span class="right">Liaoning, China</span>
+    </div>
+    <div class="entry-sub">
+      <span>Bachelor of Information Management and Information Systems; &nbsp;GPA: 3.94/4.0</span>
+      <span></span>
+    </div>
+    <div class="entry-detail">
+      <strong>Honors:</strong> Major Rank Top 1 (Accelerated: 4-year program in 3 years); National Scholarship (Top 1%); Merit Student of Liaoning Province (Top 0.3%)
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <h2>Skills Summary</h2>
+  <div class="item"><strong>Product:</strong> Product Strategy, User/SME Interview, Strategy Consulting &amp; Analysis, Stakeholder Analysis, Journey Mapping, JTBD Framework, Value Proposition Design</div>
+  <div class="item"><strong>Technical:</strong> <em>SWE:</em> Full-Stack Web Development (Claude-Assisted), Python, IoT &nbsp;|&nbsp; <em>AI &amp; CV:</em> YOLO, OpenCV, AI Model Deployment, Data Labeling &amp; Training &nbsp;|&nbsp; <em>Simulation &amp; 3D:</em> CARLA, Unreal Engine, Blender, RoadRunner &nbsp;|&nbsp; <em>Design:</em> UI/UX Design</div>
+  <div class="item"><strong>Tools:</strong> Claude Code, Notion, Miro, VS Code, LucidSpark, Canva, Gamma, Figma Make, Git, etc.</div>
+
+  <!-- Experience -->
+  <h2>Experience</h2>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">Computer Science Teacher</span>
+      <span class="right">Yichang, China</span>
+    </div>
+    <div class="entry-sub">
+      <span>Yichang Experimental Primary School (Top Public Primary School in Yichang City)</span>
+    </div>
+    <ul>
+      <li><strong>AI Educator Excellence:</strong> Achieved Outstanding Rating (top 10%) in a nationwide AI educator training program with 1,500+ participants.</li>
+      <li><strong>EdTech Innovation:</strong> Implemented a Dual-Teacher Instruction Platform integrated with IoT devices, improving student engagement by 30%; showcased via a nationwide teacher livestream.</li>
+      <li><strong>Teacher Training:</strong> Conducted live training for 2,000+ teachers in a city-level IT Training Program on technology integration strategies.</li>
+      <li><strong>Competition Coaching:</strong> Recognized as provincial-level Outstanding Competition Coach; in 2022, guided two students to national awards in creative coding (two out of merely four primary school nominations in Hubei Province).</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">English Teacher</span>
+      <span class="right">Beijing, China</span>
+    </div>
+    <div class="entry-sub">
+      <span>Rise Subject English, Beijing Flagship School (Listed Company)</span>
+    </div>
+    <ul>
+      <li><strong>Teaching Excellence:</strong> Awarded 3rd place out of 90+ instructors in the Flagship School Annual Teaching Competition.</li>
+      <li><strong>Mentorship:</strong> Mentored new teachers on lesson preparation and classroom management techniques.</li>
+    </ul>
+  </div>
+
+  <!-- Projects -->
+  <h2>Selected Projects</h2>
+  <div class="item"><strong>Stakeholder &amp; Macro Environment Analysis for EdTech (CMU):</strong> Conducted stakeholder mapping, macro environment analysis, and journey mapping for an EdTech company as part of the Integrated Thinking for Innovation course.</div>
+  <div class="item"><strong>SME Interviews: EdTech in U.S. vs. China (CMU):</strong> Interviewed subject matter experts to compare AI education product needs across U.S. and Chinese markets; synthesized insights into product recommendations.</div>
+  <div class="item"><strong>SME Interview: Special Education in the U.S.:</strong> Conducted expert interviews on building durable products for education by understanding extreme situations like special education; distilled findings on user needs and product longevity.</div>
+  <div class="item"><strong>TurtleTalk &mdash; End-to-End Product Development:</strong> Led product discovery through JTBD research and value proposition design, defined system architecture and data flows, and shipped a functional prototype website during 4 weeks at accelerator Founders, Inc.</div>
+  <div class="item"><strong>Autonomous Driving Simulation Workshop (CMU):</strong> Co-led a workshop on CARLA-based autonomous driving simulation, introducing perception systems, sensors and path planning, and 3D environment modeling integrated with Unreal Engine.</div>
+  <div class="item"><strong>AI Head-Down Detection (Computer Vision):</strong> Built a real-time object detection application using YOLO, PyTorch, and OpenCV to monitor student attention in classroom settings.</div>
+
+  <!-- Honors -->
+  <h2>Honors and Awards</h2>
+  <ul class="dot">
+    <li>HackStorm AIoT Hackathon &mdash; 3rd Place</li>
+    <li>Lablab.ai Hackathon Google DeepMind Challenge &mdash; 2nd Place</li>
+    <li>First Prize (&times;2), Hubei Provincial Teacher Education and Information Exchange Activity</li>
+    <li>First Place, Yichang Gamified Teaching Resource Development Competition</li>
+    <li>Shanghai AI Laboratory Educator Training &mdash; Outstanding Certificate</li>
+  </ul>
+
+  <!-- Test Scores -->
+  <h2>Test Scores</h2>
+  <ul class="dot">
+    <li>GRE: 330 (V162/Q168/AW3.5), 2024 &nbsp;&nbsp;|&nbsp;&nbsp; TOEFL: 105 (R30/L27/S23/W25), 2025</li>
+  </ul>
+
+</div>
+
+</body>
+</html>

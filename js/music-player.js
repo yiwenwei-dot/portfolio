@@ -127,6 +127,44 @@
     loadTrack((currentIndex + 1) % tracks.length);
     audio.play();
   });
+  audio.addEventListener('error', function () {
+    // Skip to next track if current one fails to load
+    loadTrack((currentIndex + 1) % tracks.length);
+    audio.play();
+  });
+
+  // Restore audio state when returning via browser back (bfcache)
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted && playerRevealed) {
+      // Re-create audio element to avoid stale bfcache state
+      var wasPlaying = isPlaying;
+      var savedTime = audio.currentTime;
+      var savedIndex = currentIndex;
+      audio = new Audio();
+      audio.addEventListener('play', function () { isPlaying = true; updatePlayIcon(); });
+      audio.addEventListener('pause', function () { isPlaying = false; updatePlayIcon(); });
+      audio.addEventListener('ended', function () {
+        loadTrack((currentIndex + 1) % tracks.length);
+        audio.play();
+      });
+      audio.addEventListener('error', function () {
+        loadTrack((currentIndex + 1) % tracks.length);
+        audio.play();
+      });
+      audio.addEventListener('timeupdate', function () {
+        if (audio.duration) {
+          progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+          curTime.textContent = fmt(audio.currentTime);
+          durTime.textContent = fmt(audio.duration);
+        }
+      });
+      loadTrack(savedIndex);
+      if (wasPlaying) {
+        audio.currentTime = savedTime;
+        audio.play();
+      }
+    }
+  });
   audio.addEventListener('timeupdate', function () {
     if (audio.duration) {
       progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
@@ -158,21 +196,6 @@
     audio.play();
   };
 
-  // Reveal player and auto-play 'I Am You' when 'humane' is clicked
-  function revealAndPlay() {
-    if (playerRevealed) return;
-    playerRevealed = true;
-    container.style.opacity = '1';
-    container.style.pointerEvents = '';
-    // Open the panel
-    isExpanded = true;
-    panel.classList.add('open');
-    fab.classList.add('hidden');
-    // Play 'I Am You' (first track)
-    loadTrack(0);
-    audio.play();
-  }
-
   // Find the 'humane' span and use coordinate-based click detection (works through Canva overlays)
   function attachHumaneTrigger() {
     var humaneSpan = null;
@@ -192,7 +215,7 @@
           e.clientY >= rect.top &&
           e.clientY <= rect.bottom
         ) {
-          revealAndPlay();
+          if (window.ayaMusicPlay) window.ayaMusicPlay(0); // I Am You is track index 0
         }
       });
     }

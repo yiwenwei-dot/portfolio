@@ -76,6 +76,23 @@
   function scaleDesktop() {
     if (window.innerWidth <= MOBILE_BREAKPOINT) return;
 
+    // Ensure every container from html down to the canvas fills the viewport
+    var canvas = document.querySelector('._8jGYJw');
+    if (!canvas) return;
+    var el = canvas.parentElement;
+    while (el && el !== document.documentElement) {
+      el.style.width = '100%';
+      el.style.height = '100%';
+      el.style.overflow = 'hidden';
+      el.style.margin = '0';
+      el.style.padding = '0';
+      el = el.parentElement;
+    }
+    document.documentElement.style.width = '100%';
+    document.documentElement.style.height = '100%';
+    document.documentElement.style.margin = '0';
+    document.documentElement.style.overflow = 'hidden';
+
     var canvas = document.querySelector('._8jGYJw');
     if (!canvas) return;
 
@@ -125,9 +142,7 @@
       'LBrtFtQf2kZDQLHR': { scale: 0.799836, w: 391, h: 61 }    // quote
     };
 
-    // Scale factor for viewport: original was 390px wide
-    var vwScale = window.innerWidth / 390;
-
+    // Use vw units so dimensions scale with zoom, matching CSS vw-based positions
     Object.keys(textElements).forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
@@ -136,16 +151,19 @@
       var cfg = textElements[id];
       var s = cfg.scale;
 
+      // Convert px dimensions to vw: (px / 390) * 100 vw
+      var wVw = cfg.w / 390 * 100;
+      var hVw = cfg.h / 390 * 100;
+
       // Set child to pre-scale (unscaled) dimensions so text wraps correctly
-      // After scale transform, it will visually match the original widths
-      tc.style.width = (cfg.w / s * vwScale) + 'px';
-      tc.style.height = (cfg.h / s * vwScale) + 'px';
+      tc.style.width = (wVw / s) + 'vw';
+      tc.style.height = (hVw / s) + 'vw';
       tc.style.transform = 'scale(' + s + ', ' + s + ')';
       tc.style.transformOrigin = '0px 0px';
 
       // Set parent to post-scale (visual) dimensions
-      el.style.width = (cfg.w * vwScale) + 'px';
-      el.style.height = (cfg.h * vwScale) + 'px';
+      el.style.width = wVw + 'vw';
+      el.style.height = hVw + 'vw';
       el.style.overflow = 'visible';
     });
   }
@@ -168,7 +186,8 @@
       'LBrtFtQf2kZDQLHR',
       '__id8',
       '__id12',
-      '__id16'
+      '__id16',
+      '__id_cal'
     ];
 
     var stagger = 0.705;
@@ -211,7 +230,7 @@
       'LBWkLWRYQkZjxbTL', 'LBgT3dm0HZMHySR0', 'LB4sSj5DxgVQFvYp',
       'LBNFnN3BBrtQ3sWG', 'LB9Mk4jffcm2QdtQ', 'LBnsrLPZQhnNL6q7',
       'LBVKchzfdp9MpRN0', 'LBpzCD4WwzL7XCmt', 'LBjX0YtvYQlp1MyD',
-      'LBrtFtQf2kZDQLHR', '__id8', '__id12', '__id16'
+      'LBrtFtQf2kZDQLHR', '__id8', '__id12', '__id16', '__id_cal'
     ];
     elementIds.forEach(function (id) {
       var el = document.getElementById(id);
@@ -476,7 +495,7 @@
 
       var tooltip = document.createElement('div');
       tooltip.className = 'glass-tooltip';
-      tooltip.textContent = 'readingandwritingaremypassion.com';
+      tooltip.textContent = 'integratedthinkingcasestudy.com';
       document.body.appendChild(tooltip);
 
       var el01Hovered = false;
@@ -524,7 +543,7 @@
 
       var tooltip02 = document.createElement('div');
       tooltip02.className = 'glass-tooltip';
-      tooltip02.textContent = 'learningisfun.com';
+      tooltip02.textContent = 'teachingistailoring.com';
       document.body.appendChild(tooltip02);
 
       var el02Hovered = false;
@@ -615,7 +634,7 @@
 
       var tooltipTalk = document.createElement('div');
       tooltipTalk.className = 'glass-tooltip';
-      tooltipTalk.textContent = 'bookameeting.com';
+      tooltipTalk.textContent = 'talkandmakeproduct.com';
       document.body.appendChild(tooltipTalk);
 
       var talkHovered = false;
@@ -652,13 +671,13 @@
 
       // Click: direct + coordinate fallback
       elTalk.addEventListener('click', function () {
-        window.open('https://cal.com/ayawei', '_self');
+        window.open('product.html', '_self');
       });
       document.addEventListener('click', function (e) {
         var rect = elTalk.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX <= rect.right &&
             e.clientY >= rect.top && e.clientY <= rect.bottom) {
-          window.open('https://cal.com/ayawei', '_self');
+          window.open('product.html', '_self');
         }
       });
     }
@@ -675,7 +694,7 @@
 
       var tooltipTeach = document.createElement('div');
       tooltipTeach.className = 'glass-tooltip';
-      tooltipTeach.textContent = 'teachingistailoring.com';
+      tooltipTeach.textContent = 'learningisfun.com';
       document.body.appendChild(tooltipTeach);
 
       var teachHovered = false;
@@ -710,13 +729,13 @@
       addTouchTooltip(elTeach, tooltipTeach, 12);
 
       elTeach.addEventListener('click', function () {
-        window.open('teachingalive.html', '_self');
+        window.open('teach.html', '_self');
       });
       document.addEventListener('click', function (e) {
         var rect = elTeach.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX <= rect.right &&
             e.clientY >= rect.top && e.clientY <= rect.bottom) {
-          window.open('teachingalive.html', '_self');
+          window.open('teach.html', '_self');
         }
       });
     }
@@ -733,7 +752,7 @@
 
       var tooltipThink = document.createElement('div');
       tooltipThink.className = 'glass-tooltip';
-      tooltipThink.textContent = 'integratedthinkingcasestudy.com';
+      tooltipThink.textContent = 'readingandwritingaremypassion.com';
       document.body.appendChild(tooltipThink);
 
       var thinkHovered = false;
@@ -768,13 +787,13 @@
       addTouchTooltip(elThink, tooltipThink, 12);
 
       elThink.addEventListener('click', function () {
-        window.open('https://miro.com/app/board/uXjVJIPC90Y=/', '_self');
+        window.open('article.html', '_self');
       });
       document.addEventListener('click', function (e) {
         var rect = elThink.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX <= rect.right &&
             e.clientY >= rect.top && e.clientY <= rect.bottom) {
-          window.open('https://miro.com/app/board/uXjVJIPC90Y=/', '_self');
+          window.open('article.html', '_self');
         }
       });
     }
@@ -784,8 +803,8 @@
       'CMU': 'https://www.cmu.edu/iii/people/students/mssm.html',
       'technology': 'http://app.turtletalk.io/demo',
       'smile': 'smile.html',
-      '01': 'article.html',
-      '02': 'teach.html',
+      '01': 'https://miro.com/app/board/uXjVJIPC90Y=/',
+      '02': 'teachingalive.html',
       '03': 'talk.html'
     };
 

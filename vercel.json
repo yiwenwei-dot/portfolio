@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/resume", "destination": "/resume.html" }
+  ],
+  "headers": [
+    {
+      "source": "/resume.tex",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+      ]
+    }
+  ]
+}
