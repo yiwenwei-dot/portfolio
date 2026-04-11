@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quincy Board — Mission Control</title>
+<link rel="icon" href="_assets/images/e53c4bd8da5e491d9ab09e7cf0daf874.png">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html,body{margin:0;padding:0;}</style>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+const { useState } = React;
+
+const TEAM = [
+  { name: "Sharon Yu", role: "Christina Wallace", title: "Co-Founder/CEO", type: "Board Member (VOTES)", color: "#e11d48", emoji: "🔴" },
+  { name: "Sharad Kumar", role: "Alex Nelson", title: "Co-Founder/COO", type: "Board Member (VOTES)", color: "#2563eb", emoji: "🔵" },
+  { name: "David Ma", role: "Benjamin Bucks", title: "GO VC Lead Investor", type: "Board Observer (NO vote, controls bridge loan)", color: "#7c3aed", emoji: "🟣" },
+  { name: "Aya Wei", role: "Ken Landis", title: "Angel Investor", type: "Board Member (VOTES) + Secretary", color: "#059669", emoji: "🟢" },
+];
+
+const PREFLIGHTS = [
+  { id: 1, person1: "Aya Wei", person2: "Sharad Kumar", time: "Apr 11, 10:00 AM", topic: "Investor alignment — discuss bridge loan conditions & what Ken Landis wants vs. what Alex Nelson needs", locked: true },
+  { id: 2, person1: "", person2: "", time: "", topic: "" },
+  { id: 3, person1: "", person2: "", time: "", topic: "" },
+  { id: 4, person1: "", person2: "", time: "", topic: "" },
+  { id: 5, person1: "", person2: "", time: "", topic: "" },
+  { id: 6, person1: "", person2: "", time: "", topic: "" },
+];
+
+const TASKS = [
+  { id: 1, phase: 0, deadline: "By Apr 11", title: "Send Board Meeting Notice to team", assignedTo: "Aya Wei", required: true, points: "Part of 4 pts",
+    description: "Send the official meeting notice (docx provided separately). Just fill in location and send.", why: "Graded deliverable. Angel (Ken Landis = Aya) must lead this." },
+  { id: 2, phase: 0, deadline: "By Apr 12", title: "Co-Founders draft joint resolutions & Board Deck", assignedTo: "Sharon Yu + Sharad Kumar", required: true, points: "4 pts",
+    description: "Meet as co-founders. Agree on what to propose (bridge loan, sizing, restructuring). Build Working Session slides using the NextView Board Deck Template from Canvas.", why: "Graded deliverable #2. Must be done BEFORE the board meeting." },
+  { id: 3, phase: 0, deadline: "By Sun Apr 12", title: "Complete all pre-flight 1:1 meetings (in character!)", assignedTo: "Everyone", required: true, points: "Part of 10 pts",
+    description: "Meet individually with other board members IN CHARACTER to negotiate and lobby. Fill in the pre-flight schedule on the Pre-Flight tab. Finish all meetings before Monday!", why: "Rubric asks about your pre-meeting process. This is where the drama happens." },
+  { id: 13, phase: 0, deadline: "By Sat Apr 12 evening", title: "Circulate Board Deck to all members (24h before meeting)", assignedTo: "Sharon Yu + Sharad Kumar", required: true, points: "Part of 4 pts",
+    description: "Per governance rules, pre-read materials must be circulated at least 24 hours before the meeting. Send the deck to everyone by Saturday evening.", why: "Required by our own governance rules in §7. Shows we follow our procedures." },
+  { id: 14, phase: 0, deadline: "By Apr 12", title: "Print/prepare Robert's Rules cheat sheet for the meeting", assignedTo: "⚡ CLAIM ME", required: false, points: "—",
+    description: "Print the Roberts Rules cheat sheet (uploaded to Canvas) so we have it handy during the meeting. Helps whoever chairs.", why: "Small task but saves time during the meeting." },
+  { id: 15, phase: 0, deadline: "By Apr 12", title: "Prepare a phone/laptop for video recording", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 1 pt",
+    description: "Make sure we have a device ready to record the meeting. Test audio beforehand. We need 3-5 minutes of clear video showing our voting.", why: "The video is a separate graded deliverable." },
+
+  { id: 4, phase: 1, deadline: "Mon Apr 13, 1:00 PM", title: "Chair & run the Board Meeting", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 4 pts",
+    description: "Call to order, manage motions/seconds/votes using Robert's Rules, keep us on time (30 min). See Refreshers tab for the quick-reference flow.", why: "Per governance rules, Chair is elected by majority vote. Decide who chairs before Monday." },
+  { id: 5, phase: 1, deadline: "Mon Apr 13", title: "Record meeting minutes (Secretary)", assignedTo: "Aya Wei", required: true, points: "Part of 4 pts",
+    description: "Take live notes using the pre-filled Minutes template (separate docx). Capture motions, debates, vote tallies.", why: "Assignment says Angel = Secretary. Template already has our names filled in." },
+  { id: 6, phase: 1, deadline: "During meeting", title: "Record 3-5 min video of voting", assignedTo: "⚡ CLAIM ME", required: false, points: "1 pt",
+    description: "Film the team voting on one or more resolutions. Capture: who introduces it, brief debate, vote count, outcome announcement. Audio must be clear!", why: "Separate graded deliverable worth 1 point." },
+
+  { id: 7, phase: 2, deadline: "By Apr 15", title: "Finalize minutes & get 4 signatures", assignedTo: "Aya Wei (leads), everyone signs", required: true, points: "Part of 4 pts",
+    description: "Clean up the minutes, circulate, get all 4 team members to sign/approve.", why: "Minutes must be 'approved by all team members.'" },
+  { id: 8, phase: 2, deadline: "By Apr 16", title: "Update Governance Rules (yellow highlights)", assignedTo: "David Ma", required: true, points: "1 pt",
+    description: "Update our existing governance rules doc based on what worked/didn't work. Highlight changes in yellow. Add brief reasoning for each change.", why: "Assignment says VC1 (David) leads this." },
+  { id: 9, phase: 2, deadline: "By Apr 18", title: "Build 8-slide PowerPoint (claim slides on PPT tab!)", assignedTo: "Everyone — 2 slides each", required: true, points: "10 pts (!)",
+    description: "Biggest deliverable. Claim your 2 slides on the PPT & Slides tab. Work on slides AFTER the board meeting so you have real content to present.", why: "10 out of 20 total points. Start after the meeting when you have actual outcomes to report." },
+  { id: 10, phase: 2, deadline: "By Apr 17", title: "Edit & trim the board meeting video", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 1 pt",
+    description: "Quick trim. Ensure audio works, video is 3-5 minutes, shows voting clearly.", why: "Just a quick edit, nothing fancy." },
+
+  { id: 11, phase: 3, deadline: "Apr 18-19", title: "Team rehearsal of 10-min presentation", assignedTo: "Everyone", required: true, points: "Part of 10 pts",
+    description: "Practice the full presentation. Time it (10 min hard limit). Prep for 5 min Q&A. Students who didn't lead the Assignment 1 pitch should lead this readout.", why: "Professor wants to hear from everyone. Practice = confidence." },
+  { id: 12, phase: 3, deadline: "Apr 19 by 11:59 PM PT", title: "Submit all deliverables to Canvas", assignedTo: "⚡ CLAIM ME", required: false, points: "—",
+    description: "Upload: (1) Board Meeting Notice, (2) Board Deck excerpt, (3) Meeting Minutes, (4) PowerPoint, (5) Updated Governance Rules, (6) Video. NO EXCEPTIONS on deadline!", why: "Someone needs to own the final upload." },
+];
+
+const PHASES = [
+  { label: "Phase 1: Before Meeting", color: "#2563eb", range: "Fri Apr 10 — Sun Apr 12" },
+  { label: "Phase 2: Board Meeting", color: "#7c3aed", range: "Mon Apr 13, 1:00–1:30 PM" },
+  { label: "Phase 3: After Meeting", color: "#059669", range: "Mon Apr 13 — Fri Apr 18" },
+  { label: "Phase 4: Submit & Present", color: "#dc2626", range: "Apr 18–20 (Due Apr 19 11:59 PM)" },
+];
+
+const REFRESHERS = [
+  { term: "Bridge Loan", explanation: "A short-term loan to keep the company alive until a bigger funding round. Quincy needs $250K from GO VC to fund the next season of apparel. It's their ONLY option — no new investors are interested. Only 7 weeks of cash left!" },
+  { term: "Board Members vs. Board Observers", explanation: "Board Members can VOTE on resolutions. Board Observers can attend, speak, and advise but CANNOT vote.\n\n• Christina (Sharon) — Board Member, VOTES\n• Alex (Sharad) — Board Member, VOTES\n• Ken Landis (Aya) — Board Member, VOTES\n• Benjamin Bucks (David) — Observer, NO VOTE, but controls the bridge loan approval\n\nSo David has huge leverage even without a vote!" },
+  { term: "Robert's Rules — The 6-Step Flow", explanation: "1. MOTION: Someone says 'I move to [do something specific]'\n2. SECOND: Another person says 'I second the motion'\n3. RESTATE: Chair repeats the motion\n4. DEBATE: Everyone discusses\n5. VOTE: Chair asks 'All in favor?' then 'All opposed?'\n6. ANNOUNCE: Chair states the result\n\nShortcut: If everyone obviously agrees, Chair can say 'If there is no objection, we will adopt the motion to...' then wait. If no one objects, it passes!" },
+  { term: "Resolution", explanation: "A formal decision the board votes on. Format: 'RESOLVED: The Board authorizes [specific action].' Must be specific and actionable. Example: 'RESOLVED: The Board authorizes the company to accept a $250,000 bridge loan from GO VC, contingent upon reducing SKU count by 40% within 60 days.'" },
+  { term: "Protective Provisions", explanation: "Special rights investors negotiated. GO VC has the right to approve 2 board seats and controls whether the $250K bridge loan gets released. This means David (Ben Bucks) can block the funding even though he can't vote on board resolutions!" },
+  { term: "Quorum", explanation: "Minimum number of board members needed for a valid meeting. Per our governance rules: majority of directors including at least one investor director. With 3 directors (Christina, Alex, Ken Landis), we need at least 2 including Ken (Aya). If Aya isn't there, the meeting can't happen!" },
+  { term: "The Core Disagreement (Everyone Must Know This!)", explanation: "Alex Nelson (Sharad) wants to REDUCE the sizing range to cut complexity, lower costs, and survive longer on limited cash.\n\nChristina Wallace (Sharon) believes the wide sizing IS the whole mission — it's what makes Quincy different — and won't compromise it. She'd rather shut down gracefully than build a 'different business.'\n\nThe board must resolve this tension. The VC and Angel have their own interests too!" },
+  { term: "Convertible Note / Debt", explanation: "Quincy raised $950K in convertible debt — this is a loan that converts into equity (ownership shares) when they raise a bigger round later. It's not a regular loan you pay back in cash. The $250K bridge is also structured this way." },
+];
+
+const FILES_TO_READ = [
+  { file: "Quincy Apparel (A) Case Study", who: "Everyone", why: "The full story of Quincy — product, finances, team conflicts, and the crisis. You MUST know the key facts to argue convincingly in character.", priority: "ESSENTIAL" },
+  { file: "Your own Assignment 3 Position Paper", who: "Everyone (your own role)", why: "Your stakeholder's argument and strategy. Re-read before pre-flight meetings so your positions are sharp.", priority: "ESSENTIAL" },
+  { file: "Benjamin Bucks Background", who: "David Ma (+ everyone)", why: "David: this IS your character. Everyone else: understand what the VC wants and fears (career pressure, reputation, new baby, big mortgage). Ben has a LOT personally at stake.", priority: "HIGH" },
+  { file: "Carol Moneymaker Background", who: "Everyone (for context)", why: "Carol is a skeptical GO VC colleague. Even without her on our team, her perspective reveals internal VC tensions David should leverage or defend against.", priority: "MEDIUM" },
+  { file: "Landis Capital LLC page", who: "Aya Wei (+ everyone)", why: "Ken Landis co-founded Bobbi Brown Cosmetics (acquired by Estée Lauder) and Tula Skincare (acquired by P&G). He knows fashion, consumer brands, and exits. Aya: use this expertise in arguments!", priority: "HIGH" },
+  { file: "Quincy Board Governance Rules (Assignment 1)", who: "Everyone, especially David Ma", why: "The rules we follow during the meeting — quorum, voting, tie-breakers, procedures. David needs it for the post-meeting governance update.", priority: "HIGH" },
+  { file: "Roberts Rules of Order Cheat Sheet", who: "Whoever chairs + Aya", why: "Procedural guide. Know the 6-step motion flow, how to handle disagreements, when you can interrupt.", priority: "HIGH for Chair" },
+  { file: "Board Deck Template (NextView .pptx)", who: "Sharon Yu + Sharad Kumar", why: "Template for the Board Deck working session slides. Co-founders use it to structure their proposal.", priority: "HIGH for Co-Founders" },
+  { file: "Corporate Minutes Template", who: "Aya Wei", why: "Reference for formatting. A pre-filled version (separate docx) is already created, but see the original for what the professor expects.", priority: "MEDIUM" },
+  { file: "Quincy Convertible Note Financing slides", who: "Everyone", why: "How Quincy's funding works — convertible notes, ownership structure, bridge loan mechanics. Helps understand the financial stakes.", priority: "MEDIUM" },
+];
+
+const PPT_SLIDES = [
+  { id: 1, title: "Title + Team & Roles", content: "Team name, member names, which stakeholder each person plays, meeting date" },
+  { id: 2, title: "Process & Pre-Meeting Dynamics", content: "Timeline of pre-flight meetings, how co-founders agreed on proposals, lobbying dynamics, what happened before the meeting" },
+  { id: 3, title: "All Stakeholder Positions", content: "Sharon (Christina — preserve mission) vs. Sharad (Alex — cut complexity) vs. Aya (Ken — Angel view) vs. David (Ben — VC pressure). What was the co-founders' joint proposal?" },
+  { id: 4, title: "The Debate & Key Moments", content: "What was contested? Disagreements? Compromises? How were Robert's Rules applied? Any dramatic moments?" },
+  { id: 5, title: "Final Resolutions & Vote Tallies", content: "Each resolution with exact wording, vote count (in favor / against / abstain), result. Are they actionable and measurable?" },
+  { id: 6, title: "Next Steps & Next Board Meeting", content: "Follow-up actions, milestones, when the next meeting will be held, what topics will be covered" },
+  { id: 7, title: "Governance Analysis", content: "How were our board rules applied? What worked / didn't work? Changes highlighted in the governance rules update" },
+  { id: 8, title: "Learnings & Reflections", content: "What would we do differently? Key takeaways about board dynamics, negotiation, stakeholder management" },
+];
+
+const tabs = ["Task Board", "Pre-Flights", "Refreshers", "Reading List", "PPT & Slides"];
+
+function App() {
+  const [activeTab, setActiveTab] = useState(0);
+  const [slideClaims, setSlideClaims] = useState({});
+  const [claimInput, setClaimInput] = useState({});
+  const [pfEdit, setPfEdit] = useState({});
+
+  const handleSlideClaim = (slideId) => {
+    const name = claimInput[slideId];
+    if (name && name.trim()) {
+      setSlideClaims(prev => ({ ...prev, [slideId]: name.trim() }));
+      setClaimInput(prev => ({ ...prev, [slideId]: "" }));
+    }
+  };
+
+  return (
+    <div style={{ fontFamily: "'Newsreader', Georgia, serif", background: "#faf9f7", minHeight: "100vh", color: "#1a1a1a" }}>
+      <div style={{ background: "linear-gradient(135deg, #1e293b 0%, #334155 100%)", color: "#fff", padding: "28px 20px 20px" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", opacity: 0.5, marginBottom: 6 }}>
+            Assignment 4 · Venture Governance · CMU Spring 2026
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 4px", fontFamily: "'DM Sans', sans-serif" }}>
+            Quincy Apparel — Mock Board Meeting
+          </h1>
+          <p style={{ fontSize: 13, opacity: 0.6, margin: "0 0 14px" }}>
+            Board Meeting: <strong style={{ opacity: 1 }}>Monday Apr 13, 1:00–1:30 PM</strong> · Due: Sunday Apr 19 11:59 PM PT
+          </p>
+          <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+            {TEAM.map(t => (
+              <div key={t.name} style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,0.08)", borderRadius: 5, padding: "4px 8px" }}>
+                <span style={{ fontSize: 10 }}>{t.emoji}</span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600 }}>{t.name}</span>
+                <span style={{ fontSize: 10, opacity: 0.5 }}>→ {t.role}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 780, margin: "0 auto", padding: "0 20px" }}>
+        <div style={{ display: "flex", gap: 2, overflowX: "auto", padding: "14px 0 0", borderBottom: "1px solid #e2e0dc" }}>
+          {tabs.map((t, i) => (
+            <button key={i} onClick={() => setActiveTab(i)} style={{
+              fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: activeTab === i ? 700 : 500,
+              padding: "7px 12px", border: "none", borderBottom: activeTab === i ? "2px solid #1e293b" : "2px solid transparent",
+              background: "transparent", cursor: "pointer", color: activeTab === i ? "#1e293b" : "#94a3b8", whiteSpace: "nowrap",
+            }}>{t}</button>
+          ))}
+        </div>
+
+        <div style={{ padding: "20px 0 48px" }}>
+          {activeTab === 0 && <TaskBoard />}
+          {activeTab === 1 && <PreFlightTab pfEdit={pfEdit} setPfEdit={setPfEdit} />}
+          {activeTab === 2 && <RefreshersTab />}
+          {activeTab === 3 && <ReadingList />}
+          {activeTab === 4 && <PPTTab slideClaims={slideClaims} claimInput={claimInput} setClaimInput={setClaimInput} onClaim={handleSlideClaim} />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoBox({ children, color = "#fffbeb", border = "#fbbf24" }) {
+  return (
+    <div style={{ background: color, border: `1px solid ${border}`, borderRadius: 8, padding: "10px 14px", marginBottom: 16, fontFamily: "'DM Sans', sans-serif", fontSize: 12, lineHeight: 1.6 }}>
+      {children}
+    </div>
+  );
+}
+
+function TaskBoard() {
+  return (
+    <div>
+      <InfoBox>
+        <strong>How this works:</strong> Named tasks are role-required. <span style={{ background: "#dbeafe", padding: "1px 5px", borderRadius: 3, fontWeight: 600 }}>⚡ CLAIM ME</span> tasks are open — grab what you like and tell the group chat!
+      </InfoBox>
+      {PHASES.map((phase, pi) => {
+        const phaseTasks = TASKS.filter(t => t.phase === pi);
+        if (!phaseTasks.length) return null;
+        return (
+          <div key={pi} style={{ marginBottom: 20 }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 700, color: phase.color, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 4 }}>
+              {phase.label}
+            </div>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#94a3b8", marginBottom: 8 }}>{phase.range}</div>
+            {phaseTasks.map(task => (
+              <div key={task.id} style={{ background: "#fff", border: "1px solid #e5e3df", borderRadius: 8, padding: "12px 14px", marginBottom: 6, borderLeft: `3px solid ${phase.color}` }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{task.title}</div>
+                    <div style={{ fontSize: 12, lineHeight: 1.6, color: "#475569", marginBottom: 4 }}>{task.description}</div>
+                    <div style={{ fontSize: 11, color: "#64748b", fontStyle: "italic", lineHeight: 1.5 }}><strong>Why:</strong> {task.why}</div>
+                  </div>
+                  <div style={{ textAlign: "right", flexShrink: 0, minWidth: 85 }}>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, color: "#94a3b8", marginBottom: 3 }}>{task.deadline}</div>
+                    <div style={{
+                      fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600,
+                      background: task.assignedTo.includes("CLAIM") ? "#dbeafe" : "#f1f5f9",
+                      color: task.assignedTo.includes("CLAIM") ? "#2563eb" : "#475569",
+                      padding: "2px 6px", borderRadius: 3, display: "inline-block",
+                    }}>{task.assignedTo}</div>
+                    {task.points && <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#f59e0b", fontWeight: 700, marginTop: 3 }}>{task.points}</div>}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function PreFlightTab({ pfEdit, setPfEdit }) {
+  const updatePf = (id, field, val) => setPfEdit(prev => ({ ...prev, [`${id}-${field}`]: val }));
+  const getPf = (id, field) => pfEdit[`${id}-${field}`] || "";
+
+  return (
+    <div>
+      <InfoBox>
+        <strong>Pre-flight meetings</strong> = 1:1 lobbying sessions IN CHARACTER before the board meeting. Negotiate, find allies, and test your arguments. <strong>Finish all pre-flights by Sunday Apr 12!</strong>
+      </InfoBox>
+      <InfoBox color="#f0fdf4" border="#86efac">
+        <strong>Suggested pairings:</strong> Co-founders (Sharon + Sharad — required for board deck anyway), Investor-side (Aya + David), Cross-camp (Sharon + David to test VC pushback, Sharad + Aya to explore compromise).
+      </InfoBox>
+      {PREFLIGHTS.map(pf => (
+        <div key={pf.id} style={{ background: "#fff", border: "1px solid #e5e3df", borderRadius: 8, padding: "12px 14px", marginBottom: 8 }}>
+          {pf.locked ? (
+            <div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 700, color: "#059669", marginBottom: 4 }}>
+                ✓ Meeting #{pf.id}: {pf.person1} ↔ {pf.person2}
+              </div>
+              <div style={{ fontSize: 12, color: "#475569" }}><strong>When:</strong> {pf.time}</div>
+              <div style={{ fontSize: 12, color: "#475569" }}><strong>Topic:</strong> {pf.topic}</div>
+            </div>
+          ) : (
+            <div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 8 }}>
+                Meeting #{pf.id} — <span style={{ color: "#2563eb" }}>Fill me in!</span>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 6 }}>
+                <input placeholder="Person 1" value={getPf(pf.id, "p1")} onChange={e => updatePf(pf.id, "p1", e.target.value)}
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, padding: "6px 8px", border: "1px solid #e2e0dc", borderRadius: 4 }} />
+                <input placeholder="Person 2" value={getPf(pf.id, "p2")} onChange={e => updatePf(pf.id, "p2", e.target.value)}
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, padding: "6px 8px", border: "1px solid #e2e0dc", borderRadius: 4 }} />
+              </div>
+              <input placeholder="When? (e.g., Apr 12, 2:00 PM)" value={getPf(pf.id, "time")} onChange={e => updatePf(pf.id, "time", e.target.value)}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, padding: "6px 8px", border: "1px solid #e2e0dc", borderRadius: 4, width: "100%", marginBottom: 6, boxSizing: "border-box" }} />
+              <input placeholder="Topic / what to discuss" value={getPf(pf.id, "topic")} onChange={e => updatePf(pf.id, "topic", e.target.value)}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, padding: "6px 8px", border: "1px solid #e2e0dc", borderRadius: 4, width: "100%", boxSizing: "border-box" }} />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function RefreshersTab() {
+  const [open, setOpen] = useState(null);
+  return (
+    <div>
+      <InfoBox>Forgotten what these terms mean after a few weeks? Tap any card to refresh. No need to dig through old slides!</InfoBox>
+      {REFRESHERS.map((item, i) => (
+        <div key={i} onClick={() => setOpen(open === i ? null : i)} style={{ background: "#fff", border: "1px solid #e5e3df", borderRadius: 8, padding: "12px 14px", marginBottom: 6, cursor: "pointer" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 13 }}>{item.term}</div>
+            <span style={{ fontSize: 16, color: "#94a3b8", transform: open === i ? "rotate(45deg)" : "none", transition: "transform 0.2s", flexShrink: 0 }}>+</span>
+          </div>
+          {open === i && (
+            <div style={{ marginTop: 8, fontSize: 12, lineHeight: 1.7, color: "#475569", borderTop: "1px solid #f1f5f9", paddingTop: 8, whiteSpace: "pre-line" }}>
+              {item.explanation}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ReadingList() {
+  const pc = { ESSENTIAL: "#dc2626", HIGH: "#f59e0b", MEDIUM: "#3b82f6" };
+  return (
+    <div>
+      <InfoBox>Files you should read (or re-read) before the meeting. Focus on <strong style={{ color: "#dc2626" }}>ESSENTIAL</strong> first — you can't wing the meeting without knowing the case and your own position!</InfoBox>
+      {FILES_TO_READ.map((f, i) => (
+        <div key={i} style={{ background: "#fff", border: "1px solid #e5e3df", borderRadius: 8, padding: "12px 14px", marginBottom: 6 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{f.file}</div>
+              <div style={{ fontSize: 12, color: "#475569", lineHeight: 1.6, marginBottom: 3 }}><strong>Who should read:</strong> {f.who}</div>
+              <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.5, fontStyle: "italic" }}>{f.why}</div>
+            </div>
+            <div style={{
+              fontFamily: "'DM Sans', sans-serif", fontSize: 9, fontWeight: 700,
+              background: `${pc[f.priority]}15`, color: pc[f.priority],
+              padding: "2px 7px", borderRadius: 3, whiteSpace: "nowrap", flexShrink: 0,
+            }}>{f.priority}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PPTTab({ slideClaims, claimInput, setClaimInput, onClaim }) {
+  return (
+    <div>
+      <InfoBox>
+        <strong>10 pts — our biggest deliverable!</strong> 8 slides, 2 per person. Claim your slides below by typing your name and clicking Claim. <strong>Work on slides AFTER the board meeting</strong> (Mon Apr 13) — you'll need real outcomes.
+      </InfoBox>
+      <InfoBox color="#f0fdf4" border="#86efac">
+        <strong>Presentation plan:</strong> Each person presents their own 2 slides. ~1.25 min per slide = 10 min total. Rehearse together before Monday Apr 20 class!
+      </InfoBox>
+      {PPT_SLIDES.map(slide => {
+        const claimed = slideClaims[slide.id];
+        return (
+          <div key={slide.id} style={{ background: "#fff", border: "1px solid #e5e3df", borderRadius: 8, padding: "12px 14px", marginBottom: 6 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 13, marginBottom: 3 }}>
+                  Slide {slide.id}: {slide.title}
+                </div>
+                <div style={{ fontSize: 12, color: "#475569", lineHeight: 1.6 }}>{slide.content}</div>
+              </div>
+              <div style={{ flexShrink: 0, textAlign: "right" }}>
+                {claimed ? (
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 700, background: "#dcfce7", color: "#059669", padding: "4px 10px", borderRadius: 4 }}>
+                    ✓ {claimed}
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", gap: 4 }}>
+                    <input placeholder="Your name" value={claimInput[slide.id] || ""}
+                      onChange={e => setClaimInput(prev => ({ ...prev, [slide.id]: e.target.value }))}
+                      style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, padding: "4px 6px", border: "1px solid #e2e0dc", borderRadius: 4, width: 80 }} />
+                    <button onClick={() => onClaim(slide.id)} style={{
+                      fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600,
+                      background: "#2563eb", color: "#fff", border: "none", borderRadius: 4,
+                      padding: "4px 10px", cursor: "pointer", whiteSpace: "nowrap",
+                    }}>Claim</button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

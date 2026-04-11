@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/resume", "destination": "/resume.html" }
+    { "source": "/resume", "destination": "/resume.html" },
+    { "source": "/temporary", "destination": "/temporary.html" }
   ],
   "headers": [
     {
