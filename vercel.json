@@ -1,8 +1,5 @@
 {
-  "rewrites": [
-    { "source": "/resume", "destination": "/resume.html" },
-    { "source": "/temporary", "destination": "/temporary.html" }
-  ],
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/resume.tex",
