@@ -254,6 +254,27 @@
     width: 100%;
     display: block;
   }
+  .build-video {
+    margin: 20px 0 8px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 14px 48px rgba(0,0,0,0.45);
+  }
+  .build-video video {
+    width: 100%;
+    display: block;
+  }
+  .build-video-caption {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    text-align: center;
+    margin: 0 0 20px;
+  }
   p.video-credit {
     font-family: 'Tenor Sans', sans-serif;
     font-size: 11px;
@@ -410,6 +431,11 @@
       <p class="card-summary" style="margin-bottom: 22px;">
         TurtleTalk is a voice-chat companion that helps children reframe hard moments and build deeper connection with their parents — kids talk to Shelly the sea turtle, get warm voice replies, and earn brave missions that turn into weekly conversation starters at the dinner table.
       </p>
+
+      <div class="card-video build-video">
+        <video src="_assets/media/Demo.MP4" controls preload="metadata" playsinline></video>
+      </div>
+      <p class="build-video-caption">Concept walkthrough &mdash; the experience we defined for TurtleTalk (not a shipped build).</p>
 
       <div class="card-tabs">
         <button class="card-tab active" data-tab="framing">Problem Framing</button>
