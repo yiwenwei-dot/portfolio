@@ -1,5 +1,12 @@
 {
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/turtletalk.html",
+      "has": [{ "type": "host", "value": "www.turtletalk.io" }]
+    }
+  ],
   "headers": [
     {
       "source": "/resume.tex",
