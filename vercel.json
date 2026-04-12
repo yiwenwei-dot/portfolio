@@ -1,15 +1,11 @@
 {
   "cleanUrls": true,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
-      "destination": "/turtletalk.html",
-      "has": [{ "type": "host", "value": "www\\.turtletalk\\.io" }]
-    },
-    {
-      "source": "/index.html",
-      "destination": "/turtletalk.html",
-      "has": [{ "type": "host", "value": "www\\.turtletalk\\.io" }]
+      "destination": "/turtletalk",
+      "permanent": false,
+      "has": [{ "type": "host", "value": "www.turtletalk.io" }]
     }
   ],
   "headers": [
