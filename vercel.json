@@ -4,7 +4,12 @@
     {
       "source": "/",
       "destination": "/turtletalk.html",
-      "has": [{ "type": "host", "value": "www.turtletalk.io" }]
+      "has": [{ "type": "host", "value": "www\\.turtletalk\\.io" }]
+    },
+    {
+      "source": "/index.html",
+      "destination": "/turtletalk.html",
+      "has": [{ "type": "host", "value": "www\\.turtletalk\\.io" }]
     }
   ],
   "headers": [
