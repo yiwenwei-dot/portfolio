@@ -137,14 +137,24 @@ function isDueSoon(dueDate) {
   return diff >= 0 && diff <= 3;
 }
 
+function loadState(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch { return fallback; }
+}
+function usePersisted(key, fallback) {
+  const [val, setVal] = useState(() => loadState(key, fallback));
+  React.useEffect(() => { localStorage.setItem(key, JSON.stringify(val)); }, [key, val]);
+  return [val, setVal];
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState(0);
-  const [slideClaims, setSlideClaims] = useState({});
+  const [slideClaims, setSlideClaims] = usePersisted("qb_slideClaims", {});
   const [claimInput, setClaimInput] = useState({});
-  const [pfEdit, setPfEdit] = useState({});
-  const [taskClaims, setTaskClaims] = useState({});
+  const [pfEdit, setPfEdit] = usePersisted("qb_pfEdit", {});
+  const [taskClaims, setTaskClaims] = usePersisted("qb_taskClaims", {});
   const [taskClaimInput, setTaskClaimInput] = useState({});
-  const [completedTasks, setCompletedTasks] = useState({});
+  const [completedTasks, setCompletedTasks] = usePersisted("qb_completedTasks", {});
 
   const toggleTask = (taskId) => {
     setCompletedTasks(prev => ({ ...prev, [taskId]: !prev[taskId] }));
