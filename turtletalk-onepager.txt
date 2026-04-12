@@ -1,0 +1,155 @@
+TURTLETALK
+A voice-first AI companion that helps kids ages 5-10 talk through feelings,
+and turns those conversations into warm offline moments with their parents.
+
+================================================================================
+THE PROBLEM
+================================================================================
+1 in 5 U.S. children ages 3-17 has a diagnosable mental, emotional, or
+behavioral disorder (CDC). Post-pandemic rates of childhood anxiety climbed
+roughly 25-30%. Yet access to support is broken:
+
+  - Child therapy wait times in most U.S. cities: 3-9 months
+  - Out-of-pocket cost: $100-300 per session
+  - Parents ask "How was school?" and get "Fine." — the single most common
+    failure mode of parent-child communication in the 5-10 age bracket
+  - Every "kids app" on the market is built on the wrong loop: passive
+    screen time, flashy graphics, addictive engagement — the exact opposite
+    of what a struggling child actually needs
+
+The gap we attack: there is no product today that a parent can hand to their
+child in a hard moment that (a) actually listens, (b) is emotionally safe,
+and (c) brings the parent back INTO the conversation instead of replacing them.
+
+================================================================================
+THE SOLUTION
+================================================================================
+TurtleTalk is a voice-first companion shaped like Tammy, a sea turtle.
+
+  - Kids TALK to Tammy in natural conversation about anything on their mind
+  - Tammy REFLECTS with warm voice replies, gentle reframes, and age-
+    appropriate stories — never judgment, never scripts that feel canned
+  - Each session generates a "brave mission" (e.g., "tomorrow, say hi to
+    someone new") that turns feelings into small real-world action
+  - Parents get a weekly digest + one soft prompt at dinner:
+    "Ask her about the quiet kid in art class." That's it. No dashboards
+    full of transcripts. The goal is bridge-building, not surveillance.
+
+We are not building a therapist. We are building the tiny, patient friend
+every kid wishes they had — one that pushes them back toward their parents,
+not away.
+
+================================================================================
+WHY NOW — TECHNICAL PLAUSIBILITY
+================================================================================
+TurtleTalk was impossible 18 months ago. Three things just changed:
+
+  1. Low-latency voice AI is finally natural
+     Sub-500ms end-to-end response times are now reliably achievable via
+     LiveKit Agents, Vapi, and Gemini Live. Kids disengage above ~800ms;
+     we are finally below that threshold.
+
+  2. LLM safety tooling matured
+     Constitutional AI, structured outputs, response filtering, and
+     provider-level safety tiers now make it possible to deploy a
+     conversational AI to children with defensible guardrails.
+
+  3. TTS crossed the "warmth" threshold
+     ElevenLabs and competitors now produce child-friendly voices that
+     carry emotion — not robotic, not uncanny. Trust is a voice problem
+     before it is a content problem.
+
+================================================================================
+HOW IT WORKS
+================================================================================
+Frontend:     Next.js + TypeScript, React Three Fiber for 3D Tammy
+Voice:        Pluggable pipeline — LiveKit Agents (primary), Vapi, Gemini
+              Live — so we A/B-test latency and naturalness without rewrites
+LLM:          Claude / GPT / Gemini routed via LangChain with strict
+              system prompts + hybrid scripted fallbacks for high-risk topics
+Safety:       Three-layer — prompt constraints, live response filtering,
+              and an async human review queue for flagged conversations
+TTS:          ElevenLabs (child-friendly, expressive, low-latency)
+Backend:      Supabase — child auth, mission ledger, weekly reports,
+              parent dashboard, row-level privacy
+Deploy:       Vercel + serverless functions
+
+The hardest engineering problem is NOT generating good replies — it is
+knowing when to STOP generating freely and defer to curated, scripted
+content. We treat that boundary as a first-class product surface.
+
+================================================================================
+WHAT'S NOVEL — THE MOAT
+================================================================================
+  1. Hybrid AI + scripted architecture for emotional safety, not pure LLM.
+     This is a technical choice most competitors refuse to make because it
+     is harder to build — and it is exactly what makes us defensible to
+     parents, regulators, and schools.
+
+  2. The "mission" loop converts conversations into offline family action.
+     Every interaction ends pointing AWAY from the app. This is the
+     opposite of the attention economy and precisely why parents will trust
+     us.
+
+  3. Brand-as-character. Tammy is not a skin on a chatbot. The turtle
+     shape, voice, and mannerisms are designed to carry emotional transfer
+     the way a plush toy does — a research-backed pattern from child
+     psychology that pure AI assistants cannot replicate.
+
+  4. Under-served age band. Ages 5-10 sit in a gap: too old for toddler
+     apps, too young for teen mental-health tools. Every major player is
+     either above or below us.
+
+================================================================================
+MARKET
+================================================================================
+  U.S. children ages 5-10:              ~25 million
+  Global children ages 5-10:            ~700 million
+  U.S. parent spending on child
+  emotional wellness (2024):            $8B+, growing ~15% YoY
+  Children's mental health app market:  $2.5B today, $6B projected by 2030
+
+  SAM (U.S. engaged parents):           ~$800M ARR at $10/mo × 2% penetration
+  Wedge:                                40,000 paying families by month 18
+
+================================================================================
+TRACTION
+================================================================================
+  - Working voice prototype shipped during a 4-week sprint at Founders Inc.
+  - Voice pipeline live across three providers; latency benchmarked
+  - Design validated through two SME interviews — one on EdTech trust
+    models (U.S. vs. China), one on special-education stress-testing —
+    and multiple parent conversations
+  - Concept walkthrough video and parent dashboard mockup ready for demo
+  - Domain, brand, and core IP in place
+
+================================================================================
+TEAM
+================================================================================
+  Yiwen "Aya" Wei — Product & design lead. Carnegie Mellon. Background in
+  product discovery, user research, and shipping early-stage consumer
+  prototypes. Built TurtleTalk's voice pipeline, interview synthesis, and
+  end-to-end product architecture.
+
+  [Technical co-founder / collaborators — to be added]
+
+================================================================================
+THE ASK
+================================================================================
+We are raising a pre-seed round to run an 8-week closed beta with 50
+families, validate the weekly-mission retention loop, and harden the
+three-layer safety stack to a point where we can onboard schools.
+
+What we want from this hackathon:
+  - Investor conversations with funds focused on family, edtech, and
+    applied AI
+  - Advisor intros in child psychology and pediatric mental health
+  - Feedback from judges on our safety architecture
+
+================================================================================
+CONTACT
+================================================================================
+  Yiwen "Aya" Wei
+  aya@turtletalk.io
+  turtletalk.io  |  yiwen.bio
+
