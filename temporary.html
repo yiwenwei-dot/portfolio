@@ -34,38 +34,40 @@ const PREFLIGHTS = [
 ];
 
 const TASKS = [
-  { id: 1, phase: 0, deadline: "By Apr 11", title: "Send Board Meeting Notice to team", assignedTo: "Aya Wei", required: true, points: "Part of 4 pts",
+  { id: 1, phase: 0, deadline: "By Apr 11", dueDate: "2026-04-11", title: "Send Board Meeting Notice to team", assignedTo: "Aya Wei", required: true, points: "Part of 4 pts",
     description: "Send the official meeting notice (docx provided separately). Just fill in location and send.", why: "Graded deliverable. Angel (Ken Landis = Aya) must lead this." },
-  { id: 2, phase: 0, deadline: "By Apr 12", title: "Co-Founders draft joint resolutions & Board Deck", assignedTo: "Sharon Yu + Sharad Kumar", required: true, points: "4 pts",
+  { id: 2, phase: 0, deadline: "By Apr 12", dueDate: "2026-04-12", title: "Co-Founders draft joint resolutions & Board Deck", assignedTo: "Sharon Yu + Sharad Kumar", required: true, points: "4 pts",
     description: "Meet as co-founders. Agree on what to propose (bridge loan, sizing, restructuring). Build Working Session slides using the NextView Board Deck Template from Canvas.", why: "Graded deliverable #2. Must be done BEFORE the board meeting." },
-  { id: 3, phase: 0, deadline: "By Sun Apr 12", title: "Complete all pre-flight 1:1 meetings (in character!)", assignedTo: "Everyone", required: true, points: "Part of 10 pts",
+  { id: 3, phase: 0, deadline: "By Sun Apr 12", dueDate: "2026-04-12", title: "Complete all pre-flight 1:1 meetings (in character!)", assignedTo: "Everyone", required: true, points: "Part of 10 pts",
     description: "Meet individually with other board members IN CHARACTER to negotiate and lobby. Fill in the pre-flight schedule on the Pre-Flight tab. Finish all meetings before Monday!", why: "Rubric asks about your pre-meeting process. This is where the drama happens." },
-  { id: 13, phase: 0, deadline: "By Sat Apr 12 evening", title: "Circulate Board Deck to all members (24h before meeting)", assignedTo: "Sharon Yu + Sharad Kumar", required: true, points: "Part of 4 pts",
+  { id: 13, phase: 0, deadline: "By Sat Apr 12 evening", dueDate: "2026-04-12", title: "Circulate Board Deck to all members (24h before meeting)", assignedTo: "Sharon Yu + Sharad Kumar", required: true, points: "Part of 4 pts",
     description: "Per governance rules, pre-read materials must be circulated at least 24 hours before the meeting. Send the deck to everyone by Saturday evening.", why: "Required by our own governance rules in §7. Shows we follow our procedures." },
-  { id: 14, phase: 0, deadline: "By Apr 12", title: "Print/prepare Robert's Rules cheat sheet for the meeting", assignedTo: "⚡ CLAIM ME", required: false, points: "—",
+  { id: 14, phase: 0, deadline: "By Apr 12", dueDate: "2026-04-12", title: "Print/prepare Robert's Rules cheat sheet for the meeting", assignedTo: "⚡ CLAIM ME", required: false, points: "—",
     description: "Print the Roberts Rules cheat sheet (uploaded to Canvas) so we have it handy during the meeting. Helps whoever chairs.", why: "Small task but saves time during the meeting." },
-  { id: 15, phase: 0, deadline: "By Apr 12", title: "Prepare a phone/laptop for video recording", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 1 pt",
+  { id: 15, phase: 0, deadline: "By Apr 12", dueDate: "2026-04-12", title: "Prepare a phone/laptop for video recording", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 1 pt",
     description: "Make sure we have a device ready to record the meeting. Test audio beforehand. We need 3-5 minutes of clear video showing our voting.", why: "The video is a separate graded deliverable." },
+  { id: 16, phase: 0, deadline: "By Apr 12", dueDate: "2026-04-12", title: "Claim your 2 PPT slides on the PPT & Slides tab", assignedTo: "Aya Wei", required: true, points: "Part of 10 pts",
+    description: "Go to the PPT & Slides tab and claim your 2 slides NOW so everyone knows who's doing what. Don't wait until after the meeting to figure out ownership.", why: "The 8-slide PowerPoint is worth 10 pts — our biggest deliverable. Claiming early avoids last-minute confusion and lets you take notes during the meeting with your slides in mind." },
 
-  { id: 4, phase: 1, deadline: "Mon Apr 13, 1:00 PM", title: "Chair & run the Board Meeting", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 4 pts",
+  { id: 4, phase: 1, deadline: "Mon Apr 13, 1:00 PM", dueDate: "2026-04-13", title: "Chair & run the Board Meeting", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 4 pts",
     description: "Call to order, manage motions/seconds/votes using Robert's Rules, keep us on time (30 min). See Refreshers tab for the quick-reference flow.", why: "Per governance rules, Chair is elected by majority vote. Decide who chairs before Monday." },
-  { id: 5, phase: 1, deadline: "Mon Apr 13", title: "Record meeting minutes (Secretary)", assignedTo: "Aya Wei", required: true, points: "Part of 4 pts",
+  { id: 5, phase: 1, deadline: "Mon Apr 13", dueDate: "2026-04-13", title: "Record meeting minutes (Secretary)", assignedTo: "Aya Wei", required: true, points: "Part of 4 pts",
     description: "Take live notes using the pre-filled Minutes template (separate docx). Capture motions, debates, vote tallies.", why: "Assignment says Angel = Secretary. Template already has our names filled in." },
-  { id: 6, phase: 1, deadline: "During meeting", title: "Record 3-5 min video of voting", assignedTo: "⚡ CLAIM ME", required: false, points: "1 pt",
+  { id: 6, phase: 1, deadline: "During meeting", dueDate: "2026-04-13", title: "Record 3-5 min video of voting", assignedTo: "⚡ CLAIM ME", required: false, points: "1 pt",
     description: "Film the team voting on one or more resolutions. Capture: who introduces it, brief debate, vote count, outcome announcement. Audio must be clear!", why: "Separate graded deliverable worth 1 point." },
 
-  { id: 7, phase: 2, deadline: "By Apr 15", title: "Finalize minutes & get 4 signatures", assignedTo: "Aya Wei (leads), everyone signs", required: true, points: "Part of 4 pts",
+  { id: 7, phase: 2, deadline: "By Apr 15", dueDate: "2026-04-15", title: "Finalize minutes & get 4 signatures", assignedTo: "Aya Wei (leads), everyone signs", required: true, points: "Part of 4 pts",
     description: "Clean up the minutes, circulate, get all 4 team members to sign/approve.", why: "Minutes must be 'approved by all team members.'" },
-  { id: 8, phase: 2, deadline: "By Apr 16", title: "Update Governance Rules (yellow highlights)", assignedTo: "David Ma", required: true, points: "1 pt",
+  { id: 8, phase: 2, deadline: "By Apr 16", dueDate: "2026-04-16", title: "Update Governance Rules (yellow highlights)", assignedTo: "David Ma", required: true, points: "1 pt",
     description: "Update our existing governance rules doc based on what worked/didn't work. Highlight changes in yellow. Add brief reasoning for each change.", why: "Assignment says VC1 (David) leads this." },
-  { id: 9, phase: 2, deadline: "By Apr 18", title: "Build 8-slide PowerPoint (claim slides on PPT tab!)", assignedTo: "Everyone — 2 slides each", required: true, points: "10 pts (!)",
+  { id: 9, phase: 2, deadline: "By Apr 18", dueDate: "2026-04-18", title: "Build 8-slide PowerPoint (claim slides on PPT tab!)", assignedTo: "Everyone — 2 slides each", required: true, points: "10 pts (!)",
     description: "Biggest deliverable. Claim your 2 slides on the PPT & Slides tab. Work on slides AFTER the board meeting so you have real content to present.", why: "10 out of 20 total points. Start after the meeting when you have actual outcomes to report." },
-  { id: 10, phase: 2, deadline: "By Apr 17", title: "Edit & trim the board meeting video", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 1 pt",
+  { id: 10, phase: 2, deadline: "By Apr 17", dueDate: "2026-04-17", title: "Edit & trim the board meeting video", assignedTo: "⚡ CLAIM ME", required: false, points: "Part of 1 pt",
     description: "Quick trim. Ensure audio works, video is 3-5 minutes, shows voting clearly.", why: "Just a quick edit, nothing fancy." },
 
-  { id: 11, phase: 3, deadline: "Apr 18-19", title: "Team rehearsal of 10-min presentation", assignedTo: "Everyone", required: true, points: "Part of 10 pts",
+  { id: 11, phase: 3, deadline: "Apr 18-19", dueDate: "2026-04-19", title: "Team rehearsal of 10-min presentation", assignedTo: "Everyone", required: true, points: "Part of 10 pts",
     description: "Practice the full presentation. Time it (10 min hard limit). Prep for 5 min Q&A. Students who didn't lead the Assignment 1 pitch should lead this readout.", why: "Professor wants to hear from everyone. Practice = confidence." },
-  { id: 12, phase: 3, deadline: "Apr 19 by 11:59 PM PT", title: "Submit all deliverables to Canvas", assignedTo: "⚡ CLAIM ME", required: false, points: "—",
+  { id: 12, phase: 3, deadline: "Apr 19 by 11:59 PM PT", dueDate: "2026-04-19", title: "Submit all deliverables to Canvas", assignedTo: "⚡ CLAIM ME", required: false, points: "—",
     description: "Upload: (1) Board Meeting Notice, (2) Board Deck excerpt, (3) Meeting Minutes, (4) PowerPoint, (5) Updated Governance Rules, (6) Video. NO EXCEPTIONS on deadline!", why: "Someone needs to own the final upload." },
 ];
 
@@ -74,6 +76,18 @@ const PHASES = [
   { label: "Phase 2: Board Meeting", color: "#7c3aed", range: "Mon Apr 13, 1:00–1:30 PM" },
   { label: "Phase 3: After Meeting", color: "#059669", range: "Mon Apr 13 — Fri Apr 18" },
   { label: "Phase 4: Submit & Present", color: "#dc2626", range: "Apr 18–20 (Due Apr 19 11:59 PM)" },
+];
+
+const DELIVERABLES = [
+  { name: "Board Meeting Notice", points: "Part of 4 pts", deadline: "Apr 11", dueDate: "2026-04-11", defaultOwner: "Aya Wei", relatedTaskIds: [1] },
+  { name: "Board Deck (Working Session Slides)", points: "4 pts", deadline: "Apr 12", dueDate: "2026-04-12", defaultOwner: "Sharon Yu + Sharad Kumar", relatedTaskIds: [2, 13] },
+  { name: "Pre-Flight 1:1 Meetings (all completed)", points: "Part of 10 pts", deadline: "Apr 12", dueDate: "2026-04-12", defaultOwner: "Everyone", relatedTaskIds: [3] },
+  { name: "Meeting Minutes (signed by all 4)", points: "Part of 4 pts", deadline: "Apr 15", dueDate: "2026-04-15", defaultOwner: "Aya Wei", relatedTaskIds: [5, 7] },
+  { name: "Updated Governance Rules (yellow highlights)", points: "1 pt", deadline: "Apr 16", dueDate: "2026-04-16", defaultOwner: "David Ma", relatedTaskIds: [8] },
+  { name: "Board Meeting Video (3-5 min)", points: "1 pt", deadline: "Apr 17", dueDate: "2026-04-17", defaultOwner: "⚡ Unclaimed", relatedTaskIds: [6, 10, 15] },
+  { name: "8-Slide PowerPoint Presentation", points: "10 pts (!)", deadline: "Apr 18", dueDate: "2026-04-18", defaultOwner: "Everyone — 2 slides each", relatedTaskIds: [9] },
+  { name: "Team Rehearsal", points: "Part of 10 pts", deadline: "Apr 18-19", dueDate: "2026-04-19", defaultOwner: "Everyone", relatedTaskIds: [11] },
+  { name: "Final Canvas Submission (all files)", points: "—", deadline: "Apr 19 11:59 PM PT", dueDate: "2026-04-19", defaultOwner: "⚡ Unclaimed", relatedTaskIds: [12] },
 ];
 
 const REFRESHERS = [
@@ -111,19 +125,51 @@ const PPT_SLIDES = [
   { id: 8, title: "Learnings & Reflections", content: "What would we do differently? Key takeaways about board dynamics, negotiation, stakeholder management" },
 ];
 
-const tabs = ["Task Board", "Pre-Flights", "Refreshers", "Reading List", "PPT & Slides"];
+const tabs = ["Task Board", "Pre-Flights", "Refreshers", "Reading List", "PPT & Slides", "Deliverables"];
+
+function isDueSoon(dueDate) {
+  if (!dueDate) return false;
+  const today = new Date("2026-04-11");
+  const due = new Date(dueDate);
+  const diff = (due - today) / (1000 * 60 * 60 * 24);
+  return diff >= 0 && diff <= 3;
+}
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [slideClaims, setSlideClaims] = useState({});
   const [claimInput, setClaimInput] = useState({});
   const [pfEdit, setPfEdit] = useState({});
+  const [taskClaims, setTaskClaims] = useState({});
+  const [taskClaimInput, setTaskClaimInput] = useState({});
+  const [completedTasks, setCompletedTasks] = useState({});
+
+  const toggleTask = (taskId) => {
+    setCompletedTasks(prev => ({ ...prev, [taskId]: !prev[taskId] }));
+  };
+
+  const toggleDeliverable = (relatedTaskIds) => {
+    const allDone = relatedTaskIds.every(id => completedTasks[id]);
+    setCompletedTasks(prev => {
+      const next = { ...prev };
+      relatedTaskIds.forEach(id => { next[id] = !allDone; });
+      return next;
+    });
+  };
 
   const handleSlideClaim = (slideId) => {
     const name = claimInput[slideId];
     if (name && name.trim()) {
       setSlideClaims(prev => ({ ...prev, [slideId]: name.trim() }));
       setClaimInput(prev => ({ ...prev, [slideId]: "" }));
+    }
+  };
+
+  const handleTaskClaim = (taskId) => {
+    const name = taskClaimInput[taskId];
+    if (name && name.trim()) {
+      setTaskClaims(prev => ({ ...prev, [taskId]: name.trim() }));
+      setTaskClaimInput(prev => ({ ...prev, [taskId]: "" }));
     }
   };
 
@@ -164,11 +210,12 @@ function App() {
         </div>
 
         <div style={{ padding: "20px 0 48px" }}>
-          {activeTab === 0 && <TaskBoard />}
+          {activeTab === 0 && <TaskBoard taskClaims={taskClaims} taskClaimInput={taskClaimInput} setTaskClaimInput={setTaskClaimInput} onTaskClaim={handleTaskClaim} completedTasks={completedTasks} toggleTask={toggleTask} />}
           {activeTab === 1 && <PreFlightTab pfEdit={pfEdit} setPfEdit={setPfEdit} />}
           {activeTab === 2 && <RefreshersTab />}
           {activeTab === 3 && <ReadingList />}
           {activeTab === 4 && <PPTTab slideClaims={slideClaims} claimInput={claimInput} setClaimInput={setClaimInput} onClaim={handleSlideClaim} />}
+          {activeTab === 5 && <DeliverablesTab taskClaims={taskClaims} completedTasks={completedTasks} toggleDeliverable={toggleDeliverable} />}
         </div>
       </div>
     </div>
@@ -183,11 +230,12 @@ function InfoBox({ children, color = "#fffbeb", border = "#fbbf24" }) {
   );
 }
 
-function TaskBoard() {
+function TaskBoard({ taskClaims, taskClaimInput, setTaskClaimInput, onTaskClaim, completedTasks, toggleTask }) {
   return (
     <div>
       <InfoBox>
-        <strong>How this works:</strong> Named tasks are role-required. <span style={{ background: "#dbeafe", padding: "1px 5px", borderRadius: 3, fontWeight: 600 }}>⚡ CLAIM ME</span> tasks are open — grab what you like and tell the group chat!
+        <strong>How this works:</strong> Named tasks are role-required. <span style={{ background: "#dbeafe", padding: "1px 5px", borderRadius: 3, fontWeight: 600 }}>⚡ CLAIM ME</span> tasks are open — type your name and click Claim!
+        <br /><span style={{ background: "rgba(220,38,38,0.10)", padding: "1px 5px", borderRadius: 3 }}>Red-highlighted</span> tasks are unclaimed and due within 3 days — grab them before it's too late!
       </InfoBox>
       {PHASES.map((phase, pi) => {
         const phaseTasks = TASKS.filter(t => t.phase === pi);
@@ -198,27 +246,68 @@ function TaskBoard() {
               {phase.label}
             </div>
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#94a3b8", marginBottom: 8 }}>{phase.range}</div>
-            {phaseTasks.map(task => (
-              <div key={task.id} style={{ background: "#fff", border: "1px solid #e5e3df", borderRadius: 8, padding: "12px 14px", marginBottom: 6, borderLeft: `3px solid ${phase.color}` }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{task.title}</div>
-                    <div style={{ fontSize: 12, lineHeight: 1.6, color: "#475569", marginBottom: 4 }}>{task.description}</div>
-                    <div style={{ fontSize: 11, color: "#64748b", fontStyle: "italic", lineHeight: 1.5 }}><strong>Why:</strong> {task.why}</div>
-                  </div>
-                  <div style={{ textAlign: "right", flexShrink: 0, minWidth: 85 }}>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, color: "#94a3b8", marginBottom: 3 }}>{task.deadline}</div>
-                    <div style={{
-                      fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600,
-                      background: task.assignedTo.includes("CLAIM") ? "#dbeafe" : "#f1f5f9",
-                      color: task.assignedTo.includes("CLAIM") ? "#2563eb" : "#475569",
-                      padding: "2px 6px", borderRadius: 3, display: "inline-block",
-                    }}>{task.assignedTo}</div>
-                    {task.points && <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#f59e0b", fontWeight: 700, marginTop: 3 }}>{task.points}</div>}
+            {phaseTasks.map(task => {
+              const isClaimable = task.assignedTo.includes("CLAIM");
+              const claimed = taskClaims[task.id];
+              const isDone = !!completedTasks[task.id];
+              const isUrgent = isClaimable && !claimed && !isDone && isDueSoon(task.dueDate);
+              return (
+                <div key={task.id} style={{
+                  background: isDone ? "#f8faf8" : isUrgent ? "rgba(220, 38, 38, 0.08)" : "#fff",
+                  border: isUrgent ? "1px solid rgba(220, 38, 38, 0.25)" : "1px solid #e5e3df",
+                  borderRadius: 8, padding: "12px 14px", marginBottom: 6,
+                  borderLeft: `3px solid ${isDone ? "#94a3b8" : isUrgent ? "#dc2626" : phase.color}`,
+                  opacity: isDone ? 0.65 : 1,
+                }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                    <input type="checkbox" checked={isDone} onChange={() => toggleTask(task.id)}
+                      style={{ marginTop: 2, cursor: "pointer", accentColor: "#059669", flexShrink: 0, width: 16, height: 16 }} />
+                    <div style={{ flex: 1, textDecoration: isDone ? "line-through" : "none", color: isDone ? "#94a3b8" : "inherit" }}>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 13, marginBottom: 3 }}>
+                        {task.title}
+                        {isUrgent && <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, fontWeight: 700, color: "#dc2626", marginLeft: 6, verticalAlign: "middle" }}>DUE SOON</span>}
+                      </div>
+                      <div style={{ fontSize: 12, lineHeight: 1.6, color: isDone ? "#94a3b8" : "#475569", marginBottom: 4 }}>{task.description}</div>
+                      <div style={{ fontSize: 11, color: isDone ? "#b0b8c4" : "#64748b", fontStyle: "italic", lineHeight: 1.5 }}><strong>Why:</strong> {task.why}</div>
+                    </div>
+                    <div style={{ textAlign: "right", flexShrink: 0, minWidth: 110 }}>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, color: "#94a3b8", marginBottom: 3 }}>{task.deadline}</div>
+                      {isClaimable && !claimed ? (
+                        <div>
+                          <div style={{ display: "flex", gap: 4, justifyContent: "flex-end", marginBottom: 3 }}>
+                            <input placeholder="Your name" value={taskClaimInput[task.id] || ""}
+                              onChange={e => setTaskClaimInput(prev => ({ ...prev, [task.id]: e.target.value }))}
+                              onKeyDown={e => { if (e.key === "Enter") onTaskClaim(task.id); }}
+                              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, padding: "4px 6px", border: "1px solid #e2e0dc", borderRadius: 4, width: 80 }} />
+                            <button onClick={() => onTaskClaim(task.id)} style={{
+                              fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600,
+                              background: "#2563eb", color: "#fff", border: "none", borderRadius: 4,
+                              padding: "4px 10px", cursor: "pointer", whiteSpace: "nowrap",
+                            }}>Claim</button>
+                          </div>
+                          <div style={{
+                            fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600,
+                            background: "#dbeafe", color: "#2563eb",
+                            padding: "2px 6px", borderRadius: 3, display: "inline-block",
+                          }}>⚡ CLAIM ME</div>
+                        </div>
+                      ) : isClaimable && claimed ? (
+                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 700, background: "#dcfce7", color: "#059669", padding: "4px 10px", borderRadius: 4, display: "inline-block" }}>
+                          ✓ {claimed}
+                        </div>
+                      ) : (
+                        <div style={{
+                          fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600,
+                          background: "#f1f5f9", color: "#475569",
+                          padding: "2px 6px", borderRadius: 3, display: "inline-block",
+                        }}>{task.assignedTo}</div>
+                      )}
+                      {task.points && <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#f59e0b", fontWeight: 700, marginTop: 3 }}>{task.points}</div>}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         );
       })}
@@ -360,6 +449,104 @@ function PPTTab({ slideClaims, claimInput, setClaimInput, onClaim }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function DeliverablesTab({ taskClaims, completedTasks, toggleDeliverable }) {
+  return (
+    <div>
+      <InfoBox>
+        <strong>All graded deliverables at a glance.</strong> Check off a deliverable to mark all its related tasks as done (and vice versa). <span style={{ background: "rgba(220,38,38,0.10)", padding: "1px 5px", borderRadius: 3 }}>Red rows</span> have unclaimed tasks — go claim them!
+      </InfoBox>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "'DM Sans', sans-serif", fontSize: 12 }}>
+          <thead>
+            <tr style={{ borderBottom: "2px solid #1e293b" }}>
+              <th style={{ width: 32, padding: "8px 6px" }}></th>
+              <th style={{ textAlign: "left", padding: "8px 10px", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "#64748b" }}>Deliverable</th>
+              <th style={{ textAlign: "left", padding: "8px 10px", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "#64748b" }}>Owner</th>
+              <th style={{ textAlign: "left", padding: "8px 10px", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "#64748b" }}>Deadline</th>
+              <th style={{ textAlign: "center", padding: "8px 10px", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "#64748b" }}>Points</th>
+              <th style={{ textAlign: "center", padding: "8px 10px", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "#64748b" }}>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {DELIVERABLES.map((d, i) => {
+              const relatedTasks = d.relatedTaskIds.map(id => TASKS.find(t => t.id === id));
+              const claimableTasks = relatedTasks.filter(t => t && t.assignedTo.includes("CLAIM"));
+              const hasUnclaimed = claimableTasks.some(t => !taskClaims[t.id]);
+              const allClaimed = claimableTasks.length > 0 && claimableTasks.every(t => taskClaims[t.id]);
+              const allTasksDone = d.relatedTaskIds.every(id => completedTasks[id]);
+
+              let owner = d.defaultOwner;
+              if (claimableTasks.length > 0) {
+                const claimedNames = claimableTasks
+                  .filter(t => taskClaims[t.id])
+                  .map(t => taskClaims[t.id]);
+                if (allClaimed) {
+                  const combined = new Set();
+                  relatedTasks.forEach(t => {
+                    if (t.assignedTo.includes("CLAIM")) {
+                      combined.add(taskClaims[t.id]);
+                    } else {
+                      t.assignedTo.split(/[+,&]/).map(s => s.trim()).filter(Boolean).forEach(n => {
+                        if (!n.includes("everyone") && !n.includes("Everyone") && !n.includes("leads")) combined.add(n);
+                      });
+                    }
+                  });
+                  if (combined.size > 0) owner = Array.from(combined).join(" + ");
+                } else if (claimedNames.length > 0) {
+                  owner = d.defaultOwner.replace("⚡ Unclaimed", "") + (d.defaultOwner.includes("⚡ Unclaimed") ? claimedNames.join(" + ") : " + " + claimedNames.join(" + "));
+                }
+              }
+
+              const isUrgentRow = hasUnclaimed && !allTasksDone && isDueSoon(d.dueDate);
+
+              return (
+                <tr key={i} style={{
+                  borderBottom: "1px solid #e5e3df",
+                  background: allTasksDone ? "#f8faf8" : isUrgentRow ? "rgba(220, 38, 38, 0.08)" : (i % 2 === 0 ? "#fff" : "#faf9f7"),
+                  opacity: allTasksDone ? 0.65 : 1,
+                }}>
+                  <td style={{ padding: "8px 6px", textAlign: "center" }}>
+                    <input type="checkbox" checked={allTasksDone} onChange={() => toggleDeliverable(d.relatedTaskIds)}
+                      style={{ cursor: "pointer", accentColor: "#059669", width: 15, height: 15 }} />
+                  </td>
+                  <td style={{ padding: "10px", fontWeight: 600, textDecoration: allTasksDone ? "line-through" : "none", color: allTasksDone ? "#94a3b8" : "inherit" }}>{d.name}</td>
+                  <td style={{ padding: "10px", textDecoration: allTasksDone ? "line-through" : "none" }}>
+                    {allTasksDone ? (
+                      <span style={{ color: "#94a3b8" }}>{owner}</span>
+                    ) : hasUnclaimed ? (
+                      <span style={{ color: "#dc2626", fontWeight: 600 }}>{owner}</span>
+                    ) : (
+                      <span style={{ color: "#059669", fontWeight: 500 }}>{owner}</span>
+                    )}
+                  </td>
+                  <td style={{ padding: "10px", whiteSpace: "nowrap", textDecoration: allTasksDone ? "line-through" : "none", color: allTasksDone ? "#94a3b8" : "inherit" }}>{d.deadline}</td>
+                  <td style={{ padding: "10px", textAlign: "center" }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: allTasksDone ? "#94a3b8" : "#f59e0b" }}>{d.points}</span>
+                  </td>
+                  <td style={{ padding: "10px", textAlign: "center" }}>
+                    {allTasksDone ? (
+                      <span style={{ fontSize: 10, fontWeight: 600, background: "#dcfce7", color: "#059669", padding: "2px 8px", borderRadius: 3 }}>✓ Done</span>
+                    ) : claimableTasks.length === 0 ? (
+                      <span style={{ fontSize: 10, fontWeight: 600, background: "#f1f5f9", color: "#475569", padding: "2px 8px", borderRadius: 3 }}>Assigned</span>
+                    ) : allClaimed ? (
+                      <span style={{ fontSize: 10, fontWeight: 600, background: "#dcfce7", color: "#059669", padding: "2px 8px", borderRadius: 3 }}>✓ Claimed</span>
+                    ) : (
+                      <span style={{ fontSize: 10, fontWeight: 600, background: "#fee2e2", color: "#dc2626", padding: "2px 8px", borderRadius: 3 }}>Needs Owner</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ marginTop: 16, fontSize: 11, color: "#94a3b8", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6 }}>
+        Tip: Checking a deliverable marks all its related tasks as done on the <strong>Task Board</strong>. Checking individual tasks there will auto-complete the deliverable when all are done.
+      </div>
     </div>
   );
 }
