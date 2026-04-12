@@ -10,6 +10,7 @@
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -137,24 +138,53 @@ function isDueSoon(dueDate) {
   return diff >= 0 && diff <= 3;
 }
 
-function loadState(key, fallback) {
-  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
-  catch { return fallback; }
-}
-function usePersisted(key, fallback) {
-  const [val, setVal] = useState(() => loadState(key, fallback));
-  React.useEffect(() => { localStorage.setItem(key, JSON.stringify(val)); }, [key, val]);
-  return [val, setVal];
+const supabase = window.supabase.createClient(
+  "https://urcfczrpapelqypawobw.supabase.co",
+  "sb_publishable_kKDnAEdg8oW_-4yofSbazA_FQ0uUxsl"
+);
+
+const { useEffect, useRef, useCallback } = React;
+
+function useSupabaseState(key, fallback) {
+  const [val, setVal] = useState(fallback);
+  const [loaded, setLoaded] = useState(false);
+  const skipNextSync = useRef(false);
+
+  useEffect(() => {
+    supabase.from("quincy_state").select("value").eq("key", key).single()
+      .then(({ data }) => { if (data) setVal(data.value); setLoaded(true); });
+  }, [key]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    const ch = supabase.channel("realtime_" + key)
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "quincy_state", filter: "key=eq." + key },
+        (payload) => { if (!skipNextSync.current) setVal(payload.new.value); skipNextSync.current = false; })
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [key, loaded]);
+
+  const setAndSync = useCallback((updater) => {
+    setVal(prev => {
+      const next = typeof updater === "function" ? updater(prev) : updater;
+      skipNextSync.current = true;
+      supabase.from("quincy_state").update({ value: next, updated_at: new Date().toISOString() }).eq("key", key).then();
+      return next;
+    });
+  }, [key]);
+
+  return [val, setAndSync, loaded];
 }
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
-  const [slideClaims, setSlideClaims] = usePersisted("qb_slideClaims", {});
+  const [slideClaims, setSlideClaims, scLoaded] = useSupabaseState("slideClaims", {});
   const [claimInput, setClaimInput] = useState({});
-  const [pfEdit, setPfEdit] = usePersisted("qb_pfEdit", {});
-  const [taskClaims, setTaskClaims] = usePersisted("qb_taskClaims", {});
+  const [pfEdit, setPfEdit, pfLoaded] = useSupabaseState("pfEdit", {});
+  const [taskClaims, setTaskClaims, tcLoaded] = useSupabaseState("taskClaims", {});
   const [taskClaimInput, setTaskClaimInput] = useState({});
-  const [completedTasks, setCompletedTasks] = usePersisted("qb_completedTasks", {});
+  const [completedTasks, setCompletedTasks, ctLoaded] = useSupabaseState("completedTasks", {});
+  const allLoaded = scLoaded && pfLoaded && tcLoaded && ctLoaded;
 
   const toggleTask = (taskId) => {
     setCompletedTasks(prev => ({ ...prev, [taskId]: !prev[taskId] }));
@@ -184,6 +214,12 @@ function App() {
       setTaskClaimInput(prev => ({ ...prev, [taskId]: "" }));
     }
   };
+
+  if (!allLoaded) return (
+    <div style={{ fontFamily: "'DM Sans', sans-serif", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", background: "#faf9f7", color: "#94a3b8", fontSize: 14 }}>
+      Loading board...
+    </div>
+  );
 
   return (
     <div style={{ fontFamily: "'Newsreader', Georgia, serif", background: "#faf9f7", minHeight: "100vh", color: "#1a1a1a" }}>
