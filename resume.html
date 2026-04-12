@@ -173,7 +173,15 @@
       box-shadow: none;
       font-size: 12pt;
     }
-    .toolbar { top: 8px; right: 8px; }
+    .toolbar {
+      position: static;
+      top: auto;
+      right: auto;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 10px 8px;
+      background: transparent;
+    }
     .header { flex-direction: column; gap: 4pt; }
     .header-right { text-align: left; padding-top: 0; }
     .entry-row, .entry-sub { flex-direction: column; }
