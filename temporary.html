@@ -252,7 +252,7 @@ function TaskBoard({ taskClaims, taskClaimInput, setTaskClaimInput, onTaskClaim,
               const isClaimable = task.assignedTo.includes("CLAIM");
               const claimed = taskClaims[task.id];
               const isDone = !!completedTasks[task.id];
-              const isUrgent = isClaimable && !claimed && !isDone && isDueSoon(task.dueDate);
+              const isUrgent = !isDone && isDueSoon(task.dueDate);
               return (
                 <div key={task.id} style={{
                   background: isDone ? "#f8faf8" : isUrgent ? "rgba(220, 38, 38, 0.08)" : "#fff",
@@ -503,7 +503,7 @@ function DeliverablesTab({ taskClaims, completedTasks, toggleDeliverable }) {
                 }
               }
 
-              const isUrgentRow = hasUnclaimed && !allTasksDone && isDueSoon(d.dueDate);
+              const isUrgentRow = !allTasksDone && isDueSoon(d.dueDate);
 
               return (
                 <tr key={i} style={{
