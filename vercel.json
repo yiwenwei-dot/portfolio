@@ -1,13 +1,5 @@
 {
   "cleanUrls": true,
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/turtletalk",
-      "permanent": false,
-      "has": [{ "type": "host", "value": "www.turtletalk.io" }]
-    }
-  ],
   "headers": [
     {
       "source": "/resume.tex",
