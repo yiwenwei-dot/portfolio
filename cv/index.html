@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CV - Yiwen Wei</title>
+  <meta name="description" content="Curriculum Vitae of Yiwen Wei - Product Engineer and Educator at Carnegie Mellon University.">
+  <link rel="shortcut icon" href="../_assets/images/2d0b56e7e51cf11036ad8734bdb67e2d.png">
+  <link rel="icon" href="../_assets/images/e53c4bd8da5e491d9ab09e7cf0daf874.png" sizes="192x192">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'EB Garamond', 'Times New Roman', Georgia, serif;
+      font-size: 11pt;
+      line-height: 1.35;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 8.5in;
+      margin: 0.5in auto;
+      background: #fff;
+      padding: 0.55in 0.65in;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0; padding: 0.5in 0.6in; box-shadow: none; }
+      .no-print { display: none !important; }
+    }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 6px; }
+    .header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 24pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      color: #1a1a1a;
+    }
+    .contact-info {
+      font-size: 10pt;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+    }
+    .contact-info a {
+      color: #1a4a8a;
+      text-decoration: none;
+    }
+    .contact-info a:hover { text-decoration: underline; }
+    .contact-info .sep { color: #999; }
+
+    /* Section */
+    .section { margin-top: 10px; }
+    .section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 13pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #1a3d6e;
+      border-bottom: 1.5px solid #1a3d6e;
+      padding-bottom: 2px;
+      margin-bottom: 6px;
+      letter-spacing: 0.8px;
+    }
+
+    /* Entry (education, experience) */
+    .entry { margin-bottom: 7px; }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .entry-title {
+      font-weight: 700;
+      font-size: 11pt;
+    }
+    .entry-location {
+      font-style: italic;
+      color: #444;
+      font-size: 10.5pt;
+    }
+    .entry-subtitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .entry-degree {
+      font-style: italic;
+      font-size: 10.5pt;
+    }
+    .entry-date {
+      font-size: 10.5pt;
+      color: #444;
+      white-space: nowrap;
+    }
+
+    ul {
+      margin-left: 18px;
+      margin-top: 2px;
+    }
+    ul li {
+      margin-bottom: 2px;
+      text-align: justify;
+    }
+    ul li::marker {
+      color: #1a3d6e;
+    }
+
+    /* Projects */
+    .project-entry { margin-bottom: 5px; }
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .project-title {
+      font-weight: 700;
+      font-size: 10.5pt;
+    }
+    .project-title a {
+      color: #1a4a8a;
+      text-decoration: none;
+    }
+    .project-title a:hover { text-decoration: underline; }
+    .project-meta {
+      font-size: 10pt;
+      color: #444;
+      white-space: nowrap;
+    }
+    .project-desc {
+      font-size: 10.5pt;
+      margin-top: 1px;
+      text-align: justify;
+    }
+
+    /* Awards */
+    .award-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+      gap: 4px;
+    }
+    .award-title { font-size: 10.5pt; }
+    .award-meta {
+      font-size: 10pt;
+      color: #444;
+      white-space: nowrap;
+    }
+
+    /* Skills */
+    .skills-list { font-size: 10.5pt; }
+    .skills-list li { margin-bottom: 2px; }
+
+    b, strong { font-weight: 700; }
+
+    .diamond {
+      color: #1a3d6e;
+      margin-right: 3px;
+    }
+
+    @media screen and (max-width: 700px) {
+      .page { padding: 0.4in 0.35in; margin: 0; }
+      .entry-header, .entry-subtitle, .project-header, .award-entry {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Yiwen Wei</h1>
+    <div class="contact-info">
+      <span>Mountain View, CA</span>
+      <span class="sep">|</span>
+      <span>626-649-1408</span>
+      <span class="sep">|</span>
+      <a href="mailto:yiwenwei@andrew.cmu.edu">yiwenwei@andrew.cmu.edu</a>
+      <span class="sep">|</span>
+      <a href="https://linkedin.com/in/yiwen-wei/" target="_blank">linkedin.com/in/yiwen-wei/</a>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Carnegie Mellon University</span>
+        <span class="entry-location">Mountain View, CA</span>
+      </div>
+      <div class="entry-subtitle">
+        <span class="entry-degree">Master of Science in Software Management</span>
+        <span class="entry-date">Aug 2025 &ndash; Dec 2026</span>
+      </div>
+      <ul>
+        <li><strong>GPA:</strong> 3.89/4.0</li>
+        <li><strong>Curriculum Plan:</strong> Product Management, Foundations of Software Management, Integrated Thinking for Innovation, Problem Discovery and Definition, Product &amp; Business Modeling, Solution Strategy &amp; Marketing, Process &amp; Project Management, Software Engineering Management, Introduction to Deep Learning, etc.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">City Institute, Dalian University of Technology</span>
+        <span class="entry-location">Dalian, Liaoning, China</span>
+      </div>
+      <div class="entry-subtitle">
+        <span class="entry-degree">Bachelor of Information Management and Information Systems</span>
+        <span class="entry-date"></span>
+      </div>
+      <ul>
+        <li><strong>GPA:</strong> 3.94/4.0 &nbsp;&nbsp; <strong>Major Rank:</strong> Top 1 (Accelerated Degree: Completed 4-year program in 3 years)</li>
+        <li><strong>Honors and Awards:</strong> Honored Graduate of Dalian City; Merit Student of Liaoning Province (Top 0.3%); Merit Student of Dalian City (Top 0.5%); National Scholarship (Top 1%).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PROFESSIONAL EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">Professional Experience</div>
+
+    <!-- TurtleTalk at top -->
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Product Engineer</span>
+        <span class="entry-location">Mountain View, CA</span>
+      </div>
+      <div class="entry-subtitle">
+        <span class="entry-degree">TurtleTalk &mdash; Founders, Inc. Accelerator</span>
+        <span class="entry-date">Feb 2026 &ndash; Mar 2026</span>
+      </div>
+      <ul>
+        <li>Led product discovery through Jobs-to-Be-Done (JTBD) research and value proposition design, translating user insights into a clear product strategy aligned with market needs.</li>
+        <li>Defined system architecture and data flows, making technical decisions on stack selection, API design, and integration patterns to support rapid prototyping.</li>
+        <li>Shipped a functional prototype website within 4 weeks, coordinating cross-functional efforts from concept through deployment at the Founders, Inc. accelerator.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Computer Science Teacher</span>
+        <span class="entry-location">Yichang, China</span>
+      </div>
+      <div class="entry-subtitle">
+        <span class="entry-degree">Yichang Experimental Primary School (Top Public Primary School in Yichang City)</span>
+        <span class="entry-date">Aug 2014 &ndash; Sep 2023</span>
+      </div>
+      <ul>
+        <li><strong>AI Educator Excellence:</strong> Achieved Outstanding Rating (top 10%) in a nationwide AI educator training program involving 1,500+ participants, demonstrating advanced capability in AI developing tools and principles.</li>
+        <li><strong>EdTech Innovation Leadership:</strong> Taught ESP32 through a Dual-Teacher Instruction Platform integrated in school, enhancing learning experiences and improving student engagement by 30%+, showcased via a nationwide teacher livestream; Conducted live training for 2,000+ teachers in a city-level teacher&rsquo;s IT Training Program, focusing on technology integration strategies.</li>
+        <li><strong>Learning Process Design Recognition:</strong> Awarded First Prize twice in the Hubei Provincial Teacher Education and Information Exchange Activity for innovative technology-integrated learning design. Won First Place in the Yichang Gamified Teaching Resource Development Competition by creating an interactive learning module adopted in Miniaixue software.</li>
+        <li><strong>Student Competition Success:</strong> Recognized as provincial-level Outstanding Competition Mentor for multiple years in the Hubei Provincial Primary and Secondary School Computer Production Activities. Guided projects covering maker, robotics, computational thinking, and AI categories. In 2022, mentored two students whose creative coding projects won national awards (two out of four primary school nominations in Hubei Province).</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">English Teacher</span>
+        <span class="entry-location"></span>
+      </div>
+      <div class="entry-subtitle">
+        <span class="entry-degree">Rise Subject English, Beijing Flagship School (Listed Company)</span>
+        <span class="entry-date"></span>
+      </div>
+      <ul>
+        <li>Awarded third place (3/90+) in the Flagship School Annual Teaching Competition, demonstrating exceptional teaching abilities.</li>
+        <li>Mentored new teachers on lesson preparation and classroom management techniques.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-title">Projects</div>
+
+    <div class="project-entry">
+      <div class="project-header">
+        <span class="project-title">TurtleTalk &mdash; End-to-End Product Development</span>
+        <span class="project-meta">Feb 2026 &ndash; Mar 2026 &nbsp;|&nbsp; San Francisco, CA</span>
+      </div>
+      <div class="project-desc">Led product discovery through JTBD research and value proposition design, defined system architecture and data flows, and shipped a functional prototype website during 4 weeks at accelerator Founders, Inc.</div>
+    </div>
+
+    <div class="project-entry">
+      <div class="project-header">
+        <span class="project-title">Stakeholder &amp; Macro Environment Analysis for EdTech Case Study (CMU)</span>
+        <span class="project-meta">Sep 2025 &ndash; Nov 2025 &nbsp;|&nbsp; Mountain View, CA</span>
+      </div>
+    </div>
+
+    <div class="project-entry">
+      <div class="project-header">
+        <span class="project-title">Subject Matter Expert Interviews on EdTech in U.S. and China (CMU)</span>
+        <span class="project-meta">Sep 2025 &ndash; Nov 2025 &nbsp;|&nbsp; Mountain View, CA</span>
+      </div>
+    </div>
+
+    <div class="project-entry">
+      <div class="project-header">
+        <span class="project-title">Tattle Turtle &mdash; A Classroom-Scale Emotional Safety System</span>
+        <span class="project-meta">Jan 2025 &nbsp;|&nbsp; Mountain View, CA</span>
+      </div>
+      <div class="project-desc">Developed (as PM) an AI IoT classroom companion and analysis system using an MCP-based AI agent, ESP32/Tuya T5 board, and cloud services to triage student concerns into actionable teacher insights without exposing individual data.</div>
+    </div>
+
+    <div class="project-entry">
+      <div class="project-header">
+        <span class="project-title"><a href="https://share.descript.com/view/YHdNzBe8q7b" target="_blank">Autonomous Driving Simulation Workshop (CMU)</a></span>
+        <span class="project-meta">2025 &nbsp;|&nbsp; Mountain View, CA</span>
+      </div>
+      <div class="project-desc">Co-led a workshop open to the general public on CARLA-based autonomous driving simulation, introducing fundamentals of perception systems, sensors, path planning, and 3D environment modeling integrated with Unreal Engine, culminating in a simulated driving experience as the coursework final report for Software Engineering Management.</div>
+    </div>
+
+    <div class="project-entry">
+      <div class="project-header">
+        <span class="project-title"><a href="https://www.openinnolab.org.cn/pjlab/project?id=63d8da549bd420342591c7d1&sc=63797fc77300080be72c0525" target="_blank">Head-Down Pedestrian Detection System (Computer Vision)</a></span>
+        <span class="project-meta">Jan 2023 &ndash; Feb 2023 &nbsp;|&nbsp; Yichang, China</span>
+      </div>
+      <div class="project-desc">Built a real-time object detection application using YOLO, PyTorch, and OpenCV to detect pedestrians using phones at crosswalks and trigger warning signals to improve road safety.</div>
+    </div>
+
+    <div class="project-entry">
+      <div class="project-header">
+        <span class="project-title">Gamified Coding Learning Module</span>
+        <span class="project-meta">Aug 2021</span>
+      </div>
+      <div class="project-desc">Designed a gamified coding learning module adopted in Miniaixue software.</div>
+    </div>
+  </div>
+
+  <!-- AWARDS & HONORS -->
+  <div class="section">
+    <div class="section-title">Awards &amp; Honors</div>
+
+    <div class="award-entry">
+      <span class="award-title">Lablab.ai Hackathon Google DeepMind Challenge &mdash; <strong>2nd Place</strong></span>
+      <span class="award-meta">Mar 2026 &nbsp;|&nbsp; San Francisco, CA</span>
+    </div>
+    <div class="award-entry">
+      <span class="award-title">HackStorm AIoT Hackathon &mdash; <strong>3rd Place</strong></span>
+      <span class="award-meta">Jan 2026 &nbsp;|&nbsp; Mountain View, CA</span>
+    </div>
+    <div class="award-entry">
+      <span class="award-title">First Prize (&times;2), Hubei Provincial Teacher Education and Information Exchange Activity</span>
+      <span class="award-meta">Hubei, China</span>
+    </div>
+    <div class="award-entry">
+      <span class="award-title">First Place, Yichang Gamified Teaching Resource Development Competition</span>
+      <span class="award-meta">Yichang, China</span>
+    </div>
+    <div class="award-entry">
+      <span class="award-title">Shanghai AI Laboratory Educator Training &mdash; <strong>Outstanding Certificate</strong></span>
+      <span class="award-meta">Shanghai, China</span>
+    </div>
+  </div>
+
+  <!-- SKILLS AND CERTIFICATES -->
+  <div class="section">
+    <div class="section-title">Skills &amp; Certificates</div>
+    <ul class="skills-list">
+      <li><strong>Featured Skills:</strong> Product Management, Philosophical Consulting, Writing &amp; Content Creating</li>
+      <li><strong>Technical Skills:</strong> Prompt Engineering, Python, AI IoT Integration, Raspberry Pi and ESP32 Basics, Self-driving Basics.</li>
+      <li><strong>Certificates:</strong> National Programmer Qualification Certificate (China); Coursera AI Certifications; Google CS First Certification; Shanghai AI Laboratory Educator Training Outstanding Certificate.</li>
+      <li><strong>Others:</strong> GRE: 330 (V:162 / Q:168 / AW:3.5) (2024.10) &nbsp;&nbsp; TOEFL: 105 (R:30 / L:27 / S:23 / W:25) (2025.2)</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
