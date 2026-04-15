@@ -165,6 +165,30 @@
     background: #f0f0f0;
   }
 
+  /* Award with meta */
+  .award-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: relative;
+    padding-left: 12pt;
+    margin-left: 14pt;
+    margin-bottom: 1.5pt;
+    font-size: 10pt;
+  }
+  .award-row::before {
+    content: '\2022';
+    position: absolute;
+    left: 0;
+    top: -1pt;
+  }
+  .award-meta {
+    font-size: 9pt;
+    color: #444;
+    white-space: nowrap;
+    margin-left: 8pt;
+  }
+
   @media (max-width: 900px) {
     .page {
       width: 100%;
@@ -185,6 +209,7 @@
     .header { flex-direction: column; gap: 4pt; }
     .header-right { text-align: left; padding-top: 0; }
     .entry-row, .entry-sub { flex-direction: column; }
+    .award-row { flex-direction: column; }
   }
 </style>
 </head>
@@ -222,11 +247,11 @@
       <span class="right">Mountain View, CA</span>
     </div>
     <div class="entry-sub">
-      <span>Master of Science in Software Management</span>
+      <span>Master of Science in Software Management &nbsp;|&nbsp; GPA: 3.89/4.0</span>
       <span>Aug 2025 &ndash; Dec 2026</span>
     </div>
     <div class="entry-detail">
-      <strong>Courses:</strong> Architecture &amp; Programming Principles, Venture Governance, Product Management, Problem Framing, Product &amp; Business Modeling, Solution Strategy &amp; Marketing, Process &amp; Project Management
+      <strong>Courses:</strong> Product Management, Problem Discovery and Definition, Product &amp; Business Modeling, Solution Strategy &amp; Marketing, Process &amp; Project Management, Software Engineering Management, Organizational Behavior, Business of Software Industry, Applied AI, Architecture &amp; Programming Principles, Venture Governance, etc.
     </div>
   </div>
 
@@ -236,7 +261,7 @@
       <span class="right">Liaoning, China</span>
     </div>
     <div class="entry-sub">
-      <span>Bachelor of Information Management and Information Systems; &nbsp;GPA: 3.94/4.0</span>
+      <span>Bachelor of Information Management and Information Systems &nbsp;|&nbsp; GPA: 3.94/4.0</span>
       <span></span>
     </div>
     <div class="entry-detail">
@@ -252,6 +277,21 @@
 
   <!-- Experience -->
   <h2>Experience</h2>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">Product Engineer</span>
+      <span class="right">San Francisco, CA</span>
+    </div>
+    <div class="entry-sub">
+      <span>TurtleTalk &mdash; Founders, Inc. Accelerator</span>
+    </div>
+    <ul>
+      <li><strong>Product Discovery:</strong> Led product discovery through Jobs-to-Be-Done (JTBD) research and value proposition design, translating user insights into a clear product strategy aligned with market needs.</li>
+      <li><strong>System Architecture:</strong> Defined system architecture and data flows, making technical decisions on stack selection, API design, and integration patterns to support rapid prototyping.</li>
+      <li><strong>Prototype Delivery:</strong> Shipped a functional prototype website within 4 weeks, coordinating cross-functional efforts from concept through deployment at the Founders, Inc. accelerator in San Francisco, CA.</li>
+    </ul>
+  </div>
 
   <div class="entry">
     <div class="entry-row">
@@ -285,27 +325,43 @@
 
   <!-- Projects -->
   <h2>Selected Projects</h2>
-  <div class="item"><strong>Stakeholder &amp; Macro Environment Analysis for EdTech (CMU):</strong> Conducted stakeholder mapping, macro environment analysis, and journey mapping for an EdTech company as part of the Integrated Thinking for Innovation course.</div>
-  <div class="item"><strong>SME Interviews: EdTech in U.S. vs. China (CMU):</strong> Interviewed subject matter experts to compare AI education product needs across U.S. and Chinese markets; synthesized insights into product recommendations.</div>
-  <div class="item"><strong>SME Interview: Special Education in the U.S.:</strong> Conducted expert interviews on building durable products for education by understanding extreme situations like special education; distilled findings on user needs and product longevity.</div>
-  <div class="item"><strong>TurtleTalk &mdash; End-to-End Product Development:</strong> Led product discovery through JTBD research and value proposition design, defined system architecture and data flows, and shipped a functional prototype website during 4 weeks at accelerator Founders, Inc.</div>
-  <div class="item"><strong>Autonomous Driving Simulation Workshop (CMU):</strong> Co-led a workshop on CARLA-based autonomous driving simulation, introducing perception systems, sensors and path planning, and 3D environment modeling integrated with Unreal Engine.</div>
-  <div class="item"><strong>Distracted Pedestrian Safety (Computer Vision):</strong> Built a real-time object detection application using YOLO, PyTorch, and OpenCV to detect pedestrians using phones at crosswalks and trigger warning signals to improve road safety.</div>
+  <div class="item"><strong><a href="https://turtletalk.io">TurtleTalk &mdash; End-to-End Product Development</a></strong> <em>(Feb 2026 &ndash; Mar 2026 | San Francisco, CA)</em>: Led product discovery through JTBD research and value proposition design, defined system architecture and data flows, and shipped a functional prototype website during 4 weeks at accelerator Founders, Inc.</div>
+  <div class="item"><strong><a href="https://share.descript.com/view/YHdNzBe8q7b">Autonomous Driving Simulation Workshop (CMU)</a></strong> <em>(Dec 2025 | Mountain View, CA)</em>: Co-led a workshop open to the general public on CARLA-based autonomous driving simulation, introducing fundamentals of perception systems, sensors, path planning, and 3D environment modeling integrated with Unreal Engine, culminating in a simulated driving experience as the coursework final report for Software Engineering Management.</div>
+  <div class="item"><strong><a href="https://www.openinnolab.org.cn/pjlab/project?id=63d8da549bd420342591c7d1&amp;sc=63797fc77300080be72c0525">Head-Down Pedestrian Detection System (Computer Vision)</a></strong> <em>(Jan 2023 &ndash; Feb 2023 | Yichang, China)</em>: Built a real-time object detection application using YOLO, PyTorch, and OpenCV to detect pedestrians using phones at crosswalks and trigger warning signals to improve road safety.</div>
+  <div class="item"><strong>Stakeholder &amp; Macro Environment Analysis for EdTech Case Study (CMU)</strong> <em>(Sep 2025 &ndash; Nov 2025 | Mountain View, CA)</em>: Conducted stakeholder mapping, macro environment analysis, and journey mapping for an EdTech company as part of the Integrated Thinking for Innovation course.</div>
+  <div class="item"><strong>Subject Matter Expert Interviews on EdTech in U.S. and China (CMU)</strong> <em>(Oct 2025 | Mountain View, CA)</em>: Interviewed subject matter experts to compare AI education product needs across U.S. and Chinese markets; synthesized insights into product recommendations.</div>
 
   <!-- Honors -->
   <h2>Honors and Awards</h2>
-  <ul class="dot">
-    <li>HackStorm AIoT Hackathon &mdash; 3rd Place</li>
-    <li>Lablab.ai Hackathon Google DeepMind Challenge &mdash; 2nd Place</li>
-    <li>First Prize (&times;2), Hubei Provincial Teacher Education and Information Exchange Activity</li>
-    <li>First Place, Yichang Gamified Teaching Resource Development Competition</li>
-    <li>Shanghai AI Laboratory Educator Training &mdash; Outstanding Certificate</li>
-  </ul>
+  <div class="award-row">
+    <span><strong>2nd Place</strong> &mdash; Lablab.ai Hackathon Google DeepMind Challenge</span>
+    <span class="award-meta">San Francisco, CA</span>
+  </div>
+  <div class="award-row">
+    <span><strong>3rd Place</strong> &mdash; HackStorm AIoT Hackathon</span>
+    <span class="award-meta">Mountain View, CA</span>
+  </div>
+  <div class="award-row">
+    <span><strong>Invited Judge</strong> &mdash; Student Computer Creation Competition</span>
+    <span class="award-meta">Yichang, China</span>
+  </div>
+  <div class="award-row">
+    <span><strong>First Prize (&times;2)</strong> &mdash; Hubei Provincial Teacher Education and Information Exchange Activity</span>
+    <span class="award-meta">Hubei, China</span>
+  </div>
+  <div class="award-row">
+    <span><strong>First Place</strong> &mdash; Yichang Gamified Teaching Resource Development Competition</span>
+    <span class="award-meta">Yichang, China</span>
+  </div>
+  <div class="award-row">
+    <span><strong>Outstanding Certificate</strong> &mdash; Shanghai AI Laboratory Educator Training</span>
+    <span class="award-meta">Shanghai, China</span>
+  </div>
 
   <!-- Test Scores -->
   <h2>Test Scores</h2>
   <ul class="dot">
-    <li>GRE: 330 (V162/Q168/AW3.5), 2024 &nbsp;&nbsp;|&nbsp;&nbsp; TOEFL: 105 (R30/L27/S23/W25), 2025</li>
+    <li>GRE: 330 (V162/Q168/AW3.5), 2024</li>
   </ul>
 
 </div>
