@@ -591,7 +591,7 @@
 
       var tooltip03 = document.createElement('div');
       tooltip03.className = 'glass-tooltip';
-      tooltip03.textContent = 'howaconfidentspeakeriscultivated.com';
+      tooltip03.textContent = 'talkandmakeproduct.com';
       document.body.appendChild(tooltip03);
 
       var el03Hovered = false;
@@ -634,7 +634,7 @@
 
       var tooltipTalk = document.createElement('div');
       tooltipTalk.className = 'glass-tooltip';
-      tooltipTalk.textContent = 'talkandmakeproduct.com';
+      tooltipTalk.textContent = 'howaspeakeriscultivated.com';
       document.body.appendChild(tooltipTalk);
 
       var talkHovered = false;
