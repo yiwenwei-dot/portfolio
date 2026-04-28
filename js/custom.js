@@ -495,7 +495,7 @@
 
       var tooltip = document.createElement('div');
       tooltip.className = 'glass-tooltip';
-      tooltip.textContent = 'integratedthinkingcasestudy.com';
+      tooltip.textContent = 'integratedthinkingtechnicalproject.com';
       document.body.appendChild(tooltip);
 
       var el01Hovered = false;
@@ -803,7 +803,7 @@
       'CMU': 'https://www.cmu.edu/iii/people/students/mssm.html',
       'technology': 'http://app.turtletalk.io/demo',
       'smile': 'smile.html',
-      '01': 'https://miro.com/app/board/uXjVJIPC90Y=/',
+      '01': 'https://www.openinnolab.org.cn/pjlab/project?id=63d8da549bd420342591c7d1&sc=63797fc77300080be72c0525',
       '02': 'teachingalive.html',
       '03': 'talk.html'
     };
@@ -821,13 +821,14 @@
         if (el.classList && el.classList.contains('xtSH_A')) {
           var word = el.textContent.trim();
           if (wordActions[word]) {
-            window.open(wordActions[word], '_self');
+            var target = wordActions[word].indexOf('http') === 0 ? '_blank' : '_self';
+            window.open(wordActions[word], target);
             return;
           }
         }
         // Check '01' container by ID
         if (el.id === 'LBNFnN3BBrtQ3sWG') {
-          window.open(wordActions['01'], '_self');
+          window.open(wordActions['01'], '_blank');
           return;
         }
         // Check '02' container by ID
@@ -854,7 +855,8 @@
           e.clientY >= rect.top &&
           e.clientY <= rect.bottom
         ) {
-          window.open(wordActions[word], '_self');
+          var t = wordActions[word].indexOf('http') === 0 ? '_blank' : '_self';
+          window.open(wordActions[word], t);
         }
       });
     });
