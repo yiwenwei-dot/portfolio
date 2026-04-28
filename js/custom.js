@@ -671,13 +671,13 @@
 
       // Click: direct + coordinate fallback
       elTalk.addEventListener('click', function () {
-        window.open('product.html', '_self');
+        window.open('talk.html', '_self');
       });
       document.addEventListener('click', function (e) {
         var rect = elTalk.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX <= rect.right &&
             e.clientY >= rect.top && e.clientY <= rect.bottom) {
-          window.open('product.html', '_self');
+          window.open('talk.html', '_self');
         }
       });
     }
@@ -805,7 +805,7 @@
       'smile': 'smile.html',
       '01': 'https://www.openinnolab.org.cn/pjlab/project?id=63d8da549bd420342591c7d1&sc=63797fc77300080be72c0525',
       '02': 'teachingalive.html',
-      '03': 'talk.html'
+      '03': 'product.html'
     };
 
     // Click handler: walk up from e.target to find an interactive word span or element
