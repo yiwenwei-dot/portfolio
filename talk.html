@@ -23,22 +23,23 @@
     text-align: center;
   }
   .hero h1 {
-    font-size: 10px;
-    letter-spacing: 5px;
+    font-size: 11px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: #555;
+    color: #ccc;
     margin-bottom: 16px;
   }
   .hero .question {
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 300;
     color: rgba(255,255,255,0.85);
     letter-spacing: 0.5px;
+    line-height: 1.35;
     opacity: 0;
     animation: fadeUp 1.2s ease forwards 0.3s;
   }
   .hero .hint {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #3a3a3a;
@@ -101,39 +102,54 @@
   }
 
   .tl-year {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #4a4a4a;
+    color: #888;
     margin-bottom: 6px;
   }
   .tl-title {
-    font-size: 15px;
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 6px;
+    font-size: 20px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 8px;
     line-height: 1.45;
     letter-spacing: 0.2px;
   }
   .tl-desc {
-    font-size: 12.5px;
+    font-size: 16px;
     line-height: 1.7;
-    color: #777;
+    color: #a4a4a4;
+  }
+  .tl-desc a {
+    color: #ccc;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .tl-desc a:hover {
+    color: #fff;
+    border-color: rgba(255,255,255,0.5);
   }
   .tl-img {
     margin-top: 12px;
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 2px 16px rgba(0,0,0,0.35);
+    width: 50%;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
+  }
+  .tl-img:hover {
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   }
   .tl-img img {
     width: 100%;
     display: block;
     opacity: 0.92;
-    transition: opacity 0.4s ease, transform 0.5s ease;
+    transition: opacity 0.4s ease;
   }
   .tl-img:hover img {
     opacity: 1;
-    transform: scale(1.02);
   }
 
   /* Footer */
@@ -155,7 +171,7 @@
   /* Mobile */
   @media (max-width: 768px) {
     .hero { padding: 72px 20px 36px; }
-    .hero .question { font-size: 22px; }
+    .hero .question { font-size: 26px; }
     .timeline {
       max-width: 100%;
       padding: 24px 20px 60px;
@@ -165,13 +181,16 @@
     }
     .timeline::before { left: 16px; }
     .tl-entry::before { left: 11px; }
+    .tl-img {
+      width: 100%;
+      transition: none;
+    }
   }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>I Talk</h1>
   <div class="question">How is a speaker cultivated?</div>
   <div class="hint">scroll to find out</div>
 </div>
@@ -208,7 +227,7 @@
   <div class="tl-entry">
     <div class="tl-year">May 2022</div>
     <div class="tl-title">IT Teacher Leadership Training &mdash; Livestream Instructor</div>
-    <div class="tl-desc">Served as a livestream instructor for the Yichang City IT Teacher Team Leadership Training, guiding 2,000+ teachers on technology integration strategies.</div>
+    <div class="tl-desc">Served as a livestream instructor for the Yichang City IT Teacher Team Leadership Training, guiding 2,000+ teachers on technology integration strategies. <a href="http://jyj.yichang.gov.cn/content-55650-309102-1.html" target="_blank" rel="noopener">Official report &rarr;</a></div>
     <div class="tl-img">
       <img src="_assets/images/I%20talk/5.JPG" alt="IT teacher leadership training livestream">
     </div>
@@ -220,6 +239,24 @@
     <div class="tl-desc">Appointed as a member of the Yichang City Master Teacher Studio for Educational Information Technology.</div>
     <div class="tl-img">
       <img src="_assets/images/I%20talk/4.jpg" alt="Master Teacher Studio certificate ceremony">
+    </div>
+  </div>
+
+  <div class="tl-entry">
+    <div class="tl-year">Jan 2026</div>
+    <div class="tl-title">3rd Place &mdash; HackStorm AIoT Hackathon</div>
+    <div class="tl-desc">Won 3rd place at the HackStorm AI + IoT Hackathon in Mountain View, building a hardware-integrated AI prototype alongside a cross-functional team.</div>
+    <div class="tl-img">
+      <img src="_assets/images/I%20talk/6.jpg" alt="HackStorm AIoT Hackathon 3rd place team">
+    </div>
+  </div>
+
+  <div class="tl-entry">
+    <div class="tl-year">Feb 2026</div>
+    <div class="tl-title">2nd Place &mdash; Lablab.ai Google DeepMind Challenge</div>
+    <div class="tl-desc">Won 2nd place at the Lablab.ai Hackathon Google DeepMind Challenge in San Francisco, competing against teams worldwide on an AI application.</div>
+    <div class="tl-img">
+      <img src="_assets/images/I%20talk/7.jpg" alt="Lablab.ai Hackathon Google DeepMind Challenge team">
     </div>
   </div>
 
