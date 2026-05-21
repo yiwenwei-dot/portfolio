@@ -324,23 +324,107 @@
   }
 
   @media (max-width: 720px) {
-    .page { padding: 32px 20px 60px; }
-    h1 { font-size: 22px; }
-    header { flex-direction: column; gap: 16px; }
-    .lang-wrap { align-self: stretch; }
-    .lang-picker, .lang-trigger { width: 100%; }
-    .lang-menu { left: 0; right: 0; }
+    html, body { overflow: hidden; height: 100%; }
+    .page {
+      padding: 14px 14px 14px;
+      height: 100vh;
+      height: 100dvh;
+      max-width: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    header {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0;
+    }
+    .header-text { flex: 1; min-width: 0; }
+    h1 { font-size: 16px; margin: 0; font-weight: 600; letter-spacing: -0.005em; }
+    .subtitle { display: none; }
+    .lang-wrap { flex-shrink: 0; }
+    .lang-picker { width: auto; }
+    .lang-trigger {
+      width: auto;
+      min-width: 0;
+      padding: 6px 10px;
+      font-size: 12px;
+      gap: 6px;
+    }
+    .lang-trigger .globe { font-size: 13px; }
+    .lang-trigger .flag { font-size: 14px; }
+    .lang-trigger .current-label {
+      max-width: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lang-menu { left: auto; right: 0; min-width: 180px; max-height: 60vh; }
+
     .grid {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 8px;
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
     }
-    .arrow {
-      padding: 4px 0;
+    .card {
+      padding: 12px 14px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .swap:hover { transform: rotate(90deg); }
-    .swap { transform: rotate(90deg); }
-    .card { padding: 22px; }
-    .big-time { font-size: 44px; }
+    .city-row { margin-bottom: 8px; gap: 8px; }
+    select.city-select {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 6px 28px 6px 10px;
+    }
+    .tz { font-size: 10px; }
+    .big-time {
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .big-date {
+      font-size: 11px;
+      margin-bottom: 10px;
+      min-height: 14px;
+    }
+    .day-offset { font-size: 9px; padding: 1px 5px; margin-left: 6px; }
+    .inputs { gap: 6px; }
+    .field { gap: 3px; }
+    .field label { font-size: 9px; letter-spacing: 0.08em; }
+    input[type="time"], input[type="date"] {
+      font-size: 13px;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+
+    .arrow { padding: 0; }
+    .swap {
+      width: 28px;
+      height: 28px;
+      transform: rotate(90deg);
+      font-size: 12px;
+    }
+    .swap:hover { transform: rotate(270deg); }
+
+    .footer {
+      margin-top: 0;
+      font-size: 11px;
+    }
+    .btn { padding: 6px 10px; font-size: 11px; }
+  }
+
+  /* Very small phones (< 380px wide or very short screens) */
+  @media (max-width: 720px) and (max-height: 700px) {
+    .page { padding: 10px 12px; gap: 6px; }
+    .card { padding: 10px 12px; }
+    .big-time { font-size: 28px; }
+    .big-date { margin-bottom: 6px; }
+    .city-row { margin-bottom: 6px; }
   }
 </style>
 </head>
