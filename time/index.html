@@ -53,6 +53,15 @@
   }
   .lang-wrap {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .lang-caption {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
   }
   .grid {
     display: grid;
@@ -343,7 +352,8 @@
     .header-text { flex: 1; min-width: 0; }
     h1 { font-size: 16px; margin: 0; font-weight: 600; letter-spacing: -0.005em; }
     .subtitle { display: none; }
-    .lang-wrap { flex-shrink: 0; }
+    .lang-wrap { flex-shrink: 0; gap: 6px; }
+    .lang-caption { font-size: 10px; line-height: 1.1; }
     .lang-picker { width: auto; }
     .lang-trigger {
       width: auto;
@@ -436,6 +446,7 @@
         <p class="subtitle" id="page-subtitle">Type a time in either city. The other updates instantly.</p>
       </div>
       <div class="lang-wrap">
+        <span class="lang-caption" aria-hidden="true">Language 语言</span>
         <div class="lang-picker" id="lang-picker">
           <button class="lang-trigger" id="lang-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language">
             <span class="globe" aria-hidden="true">🌐</span>
