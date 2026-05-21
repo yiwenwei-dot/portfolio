@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SF ⇄ Beijing — Time Converter</title>
+<title>Time Converter</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⏱%3C/text%3E%3C/svg%3E" />
 <style>
   :root {
@@ -12,7 +12,6 @@
     --muted: #8a8a8a;
     --line: #222;
     --line-hover: #444;
-    --accent: #fff;
     --card: #0a0a0a;
   }
   * { box-sizing: border-box; }
@@ -21,7 +20,7 @@
     padding: 0;
     background: var(--bg);
     color: var(--fg);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans", "Yu Gothic", "Malgun Gothic", sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
   }
@@ -31,7 +30,14 @@
     padding: 56px 32px 80px;
   }
   header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
     margin-bottom: 48px;
+  }
+  .header-text {
+    min-width: 0;
   }
   h1 {
     font-size: 28px;
@@ -43,6 +49,10 @@
     color: var(--muted);
     font-size: 14px;
     margin: 0;
+    max-width: 560px;
+  }
+  .lang-wrap {
+    flex-shrink: 0;
   }
   .grid {
     display: grid;
@@ -56,26 +66,24 @@
     border-radius: 16px;
     padding: 28px;
     transition: border-color 0.2s ease;
+    min-width: 0;
   }
   .card:focus-within {
     border-color: var(--line-hover);
   }
-  .city-label {
+  .city-row {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
+    gap: 12px;
     margin-bottom: 18px;
-  }
-  .city {
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
   }
   .tz {
     font-size: 11px;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
   }
   .big-time {
     font-size: 56px;
@@ -112,6 +120,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    min-width: 0;
   }
   .field label {
     font-size: 11px;
@@ -120,7 +129,8 @@
     color: var(--muted);
   }
   input[type="time"],
-  input[type="date"] {
+  input[type="date"],
+  select {
     background: transparent;
     color: var(--fg);
     border: 1px solid var(--line);
@@ -133,14 +143,42 @@
     transition: border-color 0.2s ease;
     color-scheme: dark;
     width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
   }
   input[type="time"]:hover,
-  input[type="date"]:hover {
+  input[type="date"]:hover,
+  select:hover {
     border-color: var(--line-hover);
   }
   input[type="time"]:focus,
-  input[type="date"]:focus {
+  input[type="date"]:focus,
+  select:focus {
     border-color: var(--fg);
+  }
+  /* City select: larger, with caret */
+  select.city-select {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    padding: 8px 32px 8px 12px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238a8a8a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  /* Language select: small, top-right */
+  select.lang-select {
+    font-size: 13px;
+    padding: 8px 30px 8px 12px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238a8a8a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    width: auto;
+    min-width: 140px;
+  }
+  select option, select optgroup {
+    background: #111;
+    color: var(--fg);
   }
   .arrow {
     display: flex;
@@ -155,6 +193,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
     font-size: 12px;
     color: var(--muted);
   }
@@ -182,18 +221,41 @@
   .home-link:hover {
     color: var(--fg);
   }
+  .swap {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    padding: 0;
+  }
+  .swap:hover {
+    border-color: var(--fg);
+    color: var(--fg);
+    transform: rotate(180deg);
+  }
 
   @media (max-width: 720px) {
     .page { padding: 32px 20px 60px; }
     h1 { font-size: 22px; }
+    header { flex-direction: column; gap: 16px; }
+    .lang-wrap { align-self: stretch; }
+    select.lang-select { width: 100%; }
     .grid {
       grid-template-columns: 1fr;
       gap: 16px;
     }
     .arrow {
-      transform: rotate(90deg);
       padding: 4px 0;
     }
+    .swap:hover { transform: rotate(90deg); }
+    .swap { transform: rotate(90deg); }
     .card { padding: 22px; }
     .big-time { font-size: 44px; }
   }
@@ -202,47 +264,54 @@
 <body>
   <div class="page">
     <header>
-      <h1>San Francisco ⇄ Beijing</h1>
-      <p class="subtitle">Type a time in either city. The other updates instantly.</p>
+      <div class="header-text">
+        <h1 id="page-title">Time Converter</h1>
+        <p class="subtitle" id="page-subtitle">Type a time in either city. The other updates instantly.</p>
+      </div>
+      <div class="lang-wrap">
+        <select class="lang-select" id="lang-select" aria-label="Language"></select>
+      </div>
     </header>
 
     <div class="grid">
-      <section class="card" id="card-sf" aria-label="San Francisco">
-        <div class="city-label">
-          <span class="city">San Francisco</span>
-          <span class="tz" id="tz-sf"></span>
+      <section class="card" id="card-a" aria-label="City A">
+        <div class="city-row">
+          <select class="city-select" id="city-a" aria-label="City A"></select>
+          <span class="tz" id="tz-a"></span>
         </div>
-        <div class="big-time" id="display-sf">—</div>
-        <div class="big-date" id="display-date-sf"></div>
+        <div class="big-time" id="display-a">—</div>
+        <div class="big-date" id="display-date-a"></div>
         <div class="inputs">
           <div class="field">
-            <label for="time-sf">Time</label>
-            <input type="time" id="time-sf" />
+            <label for="time-a" id="label-time-a">Time</label>
+            <input type="time" id="time-a" />
           </div>
           <div class="field">
-            <label for="date-sf">Date</label>
-            <input type="date" id="date-sf" />
+            <label for="date-a" id="label-date-a">Date</label>
+            <input type="date" id="date-a" />
           </div>
         </div>
       </section>
 
-      <div class="arrow" aria-hidden="true">⇄</div>
+      <div class="arrow">
+        <button class="swap" id="swap" aria-label="Swap cities" title="Swap">⇅</button>
+      </div>
 
-      <section class="card" id="card-bj" aria-label="Beijing">
-        <div class="city-label">
-          <span class="city">Beijing</span>
-          <span class="tz" id="tz-bj"></span>
+      <section class="card" id="card-b" aria-label="City B">
+        <div class="city-row">
+          <select class="city-select" id="city-b" aria-label="City B"></select>
+          <span class="tz" id="tz-b"></span>
         </div>
-        <div class="big-time" id="display-bj">—</div>
-        <div class="big-date" id="display-date-bj"></div>
+        <div class="big-time" id="display-b">—</div>
+        <div class="big-date" id="display-date-b"></div>
         <div class="inputs">
           <div class="field">
-            <label for="time-bj">Time</label>
-            <input type="time" id="time-bj" />
+            <label for="time-b" id="label-time-b">Time</label>
+            <input type="time" id="time-b" />
           </div>
           <div class="field">
-            <label for="date-bj">Date</label>
-            <input type="date" id="date-bj" />
+            <label for="date-b" id="label-date-b">Date</label>
+            <input type="date" id="date-b" />
           </div>
         </div>
       </section>
@@ -256,61 +325,197 @@
 
 <script>
 (function () {
-  const TZ_SF = 'America/Los_Angeles';
-  const TZ_BJ = 'Asia/Shanghai';
+  // ---------- Data: cities (grouped by region) ----------
+  // Display names per language fall back to English; native name shown in () when different.
+  const CITIES = [
+    // Americas
+    { id: 'sf',  tz: 'America/Los_Angeles', region: 'americas', en: 'San Francisco' },
+    { id: 'la',  tz: 'America/Los_Angeles', region: 'americas', en: 'Los Angeles' },
+    { id: 'sea', tz: 'America/Los_Angeles', region: 'americas', en: 'Seattle' },
+    { id: 'den', tz: 'America/Denver',      region: 'americas', en: 'Denver' },
+    { id: 'chi', tz: 'America/Chicago',     region: 'americas', en: 'Chicago' },
+    { id: 'ny',  tz: 'America/New_York',    region: 'americas', en: 'New York' },
+    { id: 'tor', tz: 'America/Toronto',     region: 'americas', en: 'Toronto' },
+    { id: 'mex', tz: 'America/Mexico_City', region: 'americas', en: 'Mexico City' },
+    { id: 'sao', tz: 'America/Sao_Paulo',   region: 'americas', en: 'São Paulo' },
+    { id: 'bue', tz: 'America/Argentina/Buenos_Aires', region: 'americas', en: 'Buenos Aires' },
+    { id: 'anc', tz: 'America/Anchorage',   region: 'americas', en: 'Anchorage' },
+    { id: 'hnl', tz: 'Pacific/Honolulu',    region: 'americas', en: 'Honolulu' },
+    // Europe & Africa
+    { id: 'lon', tz: 'Europe/London',       region: 'emea', en: 'London' },
+    { id: 'par', tz: 'Europe/Paris',        region: 'emea', en: 'Paris' },
+    { id: 'ber', tz: 'Europe/Berlin',       region: 'emea', en: 'Berlin' },
+    { id: 'mad', tz: 'Europe/Madrid',       region: 'emea', en: 'Madrid' },
+    { id: 'rom', tz: 'Europe/Rome',         region: 'emea', en: 'Rome' },
+    { id: 'ams', tz: 'Europe/Amsterdam',    region: 'emea', en: 'Amsterdam' },
+    { id: 'sto', tz: 'Europe/Stockholm',    region: 'emea', en: 'Stockholm' },
+    { id: 'mos', tz: 'Europe/Moscow',       region: 'emea', en: 'Moscow' },
+    { id: 'ist', tz: 'Europe/Istanbul',     region: 'emea', en: 'Istanbul' },
+    { id: 'cai', tz: 'Africa/Cairo',        region: 'emea', en: 'Cairo' },
+    { id: 'lag', tz: 'Africa/Lagos',        region: 'emea', en: 'Lagos' },
+    { id: 'jnb', tz: 'Africa/Johannesburg', region: 'emea', en: 'Johannesburg' },
+    // Middle East & Asia
+    { id: 'dxb', tz: 'Asia/Dubai',          region: 'asia', en: 'Dubai' },
+    { id: 'thr', tz: 'Asia/Tehran',         region: 'asia', en: 'Tehran' },
+    { id: 'bom', tz: 'Asia/Kolkata',        region: 'asia', en: 'Mumbai' },
+    { id: 'del', tz: 'Asia/Kolkata',        region: 'asia', en: 'Delhi' },
+    { id: 'bkk', tz: 'Asia/Bangkok',        region: 'asia', en: 'Bangkok' },
+    { id: 'sin', tz: 'Asia/Singapore',      region: 'asia', en: 'Singapore' },
+    { id: 'jkt', tz: 'Asia/Jakarta',        region: 'asia', en: 'Jakarta' },
+    { id: 'mnl', tz: 'Asia/Manila',         region: 'asia', en: 'Manila' },
+    { id: 'hkg', tz: 'Asia/Hong_Kong',      region: 'asia', en: 'Hong Kong' },
+    { id: 'bjs', tz: 'Asia/Shanghai',       region: 'asia', en: 'Beijing' },
+    { id: 'sha', tz: 'Asia/Shanghai',       region: 'asia', en: 'Shanghai' },
+    { id: 'tpe', tz: 'Asia/Taipei',         region: 'asia', en: 'Taipei' },
+    { id: 'tyo', tz: 'Asia/Tokyo',          region: 'asia', en: 'Tokyo' },
+    { id: 'osa', tz: 'Asia/Tokyo',          region: 'asia', en: 'Osaka' },
+    { id: 'sel', tz: 'Asia/Seoul',          region: 'asia', en: 'Seoul' },
+    // Oceania
+    { id: 'syd', tz: 'Australia/Sydney',    region: 'oceania', en: 'Sydney' },
+    { id: 'mel', tz: 'Australia/Melbourne', region: 'oceania', en: 'Melbourne' },
+    { id: 'per', tz: 'Australia/Perth',     region: 'oceania', en: 'Perth' },
+    { id: 'akl', tz: 'Pacific/Auckland',    region: 'oceania', en: 'Auckland' },
+    // UTC
+    { id: 'utc', tz: 'UTC',                 region: 'utc', en: 'UTC' },
+  ];
 
-  const $ = (id) => document.getElementById(id);
-  const els = {
-    timeSF: $('time-sf'),
-    dateSF: $('date-sf'),
-    timeBJ: $('time-bj'),
-    dateBJ: $('date-bj'),
-    dispSF: $('display-sf'),
-    dispBJ: $('display-bj'),
-    dispDateSF: $('display-date-sf'),
-    dispDateBJ: $('display-date-bj'),
-    tzSF: $('tz-sf'),
-    tzBJ: $('tz-bj'),
-    btnNow: $('btn-now'),
+  // ---------- Localization ----------
+  const LANGS = [
+    { code: 'en',    label: 'English',    bcp47: 'en-US' },
+    { code: 'zh',    label: '中文',       bcp47: 'zh-CN' },
+    { code: 'zh-tw', label: '繁體中文',   bcp47: 'zh-TW' },
+    { code: 'ja',    label: '日本語',     bcp47: 'ja-JP' },
+    { code: 'ko',    label: '한국어',     bcp47: 'ko-KR' },
+    { code: 'es',    label: 'Español',    bcp47: 'es-ES' },
+    { code: 'fr',    label: 'Français',   bcp47: 'fr-FR' },
+    { code: 'de',    label: 'Deutsch',    bcp47: 'de-DE' },
+    { code: 'pt',    label: 'Português',  bcp47: 'pt-BR' },
+    { code: 'ru',    label: 'Русский',    bcp47: 'ru-RU' },
+    { code: 'ar',    label: 'العربية',     bcp47: 'ar-EG' },
+    { code: 'hi',    label: 'हिन्दी',         bcp47: 'hi-IN' },
+  ];
+
+  const STRINGS = {
+    en:    { title: 'Time Converter', subtitle: 'Pick two cities. Type a time in either side; the other updates instantly.', time: 'Time', date: 'Date', now: 'Use current time', nextDay: 'Next day', prevDay: 'Prev day', regions: { americas: 'Americas', emea: 'Europe & Africa', asia: 'Middle East & Asia', oceania: 'Oceania', utc: 'UTC' } },
+    zh:    { title: '时间转换器', subtitle: '选择两个城市，在任一侧输入时间，另一侧会同步更新。', time: '时间', date: '日期', now: '使用当前时间', nextDay: '次日', prevDay: '前一日', regions: { americas: '美洲', emea: '欧洲与非洲', asia: '中东与亚洲', oceania: '大洋洲', utc: 'UTC' } },
+    'zh-tw': { title: '時間轉換器', subtitle: '選擇兩個城市，在任一側輸入時間，另一側會同步更新。', time: '時間', date: '日期', now: '使用目前時間', nextDay: '次日', prevDay: '前一日', regions: { americas: '美洲', emea: '歐洲與非洲', asia: '中東與亞洲', oceania: '大洋洲', utc: 'UTC' } },
+    ja:    { title: '時刻コンバーター', subtitle: '2つの都市を選び、どちらかに時刻を入力すると、もう一方が即座に更新されます。', time: '時刻', date: '日付', now: '現在時刻を使用', nextDay: '翌日', prevDay: '前日', regions: { americas: 'アメリカ', emea: 'ヨーロッパ・アフリカ', asia: '中東・アジア', oceania: 'オセアニア', utc: 'UTC' } },
+    ko:    { title: '시간 변환기', subtitle: '두 도시를 선택하세요. 한쪽에 시간을 입력하면 다른 쪽이 즉시 갱신됩니다.', time: '시간', date: '날짜', now: '현재 시각 사용', nextDay: '다음 날', prevDay: '전날', regions: { americas: '아메리카', emea: '유럽 및 아프리카', asia: '중동 및 아시아', oceania: '오세아니아', utc: 'UTC' } },
+    es:    { title: 'Conversor de hora', subtitle: 'Elige dos ciudades. Escribe una hora en cualquier lado y la otra se actualiza al instante.', time: 'Hora', date: 'Fecha', now: 'Usar hora actual', nextDay: 'Día siguiente', prevDay: 'Día anterior', regions: { americas: 'América', emea: 'Europa y África', asia: 'Oriente Medio y Asia', oceania: 'Oceanía', utc: 'UTC' } },
+    fr:    { title: "Convertisseur d'heure", subtitle: 'Choisissez deux villes. Tapez une heure d\'un côté, l\'autre se met à jour instantanément.', time: 'Heure', date: 'Date', now: "Utiliser l'heure actuelle", nextDay: 'Jour suivant', prevDay: 'Jour précédent', regions: { americas: 'Amériques', emea: 'Europe et Afrique', asia: 'Moyen-Orient et Asie', oceania: 'Océanie', utc: 'UTC' } },
+    de:    { title: 'Zeitumrechner', subtitle: 'Wähle zwei Städte. Gib auf einer Seite eine Uhrzeit ein — die andere aktualisiert sich sofort.', time: 'Uhrzeit', date: 'Datum', now: 'Aktuelle Zeit verwenden', nextDay: 'Folgetag', prevDay: 'Vortag', regions: { americas: 'Amerika', emea: 'Europa & Afrika', asia: 'Naher Osten & Asien', oceania: 'Ozeanien', utc: 'UTC' } },
+    pt:    { title: 'Conversor de horário', subtitle: 'Escolha duas cidades. Digite uma hora em qualquer lado e o outro se atualiza instantaneamente.', time: 'Hora', date: 'Data', now: 'Usar hora atual', nextDay: 'Dia seguinte', prevDay: 'Dia anterior', regions: { americas: 'Américas', emea: 'Europa e África', asia: 'Oriente Médio e Ásia', oceania: 'Oceania', utc: 'UTC' } },
+    ru:    { title: 'Конвертер времени', subtitle: 'Выберите два города. Введите время с любой стороны — другая обновится мгновенно.', time: 'Время', date: 'Дата', now: 'Текущее время', nextDay: 'След. день', prevDay: 'Пред. день', regions: { americas: 'Америка', emea: 'Европа и Африка', asia: 'Ближний Восток и Азия', oceania: 'Океания', utc: 'UTC' } },
+    ar:    { title: 'محوّل التوقيت', subtitle: 'اختر مدينتين. اكتب الوقت في أي جانب ليتحدث الجانب الآخر فورًا.', time: 'الوقت', date: 'التاريخ', now: 'استخدام الوقت الحالي', nextDay: 'اليوم التالي', prevDay: 'اليوم السابق', regions: { americas: 'الأمريكتان', emea: 'أوروبا وأفريقيا', asia: 'الشرق الأوسط وآسيا', oceania: 'أوقيانوسيا', utc: 'التوقيت العالمي' } },
+    hi:    { title: 'समय कन्वर्टर', subtitle: 'दो शहर चुनें। किसी भी ओर समय टाइप करें — दूसरी ओर तुरंत अपडेट हो जाएगी।', time: 'समय', date: 'तारीख', now: 'वर्तमान समय', nextDay: 'अगला दिन', prevDay: 'पिछला दिन', regions: { americas: 'अमेरिका', emea: 'यूरोप और अफ्रीका', asia: 'मध्य पूर्व और एशिया', oceania: 'ओशिनिया', utc: 'UTC' } },
   };
 
-  // Get the wall-clock parts of a UTC instant in the given time zone.
+  // City name overrides: for languages where city names differ meaningfully from English.
+  // Falls back to English when not present.
+  const CITY_NAMES = {
+    zh: {
+      sf: '旧金山', la: '洛杉矶', sea: '西雅图', den: '丹佛', chi: '芝加哥', ny: '纽约', tor: '多伦多',
+      mex: '墨西哥城', sao: '圣保罗', bue: '布宜诺斯艾利斯', anc: '安克雷奇', hnl: '檀香山',
+      lon: '伦敦', par: '巴黎', ber: '柏林', mad: '马德里', rom: '罗马', ams: '阿姆斯特丹', sto: '斯德哥尔摩',
+      mos: '莫斯科', ist: '伊斯坦布尔', cai: '开罗', lag: '拉各斯', jnb: '约翰内斯堡',
+      dxb: '迪拜', thr: '德黑兰', bom: '孟买', del: '德里', bkk: '曼谷', sin: '新加坡', jkt: '雅加达',
+      mnl: '马尼拉', hkg: '香港', bjs: '北京', sha: '上海', tpe: '台北', tyo: '东京', osa: '大阪', sel: '首尔',
+      syd: '悉尼', mel: '墨尔本', per: '珀斯', akl: '奥克兰',
+    },
+    'zh-tw': {
+      sf: '舊金山', la: '洛杉磯', sea: '西雅圖', den: '丹佛', chi: '芝加哥', ny: '紐約', tor: '多倫多',
+      mex: '墨西哥城', sao: '聖保羅', bue: '布宜諾斯艾利斯', anc: '安克雷奇', hnl: '檀香山',
+      lon: '倫敦', par: '巴黎', ber: '柏林', mad: '馬德里', rom: '羅馬', ams: '阿姆斯特丹', sto: '斯德哥爾摩',
+      mos: '莫斯科', ist: '伊斯坦堡', cai: '開羅', lag: '拉哥斯', jnb: '約翰尼斯堡',
+      dxb: '杜拜', thr: '德黑蘭', bom: '孟買', del: '德里', bkk: '曼谷', sin: '新加坡', jkt: '雅加達',
+      mnl: '馬尼拉', hkg: '香港', bjs: '北京', sha: '上海', tpe: '台北', tyo: '東京', osa: '大阪', sel: '首爾',
+      syd: '雪梨', mel: '墨爾本', per: '伯斯', akl: '奧克蘭',
+    },
+    ja: {
+      sf: 'サンフランシスコ', la: 'ロサンゼルス', sea: 'シアトル', den: 'デンバー', chi: 'シカゴ',
+      ny: 'ニューヨーク', tor: 'トロント', mex: 'メキシコシティ', sao: 'サンパウロ', bue: 'ブエノスアイレス',
+      anc: 'アンカレッジ', hnl: 'ホノルル',
+      lon: 'ロンドン', par: 'パリ', ber: 'ベルリン', mad: 'マドリード', rom: 'ローマ', ams: 'アムステルダム',
+      sto: 'ストックホルム', mos: 'モスクワ', ist: 'イスタンブール', cai: 'カイロ', lag: 'ラゴス', jnb: 'ヨハネスブルグ',
+      dxb: 'ドバイ', thr: 'テヘラン', bom: 'ムンバイ', del: 'デリー', bkk: 'バンコク', sin: 'シンガポール',
+      jkt: 'ジャカルタ', mnl: 'マニラ', hkg: '香港', bjs: '北京', sha: '上海', tpe: '台北',
+      tyo: '東京', osa: '大阪', sel: 'ソウル',
+      syd: 'シドニー', mel: 'メルボルン', per: 'パース', akl: 'オークランド',
+    },
+    ko: {
+      sf: '샌프란시스코', la: '로스앤젤레스', sea: '시애틀', den: '덴버', chi: '시카고', ny: '뉴욕', tor: '토론토',
+      mex: '멕시코시티', sao: '상파울루', bue: '부에노스아이레스', anc: '앵커리지', hnl: '호놀룰루',
+      lon: '런던', par: '파리', ber: '베를린', mad: '마드리드', rom: '로마', ams: '암스테르담', sto: '스톡홀름',
+      mos: '모스크바', ist: '이스탄불', cai: '카이로', lag: '라고스', jnb: '요하네스버그',
+      dxb: '두바이', thr: '테헤란', bom: '뭄바이', del: '델리', bkk: '방콕', sin: '싱가포르', jkt: '자카르타',
+      mnl: '마닐라', hkg: '홍콩', bjs: '베이징', sha: '상하이', tpe: '타이베이', tyo: '도쿄', osa: '오사카', sel: '서울',
+      syd: '시드니', mel: '멜버른', per: '퍼스', akl: '오클랜드',
+    },
+  };
+
+  // ---------- DOM refs ----------
+  const $ = (id) => document.getElementById(id);
+  const els = {
+    pageTitle: $('page-title'), pageSubtitle: $('page-subtitle'),
+    langSelect: $('lang-select'),
+    cityA: $('city-a'), cityB: $('city-b'),
+    tzA: $('tz-a'), tzB: $('tz-b'),
+    dispA: $('display-a'), dispB: $('display-b'),
+    dispDateA: $('display-date-a'), dispDateB: $('display-date-b'),
+    timeA: $('time-a'), dateA: $('date-a'),
+    timeB: $('time-b'), dateB: $('date-b'),
+    labelTimeA: $('label-time-a'), labelDateA: $('label-date-a'),
+    labelTimeB: $('label-time-b'), labelDateB: $('label-date-b'),
+    btnNow: $('btn-now'), swap: $('swap'),
+  };
+
+  // ---------- State (persisted) ----------
+  const LS = {
+    get(k, d) { try { return localStorage.getItem(k) ?? d; } catch { return d; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  };
+
+  let lang = LS.get('tc.lang', detectLang());
+  let cityAId = LS.get('tc.cityA', 'sf');
+  let cityBId = LS.get('tc.cityB', 'bjs');
+  if (!CITIES.find(c => c.id === cityAId)) cityAId = 'sf';
+  if (!CITIES.find(c => c.id === cityBId)) cityBId = 'bjs';
+
+  function detectLang() {
+    const nav = (navigator.language || 'en').toLowerCase();
+    if (nav.startsWith('zh-tw') || nav.startsWith('zh-hk')) return 'zh-tw';
+    if (nav.startsWith('zh')) return 'zh';
+    const two = nav.slice(0, 2);
+    return STRINGS[two] ? two : 'en';
+  }
+
+  // ---------- Time math ----------
   function partsInZone(utcMs, timeZone) {
     const fmt = new Intl.DateTimeFormat('en-US', {
-      timeZone,
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', second: '2-digit',
-      hour12: false,
+      timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
     });
     const parts = {};
     for (const p of fmt.formatToParts(new Date(utcMs))) {
       if (p.type !== 'literal') parts[p.type] = p.value;
     }
-    // hour can come back as "24" at midnight in some locales
     if (parts.hour === '24') parts.hour = '00';
     return {
-      year: +parts.year,
-      month: +parts.month,
-      day: +parts.day,
-      hour: +parts.hour,
-      minute: +parts.minute,
-      second: +parts.second,
+      year: +parts.year, month: +parts.month, day: +parts.day,
+      hour: +parts.hour, minute: +parts.minute, second: +parts.second,
     };
   }
 
-  // Convert a wall time (year/month/day/hour/minute) in `timeZone` to UTC ms.
   function wallToUtc(y, m, d, h, mi, timeZone) {
-    // Guess: pretend the wall time is UTC, then correct using the actual offset
-    // observed at that instant in the target zone.
     const guess = Date.UTC(y, m - 1, d, h, mi, 0);
     const p = partsInZone(guess, timeZone);
     const wallOfGuess = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
-    const offset = wallOfGuess - guess; // ms zone is ahead of UTC at `guess`
+    const offset = wallOfGuess - guess;
     return guess - offset;
   }
 
-  function tzAbbrev(utcMs, timeZone) {
-    const fmt = new Intl.DateTimeFormat('en-US', {
+  function tzAbbrev(utcMs, timeZone, bcp47) {
+    const fmt = new Intl.DateTimeFormat(bcp47, {
       timeZone, timeZoneName: 'short',
       year: 'numeric', month: 'numeric', day: 'numeric',
     });
@@ -322,59 +527,121 @@
 
   function pad(n) { return String(n).padStart(2, '0'); }
 
-  function formatBigTime(p) {
-    let h = p.hour;
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12; if (h === 0) h = 12;
-    return `${h}:${pad(p.minute)} ${ampm}`;
+  function formatBigTime(utcMs, timeZone, bcp47) {
+    return new Intl.DateTimeFormat(bcp47, {
+      timeZone, hour: 'numeric', minute: '2-digit',
+    }).format(new Date(utcMs));
   }
 
-  function formatBigDate(p, timeZone, utcMs) {
-    const fmt = new Intl.DateTimeFormat('en-US', {
+  function formatBigDate(utcMs, timeZone, bcp47) {
+    return new Intl.DateTimeFormat(bcp47, {
       timeZone, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
-    });
-    return fmt.format(new Date(utcMs));
+    }).format(new Date(utcMs));
   }
 
-  // Day offset (in days) of zone B relative to zone A for the current pair
   function dayOffset(pA, pB) {
     const a = Date.UTC(pA.year, pA.month - 1, pA.day);
     const b = Date.UTC(pB.year, pB.month - 1, pB.day);
     return Math.round((b - a) / 86400000);
   }
 
-  function offsetBadge(diff) {
+  function offsetBadge(diff, t) {
     if (diff === 0) return '';
-    if (diff === 1) return '<span class="day-offset">Next day</span>';
-    if (diff === -1) return '<span class="day-offset">Prev day</span>';
+    if (diff === 1) return `<span class="day-offset">${t.nextDay}</span>`;
+    if (diff === -1) return `<span class="day-offset">${t.prevDay}</span>`;
     const sign = diff > 0 ? '+' : '';
     return `<span class="day-offset">${sign}${diff}d</span>`;
   }
 
-  // Render both sides based on a canonical UTC ms instant.
-  function render(utcMs) {
-    const pSF = partsInZone(utcMs, TZ_SF);
-    const pBJ = partsInZone(utcMs, TZ_BJ);
-
-    // Inputs
-    els.timeSF.value = `${pad(pSF.hour)}:${pad(pSF.minute)}`;
-    els.dateSF.value = `${pSF.year}-${pad(pSF.month)}-${pad(pSF.day)}`;
-    els.timeBJ.value = `${pad(pBJ.hour)}:${pad(pBJ.minute)}`;
-    els.dateBJ.value = `${pBJ.year}-${pad(pBJ.month)}-${pad(pBJ.day)}`;
-
-    // Big displays
-    els.dispSF.textContent = formatBigTime(pSF);
-    els.dispBJ.textContent = formatBigTime(pBJ);
-
-    const diffBJtoSF = dayOffset(pSF, pBJ); // BJ relative to SF
-    els.dispDateSF.innerHTML = formatBigDate(pSF, TZ_SF, utcMs);
-    els.dispDateBJ.innerHTML = formatBigDate(pBJ, TZ_BJ, utcMs) + offsetBadge(diffBJtoSF);
-
-    els.tzSF.textContent = tzAbbrev(utcMs, TZ_SF);
-    els.tzBJ.textContent = tzAbbrev(utcMs, TZ_BJ);
+  // ---------- UI builders ----------
+  function cityDisplayName(city, langCode) {
+    return (CITY_NAMES[langCode] && CITY_NAMES[langCode][city.id]) || city.en;
   }
 
-  function parseInputs(timeEl, dateEl, timeZone, fallbackUtcMs) {
+  function populateLangs() {
+    els.langSelect.innerHTML = '';
+    for (const L of LANGS) {
+      const opt = document.createElement('option');
+      opt.value = L.code;
+      opt.textContent = L.label;
+      if (L.code === lang) opt.selected = true;
+      els.langSelect.appendChild(opt);
+    }
+  }
+
+  function populateCities(selectEl, selectedId) {
+    const t = STRINGS[lang] || STRINGS.en;
+    selectEl.innerHTML = '';
+    const groups = [
+      ['americas', t.regions.americas],
+      ['emea',     t.regions.emea],
+      ['asia',     t.regions.asia],
+      ['oceania',  t.regions.oceania],
+      ['utc',      t.regions.utc],
+    ];
+    for (const [region, label] of groups) {
+      const og = document.createElement('optgroup');
+      og.label = label;
+      const subset = CITIES.filter(c => c.region === region);
+      // Sort alphabetically by localized name
+      subset.sort((a, b) => cityDisplayName(a, lang).localeCompare(cityDisplayName(b, lang)));
+      for (const c of subset) {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        const native = cityDisplayName(c, lang);
+        opt.textContent = native === c.en ? c.en : `${native} (${c.en})`;
+        if (c.id === selectedId) opt.selected = true;
+        og.appendChild(opt);
+      }
+      selectEl.appendChild(og);
+    }
+  }
+
+  function applyStaticStrings() {
+    const t = STRINGS[lang] || STRINGS.en;
+    document.documentElement.lang = lang === 'zh-tw' ? 'zh-TW' : lang;
+    document.title = t.title;
+    els.pageTitle.textContent = t.title;
+    els.pageSubtitle.textContent = t.subtitle;
+    els.labelTimeA.textContent = t.time;
+    els.labelTimeB.textContent = t.time;
+    els.labelDateA.textContent = t.date;
+    els.labelDateB.textContent = t.date;
+    els.btnNow.textContent = t.now;
+  }
+
+  // ---------- Render ----------
+  let currentUtc = Date.now();
+
+  function getCity(id) { return CITIES.find(c => c.id === id) || CITIES[0]; }
+
+  function render() {
+    const cityA = getCity(cityAId);
+    const cityB = getCity(cityBId);
+    const L = LANGS.find(l => l.code === lang) || LANGS[0];
+    const bcp47 = L.bcp47;
+    const t = STRINGS[lang] || STRINGS.en;
+
+    const pA = partsInZone(currentUtc, cityA.tz);
+    const pB = partsInZone(currentUtc, cityB.tz);
+
+    els.timeA.value = `${pad(pA.hour)}:${pad(pA.minute)}`;
+    els.dateA.value = `${pA.year}-${pad(pA.month)}-${pad(pA.day)}`;
+    els.timeB.value = `${pad(pB.hour)}:${pad(pB.minute)}`;
+    els.dateB.value = `${pB.year}-${pad(pB.month)}-${pad(pB.day)}`;
+
+    els.dispA.textContent = formatBigTime(currentUtc, cityA.tz, bcp47);
+    els.dispB.textContent = formatBigTime(currentUtc, cityB.tz, bcp47);
+
+    const diffBtoA = dayOffset(pA, pB);
+    els.dispDateA.innerHTML = formatBigDate(currentUtc, cityA.tz, bcp47);
+    els.dispDateB.innerHTML = formatBigDate(currentUtc, cityB.tz, bcp47) + offsetBadge(diffBtoA, t);
+
+    els.tzA.textContent = tzAbbrev(currentUtc, cityA.tz, bcp47);
+    els.tzB.textContent = tzAbbrev(currentUtc, cityB.tz, bcp47);
+  }
+
+  function parseInputs(timeEl, dateEl, timeZone) {
     const tv = timeEl.value || '00:00';
     const dv = dateEl.value;
     const [hh, mm] = tv.split(':').map(Number);
@@ -382,36 +649,67 @@
     if (dv) {
       [y, m, d] = dv.split('-').map(Number);
     } else {
-      // No date typed: use the current zone-side date
-      const p = partsInZone(fallbackUtcMs, timeZone);
+      const p = partsInZone(currentUtc, timeZone);
       y = p.year; m = p.month; d = p.day;
     }
     return wallToUtc(y, m, d, hh, mm, timeZone);
   }
 
-  let currentUtc = Date.now();
-
-  function handleSFChange() {
-    currentUtc = parseInputs(els.timeSF, els.dateSF, TZ_SF, currentUtc);
-    render(currentUtc);
+  // ---------- Wire up ----------
+  function handleA() {
+    currentUtc = parseInputs(els.timeA, els.dateA, getCity(cityAId).tz);
+    render();
   }
-  function handleBJChange() {
-    currentUtc = parseInputs(els.timeBJ, els.dateBJ, TZ_BJ, currentUtc);
-    render(currentUtc);
+  function handleB() {
+    currentUtc = parseInputs(els.timeB, els.dateB, getCity(cityBId).tz);
+    render();
   }
 
-  els.timeSF.addEventListener('input', handleSFChange);
-  els.dateSF.addEventListener('input', handleSFChange);
-  els.timeBJ.addEventListener('input', handleBJChange);
-  els.dateBJ.addEventListener('input', handleBJChange);
+  els.timeA.addEventListener('input', handleA);
+  els.dateA.addEventListener('input', handleA);
+  els.timeB.addEventListener('input', handleB);
+  els.dateB.addEventListener('input', handleB);
+
+  els.cityA.addEventListener('change', (e) => {
+    cityAId = e.target.value;
+    LS.set('tc.cityA', cityAId);
+    render();
+  });
+  els.cityB.addEventListener('change', (e) => {
+    cityBId = e.target.value;
+    LS.set('tc.cityB', cityBId);
+    render();
+  });
+
+  els.swap.addEventListener('click', () => {
+    [cityAId, cityBId] = [cityBId, cityAId];
+    LS.set('tc.cityA', cityAId);
+    LS.set('tc.cityB', cityBId);
+    populateCities(els.cityA, cityAId);
+    populateCities(els.cityB, cityBId);
+    render();
+  });
+
+  els.langSelect.addEventListener('change', (e) => {
+    lang = e.target.value;
+    LS.set('tc.lang', lang);
+    applyStaticStrings();
+    populateCities(els.cityA, cityAId);
+    populateCities(els.cityB, cityBId);
+    render();
+  });
 
   els.btnNow.addEventListener('click', () => {
     currentUtc = Date.now();
-    render(currentUtc);
+    render();
   });
 
-  // Initial render with "now"
-  render(currentUtc);
+  // ---------- Init ----------
+  populateLangs();
+  applyStaticStrings();
+  populateCities(els.cityA, cityAId);
+  populateCities(els.cityB, cityBId);
+  render();
 })();
 </script>
 </body>
