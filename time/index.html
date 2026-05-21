@@ -166,20 +166,102 @@
     background-repeat: no-repeat;
     background-position: right 10px center;
   }
-  /* Language select: small, top-right */
-  select.lang-select {
-    font-size: 13px;
-    padding: 8px 30px 8px 12px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238a8a8a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    width: auto;
-    min-width: 140px;
-  }
   select option, select optgroup {
     background: #111;
     color: var(--fg);
   }
+  /* Custom language picker --------------------------- */
+  .lang-picker {
+    position: relative;
+    display: inline-block;
+  }
+  .lang-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    min-width: 170px;
+  }
+  .lang-trigger:hover { border-color: var(--line-hover); }
+  .lang-trigger[aria-expanded="true"] { border-color: var(--fg); }
+  .lang-trigger .globe {
+    font-size: 15px;
+    line-height: 1;
+    /* Make sure emoji color is preserved on Apple platforms */
+  }
+  .lang-trigger .flag {
+    font-size: 16px;
+    line-height: 1;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  }
+  .lang-trigger .current-label {
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .lang-trigger .caret {
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+  .lang-trigger[aria-expanded="true"] .caret { transform: rotate(180deg); }
+
+  .lang-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #0f0f0f;
+    border: 1px solid var(--line-hover);
+    border-radius: 10px;
+    padding: 6px;
+    min-width: 200px;
+    max-height: 360px;
+    overflow-y: auto;
+    z-index: 50;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  }
+  .lang-menu[hidden] { display: none; }
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: transparent;
+    color: var(--fg);
+    border: 0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.15s ease;
+  }
+  .lang-option:hover, .lang-option:focus { background: #1a1a1a; outline: none; }
+  .lang-option.selected { background: #1a1a1a; }
+  .lang-option .flag {
+    font-size: 18px;
+    line-height: 1;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    width: 22px;
+    text-align: center;
+  }
+  .lang-option .check {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 12px;
+    opacity: 0;
+  }
+  .lang-option.selected .check { opacity: 1; }
   .arrow {
     display: flex;
     align-items: center;
@@ -246,7 +328,8 @@
     h1 { font-size: 22px; }
     header { flex-direction: column; gap: 16px; }
     .lang-wrap { align-self: stretch; }
-    select.lang-select { width: 100%; }
+    .lang-picker, .lang-trigger { width: 100%; }
+    .lang-menu { left: 0; right: 0; }
     .grid {
       grid-template-columns: 1fr;
       gap: 16px;
@@ -269,7 +352,15 @@
         <p class="subtitle" id="page-subtitle">Type a time in either city. The other updates instantly.</p>
       </div>
       <div class="lang-wrap">
-        <select class="lang-select" id="lang-select" aria-label="Language"></select>
+        <div class="lang-picker" id="lang-picker">
+          <button class="lang-trigger" id="lang-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language">
+            <span class="globe" aria-hidden="true">🌐</span>
+            <span class="flag" id="lang-current-flag" aria-hidden="true">🇺🇸</span>
+            <span class="current-label" id="lang-current-label">English</span>
+            <span class="caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="lang-menu" id="lang-menu" role="listbox" hidden></div>
+        </div>
       </div>
     </header>
 
@@ -329,70 +420,70 @@
   // Display names per language fall back to English; native name shown in () when different.
   const CITIES = [
     // Americas
-    { id: 'sf',  tz: 'America/Los_Angeles', region: 'americas', en: 'San Francisco' },
-    { id: 'la',  tz: 'America/Los_Angeles', region: 'americas', en: 'Los Angeles' },
-    { id: 'sea', tz: 'America/Los_Angeles', region: 'americas', en: 'Seattle' },
-    { id: 'den', tz: 'America/Denver',      region: 'americas', en: 'Denver' },
-    { id: 'chi', tz: 'America/Chicago',     region: 'americas', en: 'Chicago' },
-    { id: 'ny',  tz: 'America/New_York',    region: 'americas', en: 'New York' },
-    { id: 'tor', tz: 'America/Toronto',     region: 'americas', en: 'Toronto' },
-    { id: 'mex', tz: 'America/Mexico_City', region: 'americas', en: 'Mexico City' },
-    { id: 'sao', tz: 'America/Sao_Paulo',   region: 'americas', en: 'São Paulo' },
-    { id: 'bue', tz: 'America/Argentina/Buenos_Aires', region: 'americas', en: 'Buenos Aires' },
-    { id: 'anc', tz: 'America/Anchorage',   region: 'americas', en: 'Anchorage' },
-    { id: 'hnl', tz: 'Pacific/Honolulu',    region: 'americas', en: 'Honolulu' },
+    { id: 'sf',  tz: 'America/Los_Angeles', region: 'americas', flag: '🇺🇸', en: 'San Francisco' },
+    { id: 'la',  tz: 'America/Los_Angeles', region: 'americas', flag: '🇺🇸', en: 'Los Angeles' },
+    { id: 'sea', tz: 'America/Los_Angeles', region: 'americas', flag: '🇺🇸', en: 'Seattle' },
+    { id: 'den', tz: 'America/Denver',      region: 'americas', flag: '🇺🇸', en: 'Denver' },
+    { id: 'chi', tz: 'America/Chicago',     region: 'americas', flag: '🇺🇸', en: 'Chicago' },
+    { id: 'ny',  tz: 'America/New_York',    region: 'americas', flag: '🇺🇸', en: 'New York' },
+    { id: 'tor', tz: 'America/Toronto',     region: 'americas', flag: '🇨🇦', en: 'Toronto' },
+    { id: 'mex', tz: 'America/Mexico_City', region: 'americas', flag: '🇲🇽', en: 'Mexico City' },
+    { id: 'sao', tz: 'America/Sao_Paulo',   region: 'americas', flag: '🇧🇷', en: 'São Paulo' },
+    { id: 'bue', tz: 'America/Argentina/Buenos_Aires', region: 'americas', flag: '🇦🇷', en: 'Buenos Aires' },
+    { id: 'anc', tz: 'America/Anchorage',   region: 'americas', flag: '🇺🇸', en: 'Anchorage' },
+    { id: 'hnl', tz: 'Pacific/Honolulu',    region: 'americas', flag: '🇺🇸', en: 'Honolulu' },
     // Europe & Africa
-    { id: 'lon', tz: 'Europe/London',       region: 'emea', en: 'London' },
-    { id: 'par', tz: 'Europe/Paris',        region: 'emea', en: 'Paris' },
-    { id: 'ber', tz: 'Europe/Berlin',       region: 'emea', en: 'Berlin' },
-    { id: 'mad', tz: 'Europe/Madrid',       region: 'emea', en: 'Madrid' },
-    { id: 'rom', tz: 'Europe/Rome',         region: 'emea', en: 'Rome' },
-    { id: 'ams', tz: 'Europe/Amsterdam',    region: 'emea', en: 'Amsterdam' },
-    { id: 'sto', tz: 'Europe/Stockholm',    region: 'emea', en: 'Stockholm' },
-    { id: 'mos', tz: 'Europe/Moscow',       region: 'emea', en: 'Moscow' },
-    { id: 'ist', tz: 'Europe/Istanbul',     region: 'emea', en: 'Istanbul' },
-    { id: 'cai', tz: 'Africa/Cairo',        region: 'emea', en: 'Cairo' },
-    { id: 'lag', tz: 'Africa/Lagos',        region: 'emea', en: 'Lagos' },
-    { id: 'jnb', tz: 'Africa/Johannesburg', region: 'emea', en: 'Johannesburg' },
+    { id: 'lon', tz: 'Europe/London',       region: 'emea', flag: '🇬🇧', en: 'London' },
+    { id: 'par', tz: 'Europe/Paris',        region: 'emea', flag: '🇫🇷', en: 'Paris' },
+    { id: 'ber', tz: 'Europe/Berlin',       region: 'emea', flag: '🇩🇪', en: 'Berlin' },
+    { id: 'mad', tz: 'Europe/Madrid',       region: 'emea', flag: '🇪🇸', en: 'Madrid' },
+    { id: 'rom', tz: 'Europe/Rome',         region: 'emea', flag: '🇮🇹', en: 'Rome' },
+    { id: 'ams', tz: 'Europe/Amsterdam',    region: 'emea', flag: '🇳🇱', en: 'Amsterdam' },
+    { id: 'sto', tz: 'Europe/Stockholm',    region: 'emea', flag: '🇸🇪', en: 'Stockholm' },
+    { id: 'mos', tz: 'Europe/Moscow',       region: 'emea', flag: '🇷🇺', en: 'Moscow' },
+    { id: 'ist', tz: 'Europe/Istanbul',     region: 'emea', flag: '🇹🇷', en: 'Istanbul' },
+    { id: 'cai', tz: 'Africa/Cairo',        region: 'emea', flag: '🇪🇬', en: 'Cairo' },
+    { id: 'lag', tz: 'Africa/Lagos',        region: 'emea', flag: '🇳🇬', en: 'Lagos' },
+    { id: 'jnb', tz: 'Africa/Johannesburg', region: 'emea', flag: '🇿🇦', en: 'Johannesburg' },
     // Middle East & Asia
-    { id: 'dxb', tz: 'Asia/Dubai',          region: 'asia', en: 'Dubai' },
-    { id: 'thr', tz: 'Asia/Tehran',         region: 'asia', en: 'Tehran' },
-    { id: 'bom', tz: 'Asia/Kolkata',        region: 'asia', en: 'Mumbai' },
-    { id: 'del', tz: 'Asia/Kolkata',        region: 'asia', en: 'Delhi' },
-    { id: 'bkk', tz: 'Asia/Bangkok',        region: 'asia', en: 'Bangkok' },
-    { id: 'sin', tz: 'Asia/Singapore',      region: 'asia', en: 'Singapore' },
-    { id: 'jkt', tz: 'Asia/Jakarta',        region: 'asia', en: 'Jakarta' },
-    { id: 'mnl', tz: 'Asia/Manila',         region: 'asia', en: 'Manila' },
-    { id: 'hkg', tz: 'Asia/Hong_Kong',      region: 'asia', en: 'Hong Kong' },
-    { id: 'bjs', tz: 'Asia/Shanghai',       region: 'asia', en: 'Beijing' },
-    { id: 'sha', tz: 'Asia/Shanghai',       region: 'asia', en: 'Shanghai' },
-    { id: 'tpe', tz: 'Asia/Taipei',         region: 'asia', en: 'Taipei' },
-    { id: 'tyo', tz: 'Asia/Tokyo',          region: 'asia', en: 'Tokyo' },
-    { id: 'osa', tz: 'Asia/Tokyo',          region: 'asia', en: 'Osaka' },
-    { id: 'sel', tz: 'Asia/Seoul',          region: 'asia', en: 'Seoul' },
+    { id: 'dxb', tz: 'Asia/Dubai',          region: 'asia', flag: '🇦🇪', en: 'Dubai' },
+    { id: 'thr', tz: 'Asia/Tehran',         region: 'asia', flag: '🇮🇷', en: 'Tehran' },
+    { id: 'bom', tz: 'Asia/Kolkata',        region: 'asia', flag: '🇮🇳', en: 'Mumbai' },
+    { id: 'del', tz: 'Asia/Kolkata',        region: 'asia', flag: '🇮🇳', en: 'Delhi' },
+    { id: 'bkk', tz: 'Asia/Bangkok',        region: 'asia', flag: '🇹🇭', en: 'Bangkok' },
+    { id: 'sin', tz: 'Asia/Singapore',      region: 'asia', flag: '🇸🇬', en: 'Singapore' },
+    { id: 'jkt', tz: 'Asia/Jakarta',        region: 'asia', flag: '🇮🇩', en: 'Jakarta' },
+    { id: 'mnl', tz: 'Asia/Manila',         region: 'asia', flag: '🇵🇭', en: 'Manila' },
+    { id: 'hkg', tz: 'Asia/Hong_Kong',      region: 'asia', flag: '🇭🇰', en: 'Hong Kong' },
+    { id: 'bjs', tz: 'Asia/Shanghai',       region: 'asia', flag: '🇨🇳', en: 'Beijing' },
+    { id: 'sha', tz: 'Asia/Shanghai',       region: 'asia', flag: '🇨🇳', en: 'Shanghai' },
+    { id: 'tpe', tz: 'Asia/Taipei',         region: 'asia', flag: '🇹🇼', en: 'Taipei' },
+    { id: 'tyo', tz: 'Asia/Tokyo',          region: 'asia', flag: '🇯🇵', en: 'Tokyo' },
+    { id: 'osa', tz: 'Asia/Tokyo',          region: 'asia', flag: '🇯🇵', en: 'Osaka' },
+    { id: 'sel', tz: 'Asia/Seoul',          region: 'asia', flag: '🇰🇷', en: 'Seoul' },
     // Oceania
-    { id: 'syd', tz: 'Australia/Sydney',    region: 'oceania', en: 'Sydney' },
-    { id: 'mel', tz: 'Australia/Melbourne', region: 'oceania', en: 'Melbourne' },
-    { id: 'per', tz: 'Australia/Perth',     region: 'oceania', en: 'Perth' },
-    { id: 'akl', tz: 'Pacific/Auckland',    region: 'oceania', en: 'Auckland' },
+    { id: 'syd', tz: 'Australia/Sydney',    region: 'oceania', flag: '🇦🇺', en: 'Sydney' },
+    { id: 'mel', tz: 'Australia/Melbourne', region: 'oceania', flag: '🇦🇺', en: 'Melbourne' },
+    { id: 'per', tz: 'Australia/Perth',     region: 'oceania', flag: '🇦🇺', en: 'Perth' },
+    { id: 'akl', tz: 'Pacific/Auckland',    region: 'oceania', flag: '🇳🇿', en: 'Auckland' },
     // UTC
-    { id: 'utc', tz: 'UTC',                 region: 'utc', en: 'UTC' },
+    { id: 'utc', tz: 'UTC',                 region: 'utc', flag: '🌐', en: 'UTC' },
   ];
 
   // ---------- Localization ----------
   const LANGS = [
-    { code: 'en',    label: 'English',    bcp47: 'en-US' },
-    { code: 'zh',    label: '中文',       bcp47: 'zh-CN' },
-    { code: 'zh-tw', label: '繁體中文',   bcp47: 'zh-TW' },
-    { code: 'ja',    label: '日本語',     bcp47: 'ja-JP' },
-    { code: 'ko',    label: '한국어',     bcp47: 'ko-KR' },
-    { code: 'es',    label: 'Español',    bcp47: 'es-ES' },
-    { code: 'fr',    label: 'Français',   bcp47: 'fr-FR' },
-    { code: 'de',    label: 'Deutsch',    bcp47: 'de-DE' },
-    { code: 'pt',    label: 'Português',  bcp47: 'pt-BR' },
-    { code: 'ru',    label: 'Русский',    bcp47: 'ru-RU' },
-    { code: 'ar',    label: 'العربية',     bcp47: 'ar-EG' },
-    { code: 'hi',    label: 'हिन्दी',         bcp47: 'hi-IN' },
+    { code: 'en',    label: 'English',    flag: '🇺🇸', bcp47: 'en-US' },
+    { code: 'zh',    label: '中文',       flag: '🇨🇳', bcp47: 'zh-CN' },
+    { code: 'zh-tw', label: '繁體中文',   flag: '🇹🇼', bcp47: 'zh-TW' },
+    { code: 'ja',    label: '日本語',     flag: '🇯🇵', bcp47: 'ja-JP' },
+    { code: 'ko',    label: '한국어',     flag: '🇰🇷', bcp47: 'ko-KR' },
+    { code: 'es',    label: 'Español',    flag: '🇪🇸', bcp47: 'es-ES' },
+    { code: 'fr',    label: 'Français',   flag: '🇫🇷', bcp47: 'fr-FR' },
+    { code: 'de',    label: 'Deutsch',    flag: '🇩🇪', bcp47: 'de-DE' },
+    { code: 'pt',    label: 'Português',  flag: '🇧🇷', bcp47: 'pt-BR' },
+    { code: 'ru',    label: 'Русский',    flag: '🇷🇺', bcp47: 'ru-RU' },
+    { code: 'ar',    label: 'العربية',     flag: '🇦🇪', bcp47: 'ar-EG' },
+    { code: 'hi',    label: 'हिन्दी',         flag: '🇮🇳', bcp47: 'hi-IN' },
   ];
 
   const STRINGS = {
@@ -457,7 +548,11 @@
   const $ = (id) => document.getElementById(id);
   const els = {
     pageTitle: $('page-title'), pageSubtitle: $('page-subtitle'),
-    langSelect: $('lang-select'),
+    langPicker: $('lang-picker'),
+    langTrigger: $('lang-trigger'),
+    langMenu: $('lang-menu'),
+    langCurrentFlag: $('lang-current-flag'),
+    langCurrentLabel: $('lang-current-label'),
     cityA: $('city-a'), cityB: $('city-b'),
     tzA: $('tz-a'), tzB: $('tz-b'),
     dispA: $('display-a'), dispB: $('display-b'),
@@ -559,14 +654,51 @@
   }
 
   function populateLangs() {
-    els.langSelect.innerHTML = '';
+    els.langMenu.innerHTML = '';
     for (const L of LANGS) {
-      const opt = document.createElement('option');
-      opt.value = L.code;
-      opt.textContent = L.label;
-      if (L.code === lang) opt.selected = true;
-      els.langSelect.appendChild(opt);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lang-option' + (L.code === lang ? ' selected' : '');
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('data-code', L.code);
+      btn.setAttribute('aria-selected', L.code === lang ? 'true' : 'false');
+      btn.innerHTML =
+        `<span class="flag" aria-hidden="true">${L.flag}</span>` +
+        `<span class="label">${L.label}</span>` +
+        `<span class="check" aria-hidden="true">✓</span>`;
+      btn.addEventListener('click', () => selectLang(L.code));
+      els.langMenu.appendChild(btn);
     }
+    updateLangTrigger();
+  }
+
+  function updateLangTrigger() {
+    const L = LANGS.find(l => l.code === lang) || LANGS[0];
+    els.langCurrentFlag.textContent = L.flag;
+    els.langCurrentLabel.textContent = L.label;
+  }
+
+  function openLangMenu() {
+    els.langMenu.hidden = false;
+    els.langTrigger.setAttribute('aria-expanded', 'true');
+  }
+  function closeLangMenu() {
+    els.langMenu.hidden = true;
+    els.langTrigger.setAttribute('aria-expanded', 'false');
+  }
+  function toggleLangMenu() {
+    if (els.langMenu.hidden) openLangMenu(); else closeLangMenu();
+  }
+
+  function selectLang(code) {
+    lang = code;
+    LS.set('tc.lang', lang);
+    applyStaticStrings();
+    populateLangs();
+    populateCities(els.cityA, cityAId);
+    populateCities(els.cityB, cityBId);
+    render();
+    closeLangMenu();
   }
 
   function populateCities(selectEl, selectedId) {
@@ -589,7 +721,8 @@
         const opt = document.createElement('option');
         opt.value = c.id;
         const native = cityDisplayName(c, lang);
-        opt.textContent = native === c.en ? c.en : `${native} (${c.en})`;
+        const name = native === c.en ? c.en : `${native} (${c.en})`;
+        opt.textContent = `${c.flag}  ${name}`;
         if (c.id === selectedId) opt.selected = true;
         og.appendChild(opt);
       }
@@ -690,13 +823,15 @@
     render();
   });
 
-  els.langSelect.addEventListener('change', (e) => {
-    lang = e.target.value;
-    LS.set('tc.lang', lang);
-    applyStaticStrings();
-    populateCities(els.cityA, cityAId);
-    populateCities(els.cityB, cityBId);
-    render();
+  els.langTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleLangMenu();
+  });
+  document.addEventListener('click', (e) => {
+    if (!els.langPicker.contains(e.target)) closeLangMenu();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !els.langMenu.hidden) closeLangMenu();
   });
 
   els.btnNow.addEventListener('click', () => {
