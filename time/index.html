@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Time Converter</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⏱%3C/text%3E%3C/svg%3E" />
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('tc.theme');
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root {
     --bg: #000;
@@ -13,6 +21,24 @@
     --line: #222;
     --line-hover: #444;
     --card: #0a0a0a;
+    --menu-bg: #0f0f0f;
+    --menu-hover: #1a1a1a;
+    --shadow: rgba(0, 0, 0, 0.6);
+    --gold: var(--gold);
+    --scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg: #fafaf7;
+    --fg: #111;
+    --muted: #6b6b6b;
+    --line: #e3e3e0;
+    --line-hover: #b8b8b3;
+    --card: #ffffff;
+    --menu-bg: #ffffff;
+    --menu-hover: #f1f1ee;
+    --shadow: rgba(0, 0, 0, 0.12);
+    --gold: #b8893a;
+    --scheme: light;
   }
   * { box-sizing: border-box; }
   html, body {
@@ -23,6 +49,10 @@
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans", "Yu Gothic", "Malgun Gothic", sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  .card, .lang-trigger, .lang-menu, .btn, input[type="time"], input[type="date"], select, .theme-toggle {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
   .page {
     max-width: 1080px;
@@ -63,6 +93,34 @@
     letter-spacing: 0.02em;
     white-space: nowrap;
   }
+  .theme-toggle {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover { border-color: var(--line-hover); }
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .theme-toggle .icon-sun { display: none; }
+  .theme-toggle .icon-moon { display: block; }
+  :root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+  :root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
   .grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -149,12 +207,12 @@
     font-size: 15px;
     font-variant-numeric: tabular-nums;
     outline: none;
-    transition: border-color 0.2s ease;
-    color-scheme: dark;
     width: 100%;
     appearance: none;
     -webkit-appearance: none;
   }
+  :root { color-scheme: dark; }
+  :root[data-theme="light"] { color-scheme: light; }
   input[type="time"]:hover,
   input[type="date"]:hover,
   select:hover {
@@ -176,7 +234,7 @@
     background-position: right 10px center;
   }
   select option, select optgroup {
-    background: #111;
+    background: var(--menu-bg);
     color: var(--fg);
   }
   /* Custom language picker --------------------------- */
@@ -228,7 +286,7 @@
     position: absolute;
     top: calc(100% + 6px);
     right: 0;
-    background: #0f0f0f;
+    background: var(--menu-bg);
     border: 1px solid var(--line-hover);
     border-radius: 10px;
     padding: 6px;
@@ -236,7 +294,7 @@
     max-height: 360px;
     overflow-y: auto;
     z-index: 50;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 12px 32px var(--shadow);
   }
   .lang-menu[hidden] { display: none; }
   .lang-option {
@@ -255,8 +313,8 @@
     text-align: left;
     transition: background-color 0.15s ease;
   }
-  .lang-option:hover, .lang-option:focus { background: #1a1a1a; outline: none; }
-  .lang-option.selected { background: #1a1a1a; }
+  .lang-option:hover, .lang-option:focus { background: var(--menu-hover); outline: none; }
+  .lang-option.selected { background: var(--menu-hover); }
   .lang-option .flag {
     font-size: 18px;
     line-height: 1;
@@ -314,7 +372,7 @@
     color: var(--fg);
   }
   .save-default .star {
-    color: #d4b46a;
+    color: var(--gold);
     font-size: 13px;
     line-height: 1;
     transition: color 0.2s ease;
@@ -325,7 +383,7 @@
     border-color: var(--line-hover);
   }
   .save-default:not(.saved):hover {
-    border-color: #d4b46a;
+    border-color: var(--gold);
   }
   /* "saved" state: muted */
   .save-default.saved {
@@ -336,11 +394,11 @@
     color: var(--muted);
   }
   .save-default.just-saved {
-    border-color: #d4b46a;
-    color: #d4b46a;
+    border-color: var(--gold);
+    color: var(--gold);
   }
   .save-default.just-saved .star {
-    color: #d4b46a;
+    color: var(--gold);
   }
   .home-link {
     color: var(--muted);
@@ -392,6 +450,8 @@
     .subtitle { display: none; }
     .lang-wrap { flex-shrink: 0; gap: 6px; }
     .lang-caption { font-size: 10px; line-height: 1.1; }
+    .theme-toggle { width: 28px; height: 28px; }
+    .theme-toggle svg { width: 14px; height: 14px; }
     .lang-picker { width: auto; }
     .lang-trigger {
       width: auto;
@@ -487,6 +547,10 @@
         <p class="subtitle" id="page-subtitle">Type a time in either city. The other updates instantly.</p>
       </div>
       <div class="lang-wrap">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+        </button>
         <span class="lang-caption" aria-hidden="true">Language 语言</span>
         <div class="lang-picker" id="lang-picker">
           <button class="lang-trigger" id="lang-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language">
@@ -706,6 +770,7 @@
     btnNow: $('btn-now'), swap: $('swap'),
     btnSaveDefault: $('btn-save-default'),
     saveDefaultLabel: $('save-default-label'),
+    themeToggle: $('theme-toggle'),
   };
 
   // ---------- State (persisted) ----------
@@ -718,6 +783,7 @@
   const K_LANG = 'tc.lang';
   const K_DEFAULT_A = 'tc.defaultCityA';
   const K_DEFAULT_B = 'tc.defaultCityB';
+  const K_THEME = 'tc.theme';
 
   // One-time migration: previous versions auto-saved last-used cities under
   // tc.cityA / tc.cityB. Promote those to explicit defaults if no defaults set.
@@ -727,6 +793,8 @@
   let lang = LS.get(K_LANG, detectLang());
   let cityAId = LS.get(K_DEFAULT_A, 'sf');
   let cityBId = LS.get(K_DEFAULT_B, 'bjs');
+  let theme = LS.get(K_THEME, 'dark');
+  if (theme !== 'light' && theme !== 'dark') theme = 'dark';
   if (!CITIES.find(c => c.id === cityAId)) cityAId = 'sf';
   if (!CITIES.find(c => c.id === cityBId)) cityBId = 'bjs';
 
@@ -983,6 +1051,20 @@
     updateSaveButton();
   });
 
+  function applyTheme() {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }
+
+  els.themeToggle.addEventListener('click', () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    LS.set(K_THEME, theme);
+    applyTheme();
+  });
+
   els.btnSaveDefault.addEventListener('click', () => {
     LS.set(K_DEFAULT_A, cityAId);
     LS.set(K_DEFAULT_B, cityBId);
@@ -1026,6 +1108,7 @@
   });
 
   // ---------- Init ----------
+  applyTheme();
   populateLangs();
   applyStaticStrings();
   populateCities(els.cityA, cityAId);
