@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SF ⇄ Beijing — Time Converter</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⏱%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #000;
+    --fg: #fff;
+    --muted: #8a8a8a;
+    --line: #222;
+    --line-hover: #444;
+    --accent: #fff;
+    --card: #0a0a0a;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+  }
+  header {
+    margin-bottom: 48px;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color 0.2s ease;
+  }
+  .card:focus-within {
+    border-color: var(--line-hover);
+  }
+  .city-label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .city {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .tz {
+    font-size: 11px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .big-time {
+    font-size: 56px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.05;
+    margin-bottom: 6px;
+  }
+  .big-date {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    min-height: 20px;
+  }
+  .day-offset {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 7px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--line-hover);
+    border-radius: 999px;
+    color: var(--fg);
+    vertical-align: middle;
+  }
+  .inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  input[type="time"],
+  input[type="date"] {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+    transition: border-color 0.2s ease;
+    color-scheme: dark;
+    width: 100%;
+  }
+  input[type="time"]:hover,
+  input[type="date"]:hover {
+    border-color: var(--line-hover);
+  }
+  input[type="time"]:focus,
+  input[type="date"]:focus {
+    border-color: var(--fg);
+  }
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 22px;
+    user-select: none;
+  }
+  .footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .btn {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .btn:hover {
+    border-color: var(--line-hover);
+    color: var(--fg);
+  }
+  .home-link {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .home-link:hover {
+    color: var(--fg);
+  }
+
+  @media (max-width: 720px) {
+    .page { padding: 32px 20px 60px; }
+    h1 { font-size: 22px; }
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .arrow {
+      transform: rotate(90deg);
+      padding: 4px 0;
+    }
+    .card { padding: 22px; }
+    .big-time { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>San Francisco ⇄ Beijing</h1>
+      <p class="subtitle">Type a time in either city. The other updates instantly.</p>
+    </header>
+
+    <div class="grid">
+      <section class="card" id="card-sf" aria-label="San Francisco">
+        <div class="city-label">
+          <span class="city">San Francisco</span>
+          <span class="tz" id="tz-sf"></span>
+        </div>
+        <div class="big-time" id="display-sf">—</div>
+        <div class="big-date" id="display-date-sf"></div>
+        <div class="inputs">
+          <div class="field">
+            <label for="time-sf">Time</label>
+            <input type="time" id="time-sf" />
+          </div>
+          <div class="field">
+            <label for="date-sf">Date</label>
+            <input type="date" id="date-sf" />
+          </div>
+        </div>
+      </section>
+
+      <div class="arrow" aria-hidden="true">⇄</div>
+
+      <section class="card" id="card-bj" aria-label="Beijing">
+        <div class="city-label">
+          <span class="city">Beijing</span>
+          <span class="tz" id="tz-bj"></span>
+        </div>
+        <div class="big-time" id="display-bj">—</div>
+        <div class="big-date" id="display-date-bj"></div>
+        <div class="inputs">
+          <div class="field">
+            <label for="time-bj">Time</label>
+            <input type="time" id="time-bj" />
+          </div>
+          <div class="field">
+            <label for="date-bj">Date</label>
+            <input type="date" id="date-bj" />
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">
+      <button class="btn" id="btn-now">Use current time</button>
+      <a class="home-link" href="/">yiwen.bio</a>
+    </div>
+  </div>
+
+<script>
+(function () {
+  const TZ_SF = 'America/Los_Angeles';
+  const TZ_BJ = 'Asia/Shanghai';
+
+  const $ = (id) => document.getElementById(id);
+  const els = {
+    timeSF: $('time-sf'),
+    dateSF: $('date-sf'),
+    timeBJ: $('time-bj'),
+    dateBJ: $('date-bj'),
+    dispSF: $('display-sf'),
+    dispBJ: $('display-bj'),
+    dispDateSF: $('display-date-sf'),
+    dispDateBJ: $('display-date-bj'),
+    tzSF: $('tz-sf'),
+    tzBJ: $('tz-bj'),
+    btnNow: $('btn-now'),
+  };
+
+  // Get the wall-clock parts of a UTC instant in the given time zone.
+  function partsInZone(utcMs, timeZone) {
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false,
+    });
+    const parts = {};
+    for (const p of fmt.formatToParts(new Date(utcMs))) {
+      if (p.type !== 'literal') parts[p.type] = p.value;
+    }
+    // hour can come back as "24" at midnight in some locales
+    if (parts.hour === '24') parts.hour = '00';
+    return {
+      year: +parts.year,
+      month: +parts.month,
+      day: +parts.day,
+      hour: +parts.hour,
+      minute: +parts.minute,
+      second: +parts.second,
+    };
+  }
+
+  // Convert a wall time (year/month/day/hour/minute) in `timeZone` to UTC ms.
+  function wallToUtc(y, m, d, h, mi, timeZone) {
+    // Guess: pretend the wall time is UTC, then correct using the actual offset
+    // observed at that instant in the target zone.
+    const guess = Date.UTC(y, m - 1, d, h, mi, 0);
+    const p = partsInZone(guess, timeZone);
+    const wallOfGuess = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+    const offset = wallOfGuess - guess; // ms zone is ahead of UTC at `guess`
+    return guess - offset;
+  }
+
+  function tzAbbrev(utcMs, timeZone) {
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone, timeZoneName: 'short',
+      year: 'numeric', month: 'numeric', day: 'numeric',
+    });
+    for (const p of fmt.formatToParts(new Date(utcMs))) {
+      if (p.type === 'timeZoneName') return p.value;
+    }
+    return '';
+  }
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function formatBigTime(p) {
+    let h = p.hour;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12; if (h === 0) h = 12;
+    return `${h}:${pad(p.minute)} ${ampm}`;
+  }
+
+  function formatBigDate(p, timeZone, utcMs) {
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+    });
+    return fmt.format(new Date(utcMs));
+  }
+
+  // Day offset (in days) of zone B relative to zone A for the current pair
+  function dayOffset(pA, pB) {
+    const a = Date.UTC(pA.year, pA.month - 1, pA.day);
+    const b = Date.UTC(pB.year, pB.month - 1, pB.day);
+    return Math.round((b - a) / 86400000);
+  }
+
+  function offsetBadge(diff) {
+    if (diff === 0) return '';
+    if (diff === 1) return '<span class="day-offset">Next day</span>';
+    if (diff === -1) return '<span class="day-offset">Prev day</span>';
+    const sign = diff > 0 ? '+' : '';
+    return `<span class="day-offset">${sign}${diff}d</span>`;
+  }
+
+  // Render both sides based on a canonical UTC ms instant.
+  function render(utcMs) {
+    const pSF = partsInZone(utcMs, TZ_SF);
+    const pBJ = partsInZone(utcMs, TZ_BJ);
+
+    // Inputs
+    els.timeSF.value = `${pad(pSF.hour)}:${pad(pSF.minute)}`;
+    els.dateSF.value = `${pSF.year}-${pad(pSF.month)}-${pad(pSF.day)}`;
+    els.timeBJ.value = `${pad(pBJ.hour)}:${pad(pBJ.minute)}`;
+    els.dateBJ.value = `${pBJ.year}-${pad(pBJ.month)}-${pad(pBJ.day)}`;
+
+    // Big displays
+    els.dispSF.textContent = formatBigTime(pSF);
+    els.dispBJ.textContent = formatBigTime(pBJ);
+
+    const diffBJtoSF = dayOffset(pSF, pBJ); // BJ relative to SF
+    els.dispDateSF.innerHTML = formatBigDate(pSF, TZ_SF, utcMs);
+    els.dispDateBJ.innerHTML = formatBigDate(pBJ, TZ_BJ, utcMs) + offsetBadge(diffBJtoSF);
+
+    els.tzSF.textContent = tzAbbrev(utcMs, TZ_SF);
+    els.tzBJ.textContent = tzAbbrev(utcMs, TZ_BJ);
+  }
+
+  function parseInputs(timeEl, dateEl, timeZone, fallbackUtcMs) {
+    const tv = timeEl.value || '00:00';
+    const dv = dateEl.value;
+    const [hh, mm] = tv.split(':').map(Number);
+    let y, m, d;
+    if (dv) {
+      [y, m, d] = dv.split('-').map(Number);
+    } else {
+      // No date typed: use the current zone-side date
+      const p = partsInZone(fallbackUtcMs, timeZone);
+      y = p.year; m = p.month; d = p.day;
+    }
+    return wallToUtc(y, m, d, hh, mm, timeZone);
+  }
+
+  let currentUtc = Date.now();
+
+  function handleSFChange() {
+    currentUtc = parseInputs(els.timeSF, els.dateSF, TZ_SF, currentUtc);
+    render(currentUtc);
+  }
+  function handleBJChange() {
+    currentUtc = parseInputs(els.timeBJ, els.dateBJ, TZ_BJ, currentUtc);
+    render(currentUtc);
+  }
+
+  els.timeSF.addEventListener('input', handleSFChange);
+  els.dateSF.addEventListener('input', handleSFChange);
+  els.timeBJ.addEventListener('input', handleBJChange);
+  els.dateBJ.addEventListener('input', handleBJChange);
+
+  els.btnNow.addEventListener('click', () => {
+    currentUtc = Date.now();
+    render(currentUtc);
+  });
+
+  // Initial render with "now"
+  render(currentUtc);
+})();
+</script>
+</body>
+</html>
