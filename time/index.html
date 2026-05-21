@@ -288,6 +288,12 @@
     font-size: 12px;
     color: var(--muted);
   }
+  .footer-left {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
   .btn {
     background: transparent;
     color: var(--muted);
@@ -298,11 +304,43 @@
     font-size: 12px;
     letter-spacing: 0.04em;
     cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
   .btn:hover {
     border-color: var(--line-hover);
     color: var(--fg);
+  }
+  .save-default .star {
+    color: #d4b46a;
+    font-size: 13px;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+  /* "unsaved" (current ≠ default): active orange star, brighter label */
+  .save-default:not(.saved) {
+    color: var(--fg);
+    border-color: var(--line-hover);
+  }
+  .save-default:not(.saved):hover {
+    border-color: #d4b46a;
+  }
+  /* "saved" state: muted */
+  .save-default.saved {
+    color: var(--muted);
+    border-color: var(--line);
+  }
+  .save-default.saved .star {
+    color: var(--muted);
+  }
+  .save-default.just-saved {
+    border-color: #d4b46a;
+    color: #d4b46a;
+  }
+  .save-default.just-saved .star {
+    color: #d4b46a;
   }
   .home-link {
     color: var(--muted);
@@ -424,8 +462,11 @@
     .footer {
       margin-top: 0;
       font-size: 11px;
+      gap: 8px;
     }
-    .btn { padding: 6px 10px; font-size: 11px; }
+    .footer-left { gap: 6px; }
+    .btn { padding: 6px 9px; font-size: 11px; gap: 4px; }
+    .save-default .star { font-size: 11px; }
   }
 
   /* Very small phones (< 380px wide or very short screens) */
@@ -504,7 +545,13 @@
     </div>
 
     <div class="footer">
-      <button class="btn" id="btn-now">Use current time</button>
+      <div class="footer-left">
+        <button class="btn" id="btn-now">Use current time</button>
+        <button class="btn save-default" id="btn-save-default" type="button">
+          <span class="star" aria-hidden="true">★</span>
+          <span class="label" id="save-default-label">Save as default</span>
+        </button>
+      </div>
       <a class="home-link" href="/">yiwen.bio</a>
     </div>
   </div>
@@ -582,18 +629,18 @@
   ];
 
   const STRINGS = {
-    en:    { title: 'Time Converter', subtitle: 'Pick two cities. Type a time in either side; the other updates instantly.', time: 'Time', date: 'Date', now: 'Use current time', nextDay: 'Next day', prevDay: 'Prev day', regions: { americas: 'Americas', emea: 'Europe & Africa', asia: 'Middle East & Asia', oceania: 'Oceania', utc: 'UTC' } },
-    zh:    { title: '时间转换器', subtitle: '选择两个城市，在任一侧输入时间，另一侧会同步更新。', time: '时间', date: '日期', now: '使用当前时间', nextDay: '次日', prevDay: '前一日', regions: { americas: '美洲', emea: '欧洲与非洲', asia: '中东与亚洲', oceania: '大洋洲', utc: 'UTC' } },
-    'zh-tw': { title: '時間轉換器', subtitle: '選擇兩個城市，在任一側輸入時間，另一側會同步更新。', time: '時間', date: '日期', now: '使用目前時間', nextDay: '次日', prevDay: '前一日', regions: { americas: '美洲', emea: '歐洲與非洲', asia: '中東與亞洲', oceania: '大洋洲', utc: 'UTC' } },
-    ja:    { title: '時刻コンバーター', subtitle: '2つの都市を選び、どちらかに時刻を入力すると、もう一方が即座に更新されます。', time: '時刻', date: '日付', now: '現在時刻を使用', nextDay: '翌日', prevDay: '前日', regions: { americas: 'アメリカ', emea: 'ヨーロッパ・アフリカ', asia: '中東・アジア', oceania: 'オセアニア', utc: 'UTC' } },
-    ko:    { title: '시간 변환기', subtitle: '두 도시를 선택하세요. 한쪽에 시간을 입력하면 다른 쪽이 즉시 갱신됩니다.', time: '시간', date: '날짜', now: '현재 시각 사용', nextDay: '다음 날', prevDay: '전날', regions: { americas: '아메리카', emea: '유럽 및 아프리카', asia: '중동 및 아시아', oceania: '오세아니아', utc: 'UTC' } },
-    es:    { title: 'Conversor de hora', subtitle: 'Elige dos ciudades. Escribe una hora en cualquier lado y la otra se actualiza al instante.', time: 'Hora', date: 'Fecha', now: 'Usar hora actual', nextDay: 'Día siguiente', prevDay: 'Día anterior', regions: { americas: 'América', emea: 'Europa y África', asia: 'Oriente Medio y Asia', oceania: 'Oceanía', utc: 'UTC' } },
-    fr:    { title: "Convertisseur d'heure", subtitle: 'Choisissez deux villes. Tapez une heure d\'un côté, l\'autre se met à jour instantanément.', time: 'Heure', date: 'Date', now: "Utiliser l'heure actuelle", nextDay: 'Jour suivant', prevDay: 'Jour précédent', regions: { americas: 'Amériques', emea: 'Europe et Afrique', asia: 'Moyen-Orient et Asie', oceania: 'Océanie', utc: 'UTC' } },
-    de:    { title: 'Zeitumrechner', subtitle: 'Wähle zwei Städte. Gib auf einer Seite eine Uhrzeit ein — die andere aktualisiert sich sofort.', time: 'Uhrzeit', date: 'Datum', now: 'Aktuelle Zeit verwenden', nextDay: 'Folgetag', prevDay: 'Vortag', regions: { americas: 'Amerika', emea: 'Europa & Afrika', asia: 'Naher Osten & Asien', oceania: 'Ozeanien', utc: 'UTC' } },
-    pt:    { title: 'Conversor de horário', subtitle: 'Escolha duas cidades. Digite uma hora em qualquer lado e o outro se atualiza instantaneamente.', time: 'Hora', date: 'Data', now: 'Usar hora atual', nextDay: 'Dia seguinte', prevDay: 'Dia anterior', regions: { americas: 'Américas', emea: 'Europa e África', asia: 'Oriente Médio e Ásia', oceania: 'Oceania', utc: 'UTC' } },
-    ru:    { title: 'Конвертер времени', subtitle: 'Выберите два города. Введите время с любой стороны — другая обновится мгновенно.', time: 'Время', date: 'Дата', now: 'Текущее время', nextDay: 'След. день', prevDay: 'Пред. день', regions: { americas: 'Америка', emea: 'Европа и Африка', asia: 'Ближний Восток и Азия', oceania: 'Океания', utc: 'UTC' } },
-    ar:    { title: 'محوّل التوقيت', subtitle: 'اختر مدينتين. اكتب الوقت في أي جانب ليتحدث الجانب الآخر فورًا.', time: 'الوقت', date: 'التاريخ', now: 'استخدام الوقت الحالي', nextDay: 'اليوم التالي', prevDay: 'اليوم السابق', regions: { americas: 'الأمريكتان', emea: 'أوروبا وأفريقيا', asia: 'الشرق الأوسط وآسيا', oceania: 'أوقيانوسيا', utc: 'التوقيت العالمي' } },
-    hi:    { title: 'समय कन्वर्टर', subtitle: 'दो शहर चुनें। किसी भी ओर समय टाइप करें — दूसरी ओर तुरंत अपडेट हो जाएगी।', time: 'समय', date: 'तारीख', now: 'वर्तमान समय', nextDay: 'अगला दिन', prevDay: 'पिछला दिन', regions: { americas: 'अमेरिका', emea: 'यूरोप और अफ्रीका', asia: 'मध्य पूर्व और एशिया', oceania: 'ओशिनिया', utc: 'UTC' } },
+    en:    { title: 'Time Converter', subtitle: 'Pick two cities. Type a time in either side; the other updates instantly.', time: 'Time', date: 'Date', now: 'Use current time', saveDefault: 'Save as default', defaultSaved: 'Default saved', justSaved: 'Saved!', nextDay: 'Next day', prevDay: 'Prev day', regions: { americas: 'Americas', emea: 'Europe & Africa', asia: 'Middle East & Asia', oceania: 'Oceania', utc: 'UTC' } },
+    zh:    { title: '时间转换器', subtitle: '选择两个城市，在任一侧输入时间，另一侧会同步更新。', time: '时间', date: '日期', now: '使用当前时间', saveDefault: '保存为默认', defaultSaved: '默认已保存', justSaved: '已保存！', nextDay: '次日', prevDay: '前一日', regions: { americas: '美洲', emea: '欧洲与非洲', asia: '中东与亚洲', oceania: '大洋洲', utc: 'UTC' } },
+    'zh-tw': { title: '時間轉換器', subtitle: '選擇兩個城市，在任一側輸入時間，另一側會同步更新。', time: '時間', date: '日期', now: '使用目前時間', saveDefault: '儲存為預設', defaultSaved: '預設已儲存', justSaved: '已儲存！', nextDay: '次日', prevDay: '前一日', regions: { americas: '美洲', emea: '歐洲與非洲', asia: '中東與亞洲', oceania: '大洋洲', utc: 'UTC' } },
+    ja:    { title: '時刻コンバーター', subtitle: '2つの都市を選び、どちらかに時刻を入力すると、もう一方が即座に更新されます。', time: '時刻', date: '日付', now: '現在時刻を使用', saveDefault: 'デフォルトに保存', defaultSaved: 'デフォルト保存済み', justSaved: '保存しました！', nextDay: '翌日', prevDay: '前日', regions: { americas: 'アメリカ', emea: 'ヨーロッパ・アフリカ', asia: '中東・アジア', oceania: 'オセアニア', utc: 'UTC' } },
+    ko:    { title: '시간 변환기', subtitle: '두 도시를 선택하세요. 한쪽에 시간을 입력하면 다른 쪽이 즉시 갱신됩니다.', time: '시간', date: '날짜', now: '현재 시각 사용', saveDefault: '기본값으로 저장', defaultSaved: '기본값 저장됨', justSaved: '저장됨!', nextDay: '다음 날', prevDay: '전날', regions: { americas: '아메리카', emea: '유럽 및 아프리카', asia: '중동 및 아시아', oceania: '오세아니아', utc: 'UTC' } },
+    es:    { title: 'Conversor de hora', subtitle: 'Elige dos ciudades. Escribe una hora en cualquier lado y la otra se actualiza al instante.', time: 'Hora', date: 'Fecha', now: 'Usar hora actual', saveDefault: 'Guardar por defecto', defaultSaved: 'Predeterminado guardado', justSaved: '¡Guardado!', nextDay: 'Día siguiente', prevDay: 'Día anterior', regions: { americas: 'América', emea: 'Europa y África', asia: 'Oriente Medio y Asia', oceania: 'Oceanía', utc: 'UTC' } },
+    fr:    { title: "Convertisseur d'heure", subtitle: 'Choisissez deux villes. Tapez une heure d\'un côté, l\'autre se met à jour instantanément.', time: 'Heure', date: 'Date', now: "Utiliser l'heure actuelle", saveDefault: 'Enregistrer par défaut', defaultSaved: 'Par défaut enregistré', justSaved: 'Enregistré !', nextDay: 'Jour suivant', prevDay: 'Jour précédent', regions: { americas: 'Amériques', emea: 'Europe et Afrique', asia: 'Moyen-Orient et Asie', oceania: 'Océanie', utc: 'UTC' } },
+    de:    { title: 'Zeitumrechner', subtitle: 'Wähle zwei Städte. Gib auf einer Seite eine Uhrzeit ein — die andere aktualisiert sich sofort.', time: 'Uhrzeit', date: 'Datum', now: 'Aktuelle Zeit verwenden', saveDefault: 'Als Standard speichern', defaultSaved: 'Standard gespeichert', justSaved: 'Gespeichert!', nextDay: 'Folgetag', prevDay: 'Vortag', regions: { americas: 'Amerika', emea: 'Europa & Afrika', asia: 'Naher Osten & Asien', oceania: 'Ozeanien', utc: 'UTC' } },
+    pt:    { title: 'Conversor de horário', subtitle: 'Escolha duas cidades. Digite uma hora em qualquer lado e o outro se atualiza instantaneamente.', time: 'Hora', date: 'Data', now: 'Usar hora atual', saveDefault: 'Salvar como padrão', defaultSaved: 'Padrão salvo', justSaved: 'Salvo!', nextDay: 'Dia seguinte', prevDay: 'Dia anterior', regions: { americas: 'Américas', emea: 'Europa e África', asia: 'Oriente Médio e Ásia', oceania: 'Oceania', utc: 'UTC' } },
+    ru:    { title: 'Конвертер времени', subtitle: 'Выберите два города. Введите время с любой стороны — другая обновится мгновенно.', time: 'Время', date: 'Дата', now: 'Текущее время', saveDefault: 'Сохранить по умолчанию', defaultSaved: 'Сохранено', justSaved: 'Сохранено!', nextDay: 'След. день', prevDay: 'Пред. день', regions: { americas: 'Америка', emea: 'Европа и Африка', asia: 'Ближний Восток и Азия', oceania: 'Океания', utc: 'UTC' } },
+    ar:    { title: 'محوّل التوقيت', subtitle: 'اختر مدينتين. اكتب الوقت في أي جانب ليتحدث الجانب الآخر فورًا.', time: 'الوقت', date: 'التاريخ', now: 'استخدام الوقت الحالي', saveDefault: 'حفظ كافتراضي', defaultSaved: 'تم حفظ الافتراضي', justSaved: 'تم الحفظ!', nextDay: 'اليوم التالي', prevDay: 'اليوم السابق', regions: { americas: 'الأمريكتان', emea: 'أوروبا وأفريقيا', asia: 'الشرق الأوسط وآسيا', oceania: 'أوقيانوسيا', utc: 'التوقيت العالمي' } },
+    hi:    { title: 'समय कन्वर्टर', subtitle: 'दो शहर चुनें। किसी भी ओर समय टाइप करें — दूसरी ओर तुरंत अपडेट हो जाएगी।', time: 'समय', date: 'तारीख', now: 'वर्तमान समय', saveDefault: 'डिफ़ॉल्ट के रूप में सहेजें', defaultSaved: 'डिफ़ॉल्ट सहेजा गया', justSaved: 'सहेजा गया!', nextDay: 'अगला दिन', prevDay: 'पिछला दिन', regions: { americas: 'अमेरिका', emea: 'यूरोप और अफ्रीका', asia: 'मध्य पूर्व और एशिया', oceania: 'ओशिनिया', utc: 'UTC' } },
   };
 
   // City name overrides: for languages where city names differ meaningfully from English.
@@ -657,6 +704,8 @@
     labelTimeA: $('label-time-a'), labelDateA: $('label-date-a'),
     labelTimeB: $('label-time-b'), labelDateB: $('label-date-b'),
     btnNow: $('btn-now'), swap: $('swap'),
+    btnSaveDefault: $('btn-save-default'),
+    saveDefaultLabel: $('save-default-label'),
   };
 
   // ---------- State (persisted) ----------
@@ -665,11 +714,27 @@
     set(k, v) { try { localStorage.setItem(k, v); } catch {} },
   };
 
-  let lang = LS.get('tc.lang', detectLang());
-  let cityAId = LS.get('tc.cityA', 'sf');
-  let cityBId = LS.get('tc.cityB', 'bjs');
+  // Storage keys
+  const K_LANG = 'tc.lang';
+  const K_DEFAULT_A = 'tc.defaultCityA';
+  const K_DEFAULT_B = 'tc.defaultCityB';
+
+  // One-time migration: previous versions auto-saved last-used cities under
+  // tc.cityA / tc.cityB. Promote those to explicit defaults if no defaults set.
+  if (!LS.get(K_DEFAULT_A) && LS.get('tc.cityA')) LS.set(K_DEFAULT_A, LS.get('tc.cityA'));
+  if (!LS.get(K_DEFAULT_B) && LS.get('tc.cityB')) LS.set(K_DEFAULT_B, LS.get('tc.cityB'));
+
+  let lang = LS.get(K_LANG, detectLang());
+  let cityAId = LS.get(K_DEFAULT_A, 'sf');
+  let cityBId = LS.get(K_DEFAULT_B, 'bjs');
   if (!CITIES.find(c => c.id === cityAId)) cityAId = 'sf';
   if (!CITIES.find(c => c.id === cityBId)) cityBId = 'bjs';
+
+  function getSavedDefaultA() { return LS.get(K_DEFAULT_A, 'sf'); }
+  function getSavedDefaultB() { return LS.get(K_DEFAULT_B, 'bjs'); }
+  function isCurrentDefault() {
+    return cityAId === getSavedDefaultA() && cityBId === getSavedDefaultB();
+  }
 
   function detectLang() {
     const nav = (navigator.language || 'en').toLowerCase();
@@ -836,6 +901,7 @@
     els.labelDateA.textContent = t.date;
     els.labelDateB.textContent = t.date;
     els.btnNow.textContent = t.now;
+    updateSaveButton();
   }
 
   // ---------- Render ----------
@@ -900,23 +966,48 @@
 
   els.cityA.addEventListener('change', (e) => {
     cityAId = e.target.value;
-    LS.set('tc.cityA', cityAId);
     render();
+    updateSaveButton();
   });
   els.cityB.addEventListener('change', (e) => {
     cityBId = e.target.value;
-    LS.set('tc.cityB', cityBId);
     render();
+    updateSaveButton();
   });
 
   els.swap.addEventListener('click', () => {
     [cityAId, cityBId] = [cityBId, cityAId];
-    LS.set('tc.cityA', cityAId);
-    LS.set('tc.cityB', cityBId);
     populateCities(els.cityA, cityAId);
     populateCities(els.cityB, cityBId);
     render();
+    updateSaveButton();
   });
+
+  els.btnSaveDefault.addEventListener('click', () => {
+    LS.set(K_DEFAULT_A, cityAId);
+    LS.set(K_DEFAULT_B, cityBId);
+    const t = STRINGS[lang] || STRINGS.en;
+    els.btnSaveDefault.classList.remove('saved');
+    els.btnSaveDefault.classList.add('just-saved');
+    els.saveDefaultLabel.textContent = t.justSaved;
+    setTimeout(() => {
+      els.btnSaveDefault.classList.remove('just-saved');
+      updateSaveButton();
+    }, 1200);
+  });
+
+  function updateSaveButton() {
+    if (!els.btnSaveDefault) return;
+    if (els.btnSaveDefault.classList.contains('just-saved')) return;
+    const t = STRINGS[lang] || STRINGS.en;
+    if (isCurrentDefault()) {
+      els.btnSaveDefault.classList.add('saved');
+      els.saveDefaultLabel.textContent = t.defaultSaved;
+    } else {
+      els.btnSaveDefault.classList.remove('saved');
+      els.saveDefaultLabel.textContent = t.saveDefault;
+    }
+  }
 
   els.langTrigger.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -940,6 +1031,7 @@
   populateCities(els.cityA, cityAId);
   populateCities(els.cityB, cityBId);
   render();
+  updateSaveButton();
 })();
 </script>
 </body>
