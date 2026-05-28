@@ -46,6 +46,12 @@
     font-weight: 700;
     line-height: 1.1;
   }
+  .header-left .tagline {
+    margin-top: 2pt;
+    font-size: 10pt;
+    font-style: italic;
+    color: #333;
+  }
   .header-left .links {
     margin-top: 4pt;
     font-size: 10pt;
@@ -127,17 +133,59 @@
   .item strong { font-weight: 700; }
   .item em { font-style: italic; }
 
-  /* Print styles - actual page print */
+  /* Award row with location meta */
+  .award-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: relative;
+    padding-left: 12pt;
+    margin-left: 14pt;
+    margin-bottom: 1.5pt;
+    font-size: 10pt;
+  }
+  .award-row::before {
+    content: '\2022';
+    position: absolute;
+    left: 0;
+    top: -1pt;
+  }
+  .award-meta {
+    font-size: 9pt;
+    color: #444;
+    white-space: nowrap;
+    margin-left: 8pt;
+  }
+
+  @page { size: A4; margin: 0; }
+
+  /* Print styles — single A4 page */
   @media print {
-    html, body { background: #fff; }
+    html, body { background: #fff; margin: 0; padding: 0; }
     .page {
       margin: 0;
       box-shadow: none;
       width: 100%;
       min-height: auto;
-      padding: 0.45in 0.6in;
+      padding: 0.3in 0.45in;
+      font-size: 9pt;
+      line-height: 1.18;
     }
     .toolbar { display: none !important; }
+    .header { margin-bottom: 2pt; }
+    .header-left .name { font-size: 17pt; }
+    .header-left .tagline { font-size: 8.5pt; margin-top: 1pt; }
+    .header-left .links { font-size: 8.5pt; line-height: 1.3; }
+    .header-right { font-size: 8.5pt; line-height: 1.3; }
+    h2 { margin: 4pt 0 1pt 0; font-size: 10pt; }
+    .entry { margin: 1pt 0 0 0; }
+    .entry-sub { font-size: 9pt; }
+    .entry-detail { font-size: 7.5pt; margin-top: 0; }
+    ul { margin: 0 0 1pt 0; }
+    ul li { margin-bottom: 0; font-size: 9pt; line-height: 1.22; }
+    .item { margin-bottom: 0.5pt; font-size: 9pt; line-height: 1.22; }
+    .award-row { margin-bottom: 0; font-size: 9pt; }
+    .award-meta { font-size: 7.5pt; }
   }
 
   /* Floating toolbar */
@@ -185,6 +233,7 @@
     .header { flex-direction: column; gap: 4pt; }
     .header-right { text-align: left; padding-top: 0; }
     .entry-row, .entry-sub { flex-direction: column; }
+    .award-row { flex-direction: column; }
   }
 </style>
 </head>
@@ -202,6 +251,7 @@
   <div class="header">
     <div class="header-left">
       <div class="name">Yiwen Wei</div>
+      <div class="tagline">Product Engineer &middot; Mountain View, CA &middot; based at CMU Silicon Valley</div>
       <div class="links">
         <a href="https://yiwen.bio">Portfolio: yiwen.bio</a><br>
         <a href="https://www.linkedin.com/in/yiwenwei">LinkedIn: linkedin.com/in/yiwenwei</a><br>
@@ -214,58 +264,38 @@
     </div>
   </div>
 
-  <!-- Education -->
-  <h2>Education</h2>
-  <div class="entry">
-    <div class="entry-row">
-      <span class="left">Carnegie Mellon University, Silicon Valley</span>
-      <span class="right">Mountain View, CA</span>
-    </div>
-    <div class="entry-sub">
-      <span>Master of Science in Software Management</span>
-      <span>Aug 2025 &ndash; Dec 2026</span>
-    </div>
-    <div class="entry-detail">
-      <strong>Courses:</strong> Architecture &amp; Programming Principles, Venture Governance, Product Management, Problem Framing, Product &amp; Business Modeling, Solution Strategy &amp; Marketing, Process &amp; Project Management
-    </div>
-  </div>
-
-  <div class="entry">
-    <div class="entry-row">
-      <span class="left">City Institute, Dalian University of Technology</span>
-      <span class="right">Liaoning, China</span>
-    </div>
-    <div class="entry-sub">
-      <span>Bachelor of Information Management and Information Systems; &nbsp;GPA: 3.94/4.0</span>
-      <span></span>
-    </div>
-    <div class="entry-detail">
-      <strong>Honors:</strong> Major Rank Top 1 (Accelerated: 4-year program in 3 years); National Scholarship (Top 1%); Merit Student of Liaoning Province (Top 0.3%)
-    </div>
-  </div>
-
-  <!-- Skills -->
-  <h2>Skills Summary</h2>
-  <div class="item"><strong>Product:</strong> Product Strategy, User/SME Interview, Strategy Consulting &amp; Analysis, Stakeholder Analysis, Journey Mapping, JTBD Framework, Value Proposition Design</div>
-  <div class="item"><strong>Technical:</strong> <em>SWE:</em> Full-Stack Web Development (Claude-Assisted), Python, IoT, Database &nbsp;|&nbsp; <em>AI &amp; CV:</em> YOLO, OpenCV, AI Model Deployment, Data Labeling &amp; Training &nbsp;|&nbsp; <em>Simulation &amp; 3D:</em> CARLA, Unreal Engine, Blender, RoadRunner &nbsp;|&nbsp; <em>Design:</em> UI/UX Design</div>
-  <div class="item"><strong>Tools:</strong> Claude Code, Notion, Miro, VS Code, LucidSpark, Canva, Gamma, Figma Make, Git, etc.</div>
-
-  <!-- Experience -->
+  <!-- Experience (lead with shipped product) -->
   <h2>Experience</h2>
 
   <div class="entry">
     <div class="entry-row">
-      <span class="left">Computer Science Teacher</span>
+      <span class="left">Product Engineer &mdash; TurtleTalk</span>
+      <span class="right">San Francisco, CA</span>
+    </div>
+    <div class="entry-sub">
+      <span>Founders, Inc. Accelerator &middot; live at <a href="https://turtletalk.io">turtletalk.io</a></span>
+      <span>Feb 2026 &ndash; Mar 2026</span>
+    </div>
+    <ul>
+      <li><strong>Shipped a voice-AI prototype in a 4-week sprint</strong> &mdash; a sea-turtle character that listens to kids, turns hard moments into "brave missions," and surfaces weekly conversation starters for parents. Deployed to production on Vercel and currently collecting waitlist signups at <a href="https://turtletalk.io">turtletalk.io</a>.</li>
+      <li><strong>JTBD insight that shaped the product:</strong> parents weren't hiring a chat app to entertain their kid &mdash; they were hiring it as a safe place to process big feelings and a bridge back to talking with them. Reframed the product away from a black-box AI tutor toward parent-visible, opt-in conversations after SME interviews surfaced that U.S. educators want transparency while Chinese educators prioritize measurable outcomes.</li>
+      <li><strong>Tech stack:</strong> Next.js + TypeScript on Vercel; Supabase for child auth, missions, conversation memory, and the parent dashboard; pluggable voice pipeline across native browser VAD / Vapi / OpenAI Realtime / Gemini Live / LiveKit to A/B latency without rewriting the app; Claude / GPT / Gemini routed via LangChain; ElevenLabs TTS.</li>
+      <li><strong>Owned the full loop:</strong> JTBD &amp; value-prop discovery &rarr; system architecture &amp; data-flow decisions &rarr; iterating on the build with user feedback from accelerator demo days.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">Computer Science Teacher &mdash; EdTech Innovation Lead</span>
       <span class="right">Yichang, China</span>
     </div>
     <div class="entry-sub">
       <span>Yichang Experimental Primary School (Top Public Primary School in Yichang City)</span>
     </div>
     <ul>
-      <li><strong>AI Educator Excellence:</strong> Achieved Outstanding Rating (top 10%) in a nationwide AI educator training program with 1,500+ participants; the sole presenter to advocate ChatGPT-assisted coding at the national livestream final in Feb 2023, as the earliest 1% vibe coding adopter worldwide before mainstream adoption.</li>
-      <li><strong>EdTech Innovation:</strong> Implemented a Dual-Teacher Instruction Platform integrated with IoT devices, improving student engagement by 30%; showcased via a nationwide teacher livestream.</li>
-      <li><strong>Teacher Training:</strong> Conducted live training for 2,000+ teachers in a city-level IT Training Program on technology integration strategies.</li>
-      <li><strong>Competition Coaching:</strong> Recognized as provincial-level Outstanding Competition Coach; in 2022, guided two students to national awards in creative coding (two out of merely four primary school nominations in Hubei Province).</li>
+      <li><strong>Boosted student engagement 30%</strong> by deploying an IoT-integrated Dual-Teacher Instruction Platform in the classroom; featured in a nationwide teacher livestream as a reference implementation.</li>
+      <li><strong>Earliest 1% adopter of LLM-assisted coding (Feb 2023):</strong> achieved Outstanding rating (top 10%) among 1,500+ participants in a national AI-educator program, and was the sole presenter at the national livestream final advocating ChatGPT-assisted coding before mainstream adoption.</li>
+      <li><strong>Scaled the playbook:</strong> trained 2,000+ teachers in a city-level IT program on technology-integration strategies; coached two students to national creative-coding awards (2 of only 4 Hubei primary-school nominations) and was recognized as provincial Outstanding Competition Coach.</li>
     </ul>
   </div>
 
@@ -275,38 +305,74 @@
       <span class="right">Beijing, China</span>
     </div>
     <div class="entry-sub">
-      <span>Rise Subject English, Beijing Flagship School (Listed Company)</span>
+      <span>Rise Subject English, Beijing Flagship School (Listed Company) &middot; 3rd of 90+ instructors in annual teaching competition</span>
     </div>
-    <ul>
-      <li><strong>Teaching Excellence:</strong> Awarded 3rd place out of 90+ instructors in the Flagship School Annual Teaching Competition.</li>
-      <li><strong>Mentorship:</strong> Mentored new teachers on lesson preparation and classroom management techniques.</li>
-    </ul>
   </div>
 
   <!-- Projects -->
   <h2>Selected Projects</h2>
-  <div class="item"><strong>Stakeholder &amp; Macro Environment Analysis for EdTech (CMU):</strong> Conducted stakeholder mapping, macro environment analysis, and journey mapping for an EdTech company as part of the Integrated Thinking for Innovation course.</div>
-  <div class="item"><strong>SME Interviews: EdTech in U.S. vs. China (CMU):</strong> Interviewed subject matter experts to compare AI education product needs across U.S. and Chinese markets; synthesized insights into product recommendations.</div>
-  <div class="item"><strong>SME Interview: Special Education in the U.S.:</strong> Conducted expert interviews on building durable products for education by understanding extreme situations like special education; distilled findings on user needs and product longevity.</div>
-  <div class="item"><strong>TurtleTalk &mdash; End-to-End Product Development:</strong> Led product discovery through JTBD research and value proposition design, defined system architecture and data flows, and shipped a functional prototype website during 4 weeks at accelerator Founders, Inc.</div>
-  <div class="item"><strong>Autonomous Driving Simulation Workshop (CMU):</strong> Co-led a workshop on CARLA-based autonomous driving simulation, introducing perception systems, sensors and path planning, and 3D environment modeling integrated with Unreal Engine.</div>
-  <div class="item"><strong>Distracted Pedestrian Safety (Computer Vision):</strong> Built a real-time object detection application using YOLO, PyTorch, and OpenCV to detect pedestrians using phones at crosswalks and trigger warning signals to improve road safety.</div>
+  <div class="item"><strong><a href="https://www.openinnolab.org.cn/pjlab/project?id=63d8da549bd420342591c7d1&amp;sc=63797fc77300080be72c0525">AI Head-Down Pedestrian Detection</a></strong> <em>(2023, shipped on OpenInnoLab):</em> Real-time YOLO + PyTorch + OpenCV pipeline that detects pedestrians looking at their phones at crosswalks and triggers a warning &mdash; deployed and showcased in classroom context as a road-safety teaching tool.</div>
+  <div class="item"><strong><a href="https://share.descript.com/view/YHdNzBe8q7b">Autonomous-Driving Simulation Workshop (CMU)</a></strong> <em>(Dec 2025, Mountain View):</em> Co-led a public workshop on CARLA-based AV simulation &mdash; perception, sensors, path planning, and Unreal-Engine 3D environments &mdash; culminating in a live simulated drive.</div>
+  <div class="item"><strong>Product Discovery &amp; Strategy (CMU coursework):</strong> Ran SME interviews on EdTech in the U.S. vs. China and on durable products for special education; produced stakeholder maps, journey maps, and macro-environment analyses. Findings directly informed TurtleTalk's parent-visibility model and emotional-safety positioning.</div>
+
+  <!-- Education -->
+  <h2>Education</h2>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">Carnegie Mellon University, Silicon Valley</span>
+      <span class="right">Mountain View, CA</span>
+    </div>
+    <div class="entry-sub">
+      <span>M.S. Software Management &nbsp;|&nbsp; GPA: 3.89/4.0</span>
+      <span>Aug 2025 &ndash; Dec 2026</span>
+    </div>
+    <div class="entry-detail">
+      <strong>Courses:</strong> Architecture &amp; Programming Principles, Venture Governance, Product Management, Problem Discovery &amp; Definition, Product &amp; Business Modeling, Solution Strategy &amp; Marketing, Applied AI, Software Engineering Management.
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="left">City Institute, Dalian University of Technology</span>
+      <span class="right">Liaoning, China</span>
+    </div>
+    <div class="entry-sub">
+      <span>B.S. Information Management &amp; Information Systems &nbsp;|&nbsp; GPA: 3.94/4.0</span>
+    </div>
+    <div class="entry-detail">
+      <strong>Honors:</strong> Major Rank #1 (4-year program in 3 years); National Scholarship (Top 1%); Merit Student of Liaoning Province (Top 0.3%).
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <h2>Skills</h2>
+  <div class="item"><strong>Building:</strong> Full-stack web apps with Next.js, TypeScript, React, Python; Supabase / Postgres; Vercel deployment; AI-augmented workflows (Claude Code, Cursor) for rapid iteration.</div>
+  <div class="item"><strong>AI &amp; Voice:</strong> LLM routing via LangChain (Claude / GPT / Gemini); voice pipelines (Vapi, OpenAI Realtime, Gemini Live, LiveKit, ElevenLabs); YOLO, PyTorch, OpenCV for computer vision; model deployment, data labeling &amp; training.</div>
+  <div class="item"><strong>Product:</strong> JTBD framework, value-proposition design, SME / user interviews, stakeholder &amp; journey mapping, opportunity sizing, system architecture &amp; data-flow design.</div>
+  <div class="item"><strong>Simulation &amp; Design:</strong> CARLA, Unreal Engine, Blender, RoadRunner; UI/UX design in Figma, Miro, LucidSpark, Canva.</div>
 
   <!-- Honors -->
-  <h2>Honors and Awards</h2>
-  <ul class="dot">
-    <li>HackStorm AIoT Hackathon &mdash; 3rd Place</li>
-    <li>Lablab.ai Hackathon Google DeepMind Challenge &mdash; 2nd Place</li>
-    <li>First Prize (&times;2), Hubei Provincial Teacher Education and Information Exchange Activity</li>
-    <li>First Place, Yichang Gamified Teaching Resource Development Competition</li>
-    <li>Shanghai AI Laboratory Educator Training &mdash; Outstanding Certificate</li>
-  </ul>
-
-  <!-- Test Scores -->
-  <h2>Test Scores</h2>
-  <ul class="dot">
-    <li>GRE: 330 (V162/Q168/AW3.5), 2024 &nbsp;&nbsp;|&nbsp;&nbsp; TOEFL: 105 (R30/L27/S23/W25), 2025</li>
-  </ul>
+  <h2>Honors &amp; Awards</h2>
+  <div class="award-row">
+    <span><strong>2nd Place</strong> &mdash; Lablab.ai Hackathon, Google DeepMind Challenge</span>
+    <span class="award-meta">San Francisco, CA</span>
+  </div>
+  <div class="award-row">
+    <span><strong>3rd Place</strong> &mdash; HackStorm AIoT Hackathon</span>
+    <span class="award-meta">Mountain View, CA</span>
+  </div>
+  <div class="award-row">
+    <span><strong>Invited Judge</strong> &mdash; Yichang Student Computer Creation Competition</span>
+    <span class="award-meta">Yichang, China</span>
+  </div>
+  <div class="award-row">
+    <span><strong>First Prize (&times;2)</strong> &mdash; Hubei Provincial Teacher Education &amp; Information Exchange</span>
+    <span class="award-meta">Hubei, China</span>
+  </div>
+  <div class="award-row">
+    <span><strong>Outstanding Certificate</strong> &mdash; Shanghai AI Laboratory Educator Training</span>
+    <span class="award-meta">Shanghai, China</span>
+  </div>
 
 </div>
 
