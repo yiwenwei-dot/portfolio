@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Admin — Visits</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: #0a0a0a; color: #e5e5e5;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+  h1 { font-size: 22px; font-weight: 500; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .sub { color: #8a8a8a; font-size: 13px; margin-bottom: 28px; }
+
+  .login {
+    background: #111; border: 1px solid #222; border-radius: 12px;
+    padding: 32px; max-width: 380px; margin: 80px auto;
+  }
+  .login label { display: block; font-size: 12px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .login input {
+    width: 100%; background: transparent; color: #fff;
+    border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px 12px;
+    font: inherit; font-size: 15px; outline: none;
+  }
+  .login input:focus { border-color: #fff; }
+  .login button {
+    margin-top: 14px; width: 100%;
+    background: #fff; color: #000; border: 0; border-radius: 8px;
+    padding: 10px 14px; font: inherit; font-size: 14px; cursor: pointer;
+  }
+  .login button:disabled { opacity: 0.5; cursor: default; }
+  .err { color: #ff7a7a; font-size: 12px; margin-top: 8px; min-height: 16px; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 18px;
+  }
+  .stat { background: #111; border: 1px solid #222; border-radius: 10px; padding: 14px 16px; }
+  .stat .k { font-size: 11px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 0.1em; }
+  .stat .v { font-size: 22px; font-variant-numeric: tabular-nums; margin-top: 4px; font-weight: 500; }
+
+  .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .controls input, .controls select {
+    background: transparent; color: #fff;
+    border: 1px solid #2a2a2a; border-radius: 8px; padding: 6px 10px;
+    font: inherit; font-size: 13px; outline: none;
+  }
+  .controls .btn { background: transparent; color: #ccc; border: 1px solid #2a2a2a; border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 12px; cursor: pointer; }
+  .controls .btn:hover { color: #fff; border-color: #4a4a4a; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #1a1a1a;
+    vertical-align: top;
+  }
+  th { background: #111; font-weight: 500; color: #8a8a8a; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.1em; position: sticky; top: 0; }
+  tr:hover td { background: #0e0e0e; }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; color: #aaa; }
+  .pill { display: inline-block; padding: 1px 7px; border: 1px solid #2a2a2a; border-radius: 999px; font-size: 11px; color: #ccc; }
+  .ua { font-size: 11px; color: #777; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .empty { text-align: center; color: #666; padding: 60px 0; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Admin — Visits</h1>
+    <div class="sub">yiwen.bio visit log</div>
+
+    <div id="login" class="login">
+      <label for="pw">Password</label>
+      <input id="pw" type="password" autocomplete="current-password" />
+      <button id="signin" type="button">Sign in</button>
+      <div id="err" class="err"></div>
+    </div>
+
+    <div id="dashboard" style="display:none;">
+      <div class="stats">
+        <div class="stat"><div class="k">Total</div><div class="v" id="s-total">—</div></div>
+        <div class="stat"><div class="k">Last 24h</div><div class="v" id="s-24h">—</div></div>
+        <div class="stat"><div class="k">Unique IPs (24h)</div><div class="v" id="s-uniq">—</div></div>
+        <div class="stat"><div class="k">Top page (24h)</div><div class="v" id="s-page" style="font-size:14px;">—</div></div>
+      </div>
+
+      <div class="controls">
+        <input id="filter" type="search" placeholder="Filter by page / country / city…" style="flex:1; min-width: 220px;" />
+        <button class="btn" id="refresh">Refresh</button>
+        <button class="btn" id="signout">Sign out</button>
+      </div>
+
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Page</th>
+            <th>Location</th>
+            <th>IP hash</th>
+            <th>Referrer</th>
+            <th>User agent</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="6" class="empty">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<script>
+(function () {
+  var loginEl = document.getElementById('login');
+  var dashEl = document.getElementById('dashboard');
+  var pwEl = document.getElementById('pw');
+  var btn = document.getElementById('signin');
+  var err = document.getElementById('err');
+  var tbody = document.getElementById('tbody');
+  var filter = document.getElementById('filter');
+
+  var allVisits = [];
+  var password = sessionStorage.getItem('yiwen_admin_pw') || '';
+
+  if (password) loadVisits();
+
+  btn.addEventListener('click', signIn);
+  pwEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') signIn(); });
+
+  document.getElementById('refresh').addEventListener('click', loadVisits);
+  document.getElementById('signout').addEventListener('click', function () {
+    sessionStorage.removeItem('yiwen_admin_pw');
+    password = '';
+    dashEl.style.display = 'none';
+    loginEl.style.display = '';
+    pwEl.value = '';
+  });
+  filter.addEventListener('input', render);
+
+  function signIn() {
+    err.textContent = '';
+    btn.disabled = true;
+    password = pwEl.value;
+    fetch('/api/visits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: password, limit: 1000 }),
+    })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
+      .then(function (res) {
+        btn.disabled = false;
+        if (res.status === 200 && res.j.ok) {
+          sessionStorage.setItem('yiwen_admin_pw', password);
+          allVisits = res.j.visits || [];
+          showDashboard();
+        } else {
+          err.textContent = res.j.error || 'Sign-in failed';
+          password = '';
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        err.textContent = 'Network error';
+      });
+  }
+
+  function loadVisits() {
+    if (!password) { showLogin(); return; }
+    fetch('/api/visits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: password, limit: 1000 }),
+    })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
+      .then(function (res) {
+        if (res.status === 200 && res.j.ok) {
+          allVisits = res.j.visits || [];
+          showDashboard();
+        } else {
+          // password no longer valid
+          sessionStorage.removeItem('yiwen_admin_pw');
+          password = '';
+          showLogin();
+          err.textContent = res.j.error || 'Session expired';
+        }
+      });
+  }
+
+  function showLogin() {
+    loginEl.style.display = '';
+    dashEl.style.display = 'none';
+  }
+  function showDashboard() {
+    loginEl.style.display = 'none';
+    dashEl.style.display = '';
+    render();
+  }
+
+  function fmtTime(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    var diff = Date.now() - d.getTime();
+    if (diff < 60_000) return Math.max(1, Math.round(diff / 1000)) + 's ago';
+    if (diff < 3_600_000) return Math.round(diff / 60_000) + 'm ago';
+    if (diff < 86_400_000) return Math.round(diff / 3_600_000) + 'h ago';
+    var days = Math.round(diff / 86_400_000);
+    if (days < 14) return days + 'd ago';
+    return d.toISOString().slice(0, 10);
+  }
+
+  function locStr(v) {
+    var parts = [v.city, v.region, v.country].filter(Boolean);
+    return parts.join(' · ') || '—';
+  }
+
+  function passesFilter(v, q) {
+    if (!q) return true;
+    var s = ((v.page || '') + ' ' + (v.country || '') + ' ' + (v.region || '') + ' ' + (v.city || '') + ' ' + (v.referrer || '')).toLowerCase();
+    return s.indexOf(q) !== -1;
+  }
+
+  function render() {
+    var q = (filter.value || '').toLowerCase().trim();
+    var rows = allVisits.filter(function (v) { return passesFilter(v, q); });
+
+    // stats
+    var total = allVisits.length;
+    var since24h = Date.now() - 86_400_000;
+    var last24 = allVisits.filter(function (v) { return new Date(v.created_at).getTime() >= since24h; });
+    var uniq = new Set(last24.map(function (v) { return v.ip_hash; })).size;
+    var pageCount = {};
+    last24.forEach(function (v) { pageCount[v.page] = (pageCount[v.page] || 0) + 1; });
+    var topPage = '—';
+    var topCnt = 0;
+    Object.keys(pageCount).forEach(function (k) { if (pageCount[k] > topCnt) { topPage = k; topCnt = pageCount[k]; } });
+
+    document.getElementById('s-total').textContent = total;
+    document.getElementById('s-24h').textContent = last24.length;
+    document.getElementById('s-uniq').textContent = uniq;
+    document.getElementById('s-page').textContent = topPage + (topCnt ? ' (' + topCnt + ')' : '');
+
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty">No visits.</td></tr>';
+      return;
+    }
+    var html = '';
+    rows.forEach(function (v) {
+      var hashShort = v.ip_hash ? v.ip_hash.slice(0, 10) : '—';
+      var ref = v.referrer ? esc(v.referrer.replace(/^https?:\/\//, '')) : '<span style="color:#555">—</span>';
+      html += '<tr>' +
+        '<td>' + esc(fmtTime(v.created_at)) + '</td>' +
+        '<td><span class="pill">' + esc(v.page || '/') + '</span></td>' +
+        '<td>' + esc(locStr(v)) + '</td>' +
+        '<td class="mono">' + esc(hashShort) + '</td>' +
+        '<td>' + ref + '</td>' +
+        '<td class="ua" title="' + esc(v.user_agent || '') + '">' + esc(v.user_agent || '') + '</td>' +
+        '</tr>';
+    });
+    tbody.innerHTML = html;
+  }
+
+  function esc(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+})();
+</script>
+</body>
+</html>
