@@ -28,11 +28,14 @@ export default async function handler(request) {
     });
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
-  if (!supabaseUrl || !supabaseKey) {
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const missing = [];
+  if (!supabaseUrl) missing.push('SUPABASE_URL');
+  if (!supabaseKey) missing.push('SUPABASE_SERVICE_KEY');
+  if (missing.length) {
     return new Response(
-      JSON.stringify({ ok: false, error: 'Supabase env vars not set' }),
+      JSON.stringify({ ok: false, error: 'Missing env vars: ' + missing.join(', ') }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }

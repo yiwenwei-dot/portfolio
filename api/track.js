@@ -38,11 +38,17 @@ export default async function handler(request) {
   const secret = process.env.IP_HASH_SECRET || '';
   const ipHash = await sha256Hex(secret + '|' + ip);
 
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
-  if (!supabaseUrl || !supabaseKey) {
+  // Accept either SUPABASE_URL or NEXT_PUBLIC_SUPABASE_URL for the URL.
+  // Service key must be the service_role key; publishable/anon will not work
+  // because of row-level security on the visits table.
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const missing = [];
+  if (!supabaseUrl) missing.push('SUPABASE_URL');
+  if (!supabaseKey) missing.push('SUPABASE_SERVICE_KEY');
+  if (missing.length) {
     return new Response(
-      JSON.stringify({ ok: false, error: 'Supabase env vars not set' }),
+      JSON.stringify({ ok: false, error: 'Missing env vars: ' + missing.join(', ') }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
