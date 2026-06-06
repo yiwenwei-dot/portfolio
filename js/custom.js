@@ -801,7 +801,7 @@
     // Interactive word click actions
     var wordActions = {
       'CMU': 'https://www.cmu.edu/iii/people/students/mssm.html',
-      'technology': 'https://app.turtletalk.io',
+      'technology': 'https://turtletalk.io',
       'smile': 'smile.html',
       '01': 'https://www.openinnolab.org.cn/pjlab/project?id=63d8da549bd420342591c7d1&sc=63797fc77300080be72c0525',
       '02': 'teachingalive.html',
