@@ -13,7 +13,13 @@
   var playerRevealed = false;
   var lastStep = 1;    // direction of the last prev/next press
   var failStreak = 0;  // consecutive tracks that failed to load
+  var resumeOnRestore = false;  // was it playing when the page was hidden?
   var audio = new Audio();
+  // Handles on every Audio element we have created. `new Audio()` is detached
+  // from the DOM, so the instant the `audio` reference is overwritten the old
+  // element is unreachable while still playing -- no button on the player can
+  // touch it. Keeping the handles lets swapAudio() stop the strays.
+  var pool = [audio];
 
   var container = document.createElement('div');
   container.id = 'aya-music-player';
@@ -158,6 +164,29 @@
     }));
   }
 
+  // Hard-stop an element and let go of its buffer. removeAttribute + load()
+  // (rather than src = '') aborts the in-flight request without firing a
+  // second one at the page URL.
+  function releaseAudio(a) {
+    if (!a) return;
+    try {
+      a.pause();
+      a.removeAttribute('src');
+      a.load();
+    } catch (err) { /* element already torn down */ }
+  }
+
+  // The ONLY place `audio` may be reassigned. Silences every previous element
+  // before adopting the new one, so a restore can never leave a second track
+  // playing underneath the player.
+  function swapAudio() {
+    var stale = pool;
+    audio = new Audio();
+    pool = [audio];
+    for (var i = 0; i < stale.length; i++) releaseAudio(stale[i]);
+    wireAudio(audio);
+  }
+
   fab.addEventListener('click', function () {
     isExpanded = !isExpanded;
     panel.classList.toggle('open', isExpanded);
@@ -180,19 +209,33 @@
 
   wireAudio(audio);
 
+  // The player only exists on this page, so nothing should still be audible
+  // once the reader leaves. iOS Safari bfcaches the page rather than tearing
+  // it down and happily keeps the audio running, which is why the music never
+  // stopped on a phone but did on desktop. Remember the intent and pause.
+  window.addEventListener('pagehide', function () {
+    resumeOnRestore = isPlaying;
+    audio.pause();
+  });
+
   // Restore audio state when returning via browser back (bfcache)
   window.addEventListener('pageshow', function (e) {
     if (e.persisted && playerRevealed) {
-      // Re-create audio element to avoid stale bfcache state
-      var wasPlaying = isPlaying;
+      // Re-create the element to avoid stale bfcache state. `pagehide` has
+      // normally already paused us, so fall back to isPlaying for browsers
+      // that restore without ever firing it.
+      var wasPlaying = resumeOnRestore || isPlaying;
       var savedTime = audio.currentTime;
       var savedIndex = currentIndex;
-      audio = new Audio();
-      wireAudio(audio);
+      resumeOnRestore = false;
+      swapAudio();
       loadTrack(savedIndex);
       if (wasPlaying) {
         audio.currentTime = savedTime;
         play();
+      } else {
+        isPlaying = false;
+        updatePlayIcon();
       }
     }
   });
