@@ -82,17 +82,21 @@ function sessionCookie(token) {
     '; HttpOnly; Secure; SameSite=Lax';
 }
 
+// The original /ask used KB_ASK_PASSWORD / KB_RETRIEVE_SECRET / KB_RETRIEVE_URL
+// and those values are still set on the project. Read them first so nothing has
+// to be re-entered, and accept the shorter names as aliases.
 function env() {
   const e = {
-    password: process.env.KB_PASSWORD || '',
-    secret: process.env.KB_SECRET || '',
+    password: process.env.KB_ASK_PASSWORD || process.env.KB_PASSWORD || '',
+    secret: process.env.KB_RETRIEVE_SECRET || process.env.KB_SECRET || '',
     openai: process.env.OPENAI_API_KEY || '',
-    endpoint: (process.env.KB_ENDPOINT || DEFAULT_ENDPOINT).replace(/\/+$/, ''),
+    endpoint: (process.env.KB_RETRIEVE_URL || process.env.KB_ENDPOINT ||
+      DEFAULT_ENDPOINT).replace(/\/+$/, ''),
     model: process.env.KB_MODEL || DEFAULT_MODEL,
   };
   const missing = [];
-  if (!e.password) missing.push('KB_PASSWORD');
-  if (!e.secret) missing.push('KB_SECRET');
+  if (!e.password) missing.push('KB_ASK_PASSWORD');
+  if (!e.secret) missing.push('KB_RETRIEVE_SECRET');
   if (!e.openai) missing.push('OPENAI_API_KEY');
   e.missing = missing;
   return e;
