@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Ask the vault</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0a;
+    --vault: #e8c170;      /* warm gold  = from your own notes   */
+    --outside: #7fa8d4;    /* cool blue  = general knowledge      */
+    --dim: #8f8f8f;
+  }
+
+  body {
+    background: var(--bg);
+    color: #f0f0f0;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 780px; margin: 0 auto; padding: 56px 22px 120px; }
+
+  h1 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 30px; font-weight: 400; color: #fff;
+    margin-bottom: 8px;
+  }
+  .sub { color: var(--dim); font-size: 15px; margin-bottom: 34px; }
+  .sub code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+
+  /* ---- gate ---- */
+  .gate { max-width: 420px; margin: 12vh auto 0; text-align: center; }
+  .gate h1 { font-size: 24px; }
+  .gate p { color: var(--dim); font-size: 15px; margin-bottom: 26px; }
+  .gate input {
+    width: 100%; padding: 13px 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 8px; color: #fff;
+    font-family: 'Lora', serif; font-size: 16px;
+  }
+  .gate input:focus { outline: none; border-color: var(--vault); }
+
+  button {
+    font-family: 'Tenor Sans', sans-serif;
+    letter-spacing: 1.6px; text-transform: uppercase; font-size: 12px;
+    color: #f5f5f5; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 12px 24px; border-radius: 7px; cursor: pointer;
+    transition: background .25s, border-color .25s;
+  }
+  button:hover:not(:disabled) { background: rgba(255,255,255,0.13); border-color: rgba(255,255,255,0.4); }
+  button:disabled { opacity: .45; cursor: default; }
+  .gate button { width: 100%; margin-top: 14px; }
+
+  .err {
+    color: #e59a9a; font-size: 14px; margin-top: 14px;
+    line-height: 1.6; text-align: left;
+  }
+
+  /* ---- composer ---- */
+  .composer { display: flex; gap: 10px; align-items: flex-end; }
+  textarea {
+    flex: 1; resize: none; min-height: 54px; max-height: 220px;
+    padding: 15px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 10px; color: #fff;
+    font-family: 'Lora', serif; font-size: 16px; line-height: 1.55;
+  }
+  textarea:focus { outline: none; border-color: rgba(255,255,255,0.36); }
+
+  .opts {
+    display: flex; align-items: center; gap: 9px;
+    margin: 14px 0 30px; font-size: 14px; color: var(--dim);
+  }
+  .opts input { accent-color: var(--outside); width: 15px; height: 15px; }
+  .opts label { cursor: pointer; }
+
+  /* ---- answers ---- */
+  .qa { margin-bottom: 46px; }
+  .question {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 19px; color: #fff; margin-bottom: 20px;
+    padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .panel {
+    border-left: 2px solid;
+    padding: 4px 0 4px 18px;
+    margin-bottom: 22px;
+  }
+  .panel.vault   { border-color: var(--vault); }
+  .panel.outside { border-color: var(--outside); }
+
+  .tag {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 11px; letter-spacing: 2.2px; text-transform: uppercase;
+    margin-bottom: 10px; display: block;
+  }
+  .panel.vault   .tag { color: var(--vault); }
+  .panel.outside .tag { color: var(--outside); }
+
+  .body { white-space: pre-wrap; font-size: 16.5px; }
+  .body.none { color: var(--dim); font-style: italic; }
+
+  .sources { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-family: ui-monospace, Menlo, monospace; font-size: 11.5px;
+    color: #cbb98d; background: rgba(232,193,112,0.09);
+    border: 1px solid rgba(232,193,112,0.28);
+    padding: 3px 9px; border-radius: 5px;
+  }
+
+  .thinking { color: var(--dim); font-style: italic; font-size: 15px; }
+
+  .foot {
+    margin-top: 60px; padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12.5px; color: #666;
+    font-family: 'Tenor Sans', sans-serif; letter-spacing: 1px;
+  }
+  .foot a { color: #666; text-decoration: none; cursor: pointer; }
+  .foot a:hover { color: #bbb; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 34px 18px 90px; }
+    .composer { flex-direction: column; align-items: stretch; }
+    .composer button { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- passphrase gate -->
+<div class="wrap gate" id="gate">
+  <h1>Ask the vault</h1>
+  <p>This reads Yiwen&rsquo;s private Obsidian notes. Passphrase required.</p>
+  <input id="pw" type="password" placeholder="Passphrase" autocomplete="current-password">
+  <button id="unlock">Unlock</button>
+  <div class="err hidden" id="gateErr"></div>
+</div>
+
+<!-- main -->
+<div class="wrap hidden" id="app">
+  <h1>Ask the vault</h1>
+  <p class="sub" id="sub">Answers from your notes are marked separately from answers that aren&rsquo;t.</p>
+
+  <div class="composer">
+    <textarea id="q" rows="1" placeholder="Ask anything in your notes&hellip;"></textarea>
+    <button id="send">Ask</button>
+  </div>
+  <div class="opts">
+    <input type="checkbox" id="useOutside" checked>
+    <label for="useOutside">Also answer from general knowledge, clearly marked as outside your notes</label>
+  </div>
+
+  <div id="feed"></div>
+
+  <div class="foot">
+    <span id="stats"></span>
+    <a id="logout">Forget this device</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+
+  function api(payload) {
+    return fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(function (r) {
+      return r.json().catch(function () { return { ok: false, error: 'HTTP ' + r.status }; });
+    });
+  }
+
+  // ---- gate ---------------------------------------------------------------
+  // The session lives in an HttpOnly cookie set by /api/ask, so the passphrase
+  // itself is never kept in the browser. It lasts 90 days, which is what makes
+  // this device remember you.
+  function showApp() {
+    $('gate').classList.add('hidden');
+    $('app').classList.remove('hidden');
+    $('q').focus();
+  }
+
+  function unlock() {
+    var pw = $('pw').value;
+    if (!pw) return;
+    $('unlock').disabled = true;
+    $('gateErr').classList.add('hidden');
+    api({ action: 'login', password: pw }).then(function (res) {
+      $('unlock').disabled = false;
+      if (res.ok) { $('pw').value = ''; showApp(); return; }
+      $('gateErr').textContent = res.error || 'Could not unlock.';
+      $('gateErr').classList.remove('hidden');
+      $('pw').select();
+    });
+  }
+
+  $('unlock').addEventListener('click', unlock);
+  $('pw').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') unlock();
+  });
+
+  $('logout').addEventListener('click', function () {
+    api({ action: 'logout' }).then(function () { location.reload(); });
+  });
+
+  // ---- asking -------------------------------------------------------------
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function panel(kind, label) {
+    var p = el('div', 'panel ' + kind);
+    p.appendChild(el('span', 'tag', label));
+    var b = el('div', 'thinking', 'thinking…');
+    p.appendChild(b);
+    return { node: p, body: b };
+  }
+
+  function ask() {
+    var q = $('q').value.trim();
+    if (!q) return;
+    $('q').value = '';
+    $('q').style.height = 'auto';
+    $('send').disabled = true;
+
+    var block = el('div', 'qa');
+    block.appendChild(el('div', 'question', q));
+
+    var vault = panel('vault', 'From your vault');
+    block.appendChild(vault.node);
+
+    var wantOutside = $('useOutside').checked;
+    var outside = null;
+    if (wantOutside) {
+      outside = panel('outside', 'Outside your vault · general knowledge');
+      block.appendChild(outside.node);
+    }
+
+    $('feed').insertBefore(block, $('feed').firstChild);
+
+    // Two independent requests. The 'outside' one is never given the vault
+    // excerpts, so nothing from the notes can leak into that half.
+    api({ action: 'ask', q: q }).then(function (res) {
+      vault.body.className = 'body';
+      if (!res.ok) {
+        vault.body.className = 'body none';
+        vault.body.textContent = res.error || 'Something went wrong.';
+        if (res.code === 'unauthorized') setTimeout(function () { location.reload(); }, 1800);
+        return;
+      }
+      if (!res.found) {
+        vault.body.className = 'body none';
+        vault.body.textContent = 'Nothing in your notes covers this.';
+      } else {
+        vault.body.textContent = res.answer;
+        if (res.sources && res.sources.length) {
+          var s = el('div', 'sources');
+          res.sources.forEach(function (p) { s.appendChild(el('span', 'chip', p)); });
+          vault.node.appendChild(s);
+        }
+      }
+      if (res.stats && res.stats.files) {
+        $('stats').textContent = res.stats.files + ' notes indexed · last built ' +
+          String(res.stats.builtAt || '').replace('T', ' ').replace('Z', ' UTC');
+      }
+    }).finally(function () { $('send').disabled = false; });
+
+    if (wantOutside) {
+      api({ action: 'outside', q: q }).then(function (res) {
+        outside.body.className = 'body';
+        outside.body.textContent = res.ok
+          ? res.answer
+          : (res.error || 'Could not reach the model.');
+      });
+    }
+  }
+
+  $('send').addEventListener('click', ask);
+  $('q').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); }
+  });
+  $('q').addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 220) + 'px';
+  });
+
+  // ---- boot: is this device already trusted? ------------------------------
+  api({ action: 'session' }).then(function (res) {
+    if (res && res.authed) showApp();
+    else if (res && res.code === 'config') {
+      $('gateErr').textContent = res.error;
+      $('gateErr').classList.remove('hidden');
+    }
+  });
+})();
+</script>
+</body>
+</html>
