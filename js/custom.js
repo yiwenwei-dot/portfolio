@@ -6,6 +6,17 @@
   var MOBILE_BREAKPOINT = 768;
   var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
+  // Overlay UI (music player, video modal, tooltips) is layered above the Canva
+  // canvas. The word hit-tests below compare raw pointer x/y against a word's
+  // bounding box and never check what was actually clicked, so without this
+  // guard a tap on e.g. the music player's prev button ALSO fires whichever word
+  // happens to be scrolled underneath it — sending the reader to another page.
+  var OVERLAY_SELECTOR = '#aya-music-player, #video-modal-overlay, .glass-tooltip';
+  function isOverlayEvent(e) {
+    var t = e.target;
+    return !!(t && t.closest && t.closest(OVERLAY_SELECTOR));
+  }
+
   // Clamp tooltip position to stay within viewport
   function clampTooltip(tooltip, left, top) {
     // Force layout so offsetWidth/Height are available
@@ -324,6 +335,7 @@
     var essenceHovered = false;
     if (essenceSpans.length) {
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var hit = false;
         for (var i = 0; i < essenceSpans.length; i++) {
           var rect = essenceSpans[i].getBoundingClientRect();
@@ -410,6 +422,7 @@
 
       var whoHovered = false;
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = elWho.getBoundingClientRect();
         var pad = 12;
         var inRange = (
@@ -500,6 +513,7 @@
 
       var el01Hovered = false;
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = el01.getBoundingClientRect();
         var pad = 12;
         var inRange = (
@@ -548,6 +562,7 @@
 
       var el02Hovered = false;
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = el02.getBoundingClientRect();
         var pad = 12;
         var inRange = (
@@ -596,6 +611,7 @@
 
       var el03Hovered = false;
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = el03.getBoundingClientRect();
         var pad = 12;
         var inRange = (
@@ -639,6 +655,7 @@
 
       var talkHovered = false;
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = elTalk.getBoundingClientRect();
         var pad = 12;
         var inRange = (
@@ -674,6 +691,7 @@
         window.open('talk.html', '_self');
       });
       document.addEventListener('click', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = elTalk.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX <= rect.right &&
             e.clientY >= rect.top && e.clientY <= rect.bottom) {
@@ -699,6 +717,7 @@
 
       var teachHovered = false;
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = elTeach.getBoundingClientRect();
         var pad = 12;
         var inRange = (
@@ -732,6 +751,7 @@
         window.open('teach.html', '_self');
       });
       document.addEventListener('click', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = elTeach.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX <= rect.right &&
             e.clientY >= rect.top && e.clientY <= rect.bottom) {
@@ -757,6 +777,7 @@
 
       var thinkHovered = false;
       document.addEventListener('mousemove', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = elThink.getBoundingClientRect();
         var pad = 12;
         var inRange = (
@@ -790,6 +811,7 @@
         window.open('article.html', '_self');
       });
       document.addEventListener('click', function (e) {
+        if (isOverlayEvent(e)) return;
         var rect = elThink.getBoundingClientRect();
         if (e.clientX >= rect.left && e.clientX <= rect.right &&
             e.clientY >= rect.top && e.clientY <= rect.bottom) {
@@ -804,12 +826,13 @@
       'technology': 'https://turtletalk.io',
       'smile': 'smile.html',
       '01': 'https://www.openinnolab.org.cn/pjlab/project?id=63d8da549bd420342591c7d1&sc=63797fc77300080be72c0525',
-      '02': 'teachingalive.html',
+      '02': 'https://www.turtletalk.io/workshop',
       '03': 'product.html'
     };
 
     // Click handler: walk up from e.target to find an interactive word span or element
     document.addEventListener('click', function (e) {
+      if (isOverlayEvent(e)) return;
       var el = e.target;
       while (el && el !== document.body) {
         // Check for 'essence' click (a_GcMg or xtSH_A)
@@ -833,7 +856,7 @@
         }
         // Check '02' container by ID
         if (el.id === 'LBnsrLPZQhnNL6q7') {
-          window.open(wordActions['02'], '_self');
+          window.open(wordActions['02'], '_blank');
           return;
         }
         // Check '03' container by ID

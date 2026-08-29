@@ -41,7 +41,7 @@ _assets/
 | Element | Hover | Click |
 |---------|-------|-------|
 | **01** | Enlarges 100%, tooltip "readingandwritingaremypassion.com" | Opens article.html |
-| **02** | Enlarges 100%, tooltip "learningisfun.com" | Opens teach.html |
+| **02** | Enlarges 100%, tooltip "teachingistailoring.com" | Opens turtletalk.io/workshop in a new tab |
 | **03** | Enlarges 100%, tooltip "confidentspeakersmakethingssimple.com" | Opens talk.html |
 | **I talk** | Enlarges 20%, tooltip "bookameeting.com" | Opens cal.com/ayawei |
 | **I teach** | Enlarges 20%, tooltip "teachingistailoring.com" | Opens teachingalive.html |

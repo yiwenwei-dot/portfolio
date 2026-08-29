@@ -375,6 +375,46 @@
       font-size: 16px;
     }
   }
+
+  /* ---- Hero photograph ---- */
+  /* Full-bleed classroom shot behind the headline, dissolving into the page.
+     Uses the 282KB teaching-bg.jpg, not the 5.3MB source PNG. */
+  .hero {
+    position: relative;
+    max-width: none;
+    padding: 240px 24px 96px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: url('_assets/images/I%20teach/teaching-bg.jpg') center 38% / cover no-repeat;
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(10,10,10,0.50) 0%,
+      rgba(10,10,10,0.38) 30%,
+      rgba(10,10,10,0.86) 70%,
+      #0a0a0a 100%);
+  }
+  .hero > * { position: relative; z-index: 2; }
+  .hero h1 {
+    font-size: 44px;
+    max-width: 780px;
+    margin-left: auto; margin-right: auto;
+    text-shadow: 0 2px 28px rgba(0,0,0,0.65);
+  }
+  .hero p { text-shadow: 0 1px 16px rgba(0,0,0,0.6); }
+  .hero .cta { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 150px 20px 56px; }
+    .hero h1 { font-size: 27px; }
+    /* keep the teacher in frame once the crop narrows */
+    .hero::before { background-position: 62% 38%; }
+  }
 </style>
   <script src="/track.js" defer></script>
 </head>

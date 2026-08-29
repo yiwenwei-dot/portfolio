@@ -11,6 +11,8 @@
   var isPlaying = false;
   var isExpanded = false;
   var playerRevealed = false;
+  var lastStep = 1;    // direction of the last prev/next press
+  var failStreak = 0;  // consecutive tracks that failed to load
   var audio = new Audio();
 
   var container = document.createElement('div');
@@ -40,6 +42,16 @@
     '</div>';
   document.body.appendChild(container);
 
+  // The page navigates via document-level listeners that hit-test pointer
+  // coordinates against word bounding boxes (see custom.js). The player is
+  // position:fixed over a canvas that scrolls underneath it, so on small screens
+  // its buttons regularly sit on top of 'I think' / 'I teach' / 'smile' — and a
+  // tap on prev/next fired BOTH the player and the navigation. Keep the player's
+  // pointer events inside the player so they never reach those listeners.
+  ['click', 'pointerdown', 'pointerup', 'mousedown', 'mouseup', 'touchstart', 'touchend'].forEach(function (evt) {
+    container.addEventListener(evt, function (e) { e.stopPropagation(); });
+  });
+
   // Hide player until triggered by clicking 'humane'
   container.style.opacity = '0';
   container.style.pointerEvents = 'none';
@@ -63,7 +75,7 @@
   tracks.forEach(function (t, i) {
     var li = document.createElement('li');
     li.textContent = t.title;
-    li.addEventListener('click', function () { loadTrack(i); audio.play(); });
+    li.addEventListener('click', function () { select(i); });
     list.appendChild(li);
   });
 
@@ -72,6 +84,30 @@
     audio.src = tracks[i].src;
     trackName.textContent = tracks[i].title;
     updateActiveItem();
+  }
+
+  // Safari rejects the play() promise with AbortError whenever src changes while
+  // a play is pending (which is exactly what fast prev/next tapping does).
+  // Swallow it so it doesn't surface as an unhandled rejection.
+  function play() {
+    var p = audio.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+  }
+
+  // Jump to a specific track (playlist click / external trigger)
+  function select(i) {
+    lastStep = 1;
+    failStreak = 0;
+    loadTrack(i);
+    play();
+  }
+
+  // Move one track in a direction and remember which way we were heading
+  function step(delta) {
+    lastStep = delta;
+    failStreak = 0;
+    loadTrack((currentIndex + delta + tracks.length) % tracks.length);
+    play();
   }
 
   function updateActiveItem() {
@@ -94,6 +130,34 @@
     return m + ':' + (sec < 10 ? '0' : '') + sec;
   }
 
+  // Attach the audio listeners. Re-used when the element is rebuilt after
+  // bfcache restore; `live` drops events from a superseded element so a stale
+  // one can't drive the UI or advance the playlist.
+  function wireAudio(a) {
+    function live(fn) {
+      return function () { if (a === audio) fn(); };
+    }
+    a.addEventListener('play', live(function () { isPlaying = true; updatePlayIcon(); }));
+    a.addEventListener('pause', live(function () { isPlaying = false; updatePlayIcon(); }));
+    a.addEventListener('playing', live(function () { failStreak = 0; }));
+    a.addEventListener('ended', live(function () { step(1); }));
+    a.addEventListener('error', live(function () {
+      // A track failed to load. Skip in the direction the listener was heading —
+      // always skipping forward is what made 'previous' jump the wrong way — and
+      // stop after one full lap so an all-missing playlist can't loop forever.
+      if (++failStreak >= tracks.length) { failStreak = 0; return; }
+      loadTrack((currentIndex + lastStep + tracks.length) % tracks.length);
+      play();
+    }));
+    a.addEventListener('timeupdate', live(function () {
+      if (a.duration) {
+        progressFill.style.width = (a.currentTime / a.duration * 100) + '%';
+        curTime.textContent = fmt(a.currentTime);
+        durTime.textContent = fmt(a.duration);
+      }
+    }));
+  }
+
   fab.addEventListener('click', function () {
     isExpanded = !isExpanded;
     panel.classList.toggle('open', isExpanded);
@@ -108,30 +172,13 @@
 
   playBtn.addEventListener('click', function () {
     if (!audio.src) loadTrack(0);
-    isPlaying ? audio.pause() : audio.play();
+    isPlaying ? audio.pause() : play();
   });
 
-  prevBtn.addEventListener('click', function () {
-    loadTrack((currentIndex - 1 + tracks.length) % tracks.length);
-    audio.play();
-  });
+  prevBtn.addEventListener('click', function () { step(-1); });
+  nextBtn.addEventListener('click', function () { step(1); });
 
-  nextBtn.addEventListener('click', function () {
-    loadTrack((currentIndex + 1) % tracks.length);
-    audio.play();
-  });
-
-  audio.addEventListener('play', function () { isPlaying = true; updatePlayIcon(); });
-  audio.addEventListener('pause', function () { isPlaying = false; updatePlayIcon(); });
-  audio.addEventListener('ended', function () {
-    loadTrack((currentIndex + 1) % tracks.length);
-    audio.play();
-  });
-  audio.addEventListener('error', function () {
-    // Skip to next track if current one fails to load
-    loadTrack((currentIndex + 1) % tracks.length);
-    audio.play();
-  });
+  wireAudio(audio);
 
   // Restore audio state when returning via browser back (bfcache)
   window.addEventListener('pageshow', function (e) {
@@ -141,35 +188,12 @@
       var savedTime = audio.currentTime;
       var savedIndex = currentIndex;
       audio = new Audio();
-      audio.addEventListener('play', function () { isPlaying = true; updatePlayIcon(); });
-      audio.addEventListener('pause', function () { isPlaying = false; updatePlayIcon(); });
-      audio.addEventListener('ended', function () {
-        loadTrack((currentIndex + 1) % tracks.length);
-        audio.play();
-      });
-      audio.addEventListener('error', function () {
-        loadTrack((currentIndex + 1) % tracks.length);
-        audio.play();
-      });
-      audio.addEventListener('timeupdate', function () {
-        if (audio.duration) {
-          progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
-          curTime.textContent = fmt(audio.currentTime);
-          durTime.textContent = fmt(audio.duration);
-        }
-      });
+      wireAudio(audio);
       loadTrack(savedIndex);
       if (wasPlaying) {
         audio.currentTime = savedTime;
-        audio.play();
+        play();
       }
-    }
-  });
-  audio.addEventListener('timeupdate', function () {
-    if (audio.duration) {
-      progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
-      curTime.textContent = fmt(audio.currentTime);
-      durTime.textContent = fmt(audio.duration);
     }
   });
 
@@ -192,8 +216,7 @@
     isExpanded = true;
     panel.classList.add('open');
     fab.classList.add('hidden');
-    loadTrack(index);
-    audio.play();
+    select(index);
   };
 
   // Find the 'humane' span and use coordinate-based click detection (works through Canva overlays)
@@ -208,6 +231,9 @@
     });
     if (humaneSpan) {
       document.addEventListener('click', function (e) {
+        // Ignore taps that landed on the player itself — 'humane' can sit
+        // directly under the controls once the canvas is scrolled.
+        if (e.target && e.target.closest && e.target.closest('#aya-music-player')) return;
         var rect = humaneSpan.getBoundingClientRect();
         if (
           e.clientX >= rect.left &&
